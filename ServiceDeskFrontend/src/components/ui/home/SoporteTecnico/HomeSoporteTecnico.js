@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Box, Flex, Link, chakra, Image, Text, Heading, Stack, Button, Avatar, Skeleton, SkeletonText, SkeletonCircle } from "@chakra-ui/react"
 import { NavLink } from 'react-router-dom';
 import { CgChevronDoubleDown } from 'react-icons/cg';
+import { fetchFraseDia } from '../../../../actions/persona';
 
 const HomeSoporte = () => {
 
@@ -11,13 +12,14 @@ const HomeSoporte = () => {
 
     const fetchFrases = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/frasedia');
-            const data = await response.json();
+            const response = await fetchFraseDia();
+            setFraseDia(response.data.phrase);
+            setAutorFrase((response.data.author).trimStart().split(" ").join(" "));
             setIsLoaded(true);
-            setFraseDia(data.phrase);
-            setAutorFrase((data.author).trimStart().split(" ").join(" "));
         } catch (error) {
             setFraseDia('No se pudo cargar la frase del día');
+            setAutorFrase('Autor Anonimo');
+            setIsLoaded(true);
         }
     }
 
@@ -51,7 +53,7 @@ const HomeSoporte = () => {
                         <Flex alignItems="center" justifyContent="space-between">
                             <Image src="https://material-kit-pro-react.devias.io/static/banner-illustration.png" alt="Service Desk" w="140px" display={['none', 'none', 'block', 'block']} />
                             <Stack spacing={2} direction={'column'}>
-                                <Heading fontSize={'5xl'} fontWeight="extrabold">Bienvenid@</Heading>
+                                <Heading fontSize={'5xl'} fontWeight="extrabold">Bienvenido(a)</Heading>
                                 <Text fontSize={'lg'}>Al Sistema de Gestion de Incidencias - Service Desk - Corte Superior de Justicia Arequipa</Text>
                                 <NavLink to={'/dashboard/soporte/incidencias'}>
                                     <Button 
