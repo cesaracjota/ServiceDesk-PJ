@@ -10,7 +10,7 @@ export const createOficina = (data) => {
       `oficinas`,
       {
         oficina: data.oficina,
-        organo: {idOrgano: data.organo},
+        organo: data.organo,
         activo: data.activo,
       },
       'POST'

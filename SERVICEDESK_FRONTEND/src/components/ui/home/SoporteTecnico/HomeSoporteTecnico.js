@@ -2,26 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Box, Flex, Link, chakra, Image, Text, Heading, Stack, Button, Avatar, Skeleton, SkeletonText, SkeletonCircle } from "@chakra-ui/react"
 import { NavLink } from 'react-router-dom';
 import { CgChevronDoubleDown } from 'react-icons/cg';
-import { fetchFraseDia } from '../../../../actions/persona';
 
 const HomeSoporte = () => {
 
     const [fraseDia, setFraseDia] = useState('');
     const [autorFrase, setAutorFrase] = useState('');
     const [isLoaded, setIsLoaded] = useState(false);
-
-    // const fetchFrases = async () => {
-    //     try {
-    //         const response = await fetchFraseDia();
-    //         setFraseDia(response.data.phrase);
-    //         setAutorFrase((response.data.author).trimStart().split(" ").join(" "));
-    //         setIsLoaded(true);
-    //     } catch (error) {
-    //         setFraseDia('No se pudo cargar la frase del día');
-    //         setAutorFrase('Autor Anonimo');
-    //         setIsLoaded(true);
-    //     }
-    // }
 
     const fetchFraseRandom = async() => {
         try {

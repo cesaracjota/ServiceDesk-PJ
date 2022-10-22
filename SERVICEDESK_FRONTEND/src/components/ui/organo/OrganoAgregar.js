@@ -42,11 +42,9 @@ const OrganoAgregar = () => {
   };
 
   const [dataOrgano, setOrgano] = useState(initialOrgano);
-
-  const { organo, sede, activo } = dataOrgano;
-
+  
   const saveOrgano = () => {
-    dispatch(createOrgano({ organo, sede, activo }))
+    dispatch(createOrgano(dataOrgano))
       .then(() => {
         handleCloseModal(true);
       })
@@ -146,7 +144,7 @@ const OrganoAgregar = () => {
               autoFocus
               mr={3}
               _focus={{ boxShadow: "none" }}
-              disabled={organo === '' || sede.idSede === null}
+              disabled={dataOrgano.organo === '' || dataOrgano.sede.idSede === null}
             >
               GUARDAR
             </Button>

@@ -64,7 +64,7 @@ export default function HistorialUsuario() {
     if (store.getState().oficina.checking) {
       fetchDataOficina();
     }
-  }, []);
+  });
 
   const handleLogout = () => {
     dispatch(LogOut());
@@ -131,19 +131,16 @@ export default function HistorialUsuario() {
   };
 
   useEffect(() => {
-    if (oficina == null) {
+    if (oficina === null) {
       obtenerOficina();
     }
-    if (cargo == null) {
+    if (cargo === null) {
       obtenerCargo();
     }
-    if (historialpersona == null) {
+    if (historialpersona === null) {
       obtenerHistorialPersona();
-    } else {
-      //console.log('no');
     }
-
-  }, []);
+  });
 
   const handleUpdatePersona = () => {
     var dataPersona = {

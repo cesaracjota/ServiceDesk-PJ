@@ -26,6 +26,12 @@ import {
   TabPanel,
   Image,
   Box,
+  Table,
+  Thead,
+  Tr,
+  Th,
+  Tbody,
+  Td,
 } from '@chakra-ui/react';
 
 import Select from 'react-select';
@@ -79,6 +85,10 @@ const IncidenciaAgregar = () => {
   const [dataNombresNotifica, setDataNombresNotifica] = useState('');
   const [usuarioDataNombre, setUsuarioDataNombre] = useState(null);
   const [indiceUsuario, setIndiceUsuario] = useState(null);
+  const [usuarioSede, setUsuarioSede] = useState(null);
+  const [usuarioOrgano, setUsuarioOrgano] = useState(null);
+  const [usuarioOficina, setUsuarioOficina] = useState(null);
+  const [usuarioCargo, setUsuarioCargo] = useState(null);
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -103,6 +113,10 @@ const IncidenciaAgregar = () => {
     setUsuarioApellido('');
     setUsuarioDataNombre('');
     setIncidenciaArchivos(null);
+    setUsuarioSede(null);
+    setUsuarioOrgano(null);
+    setUsuarioOficina(null);
+    setUsuarioCargo(null);
     inputRefDNI.current.value = "";
     inputRefApellido.current.value = "";
   }
@@ -172,10 +186,10 @@ const IncidenciaAgregar = () => {
   const buscarPorDni = async () => {
     await buscarUsuarioDni(usuarioNotificaDNI).then((res) => {
       fetchHistorialPersona(res.idpersona).then(historial => {
-        // setUsuarioSede(historial.oficina.organo.sede.sede)
-        // setUsuarioOrgano(historial.oficina.organo.organo)
-        // setUsuarioOficina(historial.oficina.oficina)
-        // setUsuarioCargo(historial.cargo.cargo)
+        setUsuarioSede(historial.data.oficina.organo.sede.sede)
+        setUsuarioOrgano(historial.data.oficina.organo.organo)
+        setUsuarioOficina(historial.data.oficina.oficina)
+        setUsuarioCargo(historial.data.cargo.cargo)
       }).catch(() => {
         notification('HISTORIAL NO ENCONTRADO', 'EL USUARIO NO PERTENECE A NINGUNA SEDE, ORGANO U OFICINA', 'info', 'modalCrearIncidencia');
         handleResetValues();
@@ -207,11 +221,10 @@ const IncidenciaAgregar = () => {
     await fetchHistorialPersona(usuario).then(historial => {
       setUsuarioDataNombre(historial?.data.persona.nombre + ' ' + historial.data.persona.apellido);
       setUsuarioNotificaId(historial?.data.persona.idpersona);
-      // setUsuarioNotificaData(historial.persona);
-      // setUsuarioSede(historial.oficina.organo.sede.sede)
-      // setUsuarioOrgano(historial.oficina.organo.organo)
-      // setUsuarioOficina(historial.oficina.oficina)
-      // setUsuarioCargo(historial.cargo.cargo)
+      setUsuarioSede(historial?.data.oficina.organo.sede.sede);
+      setUsuarioOrgano(historial?.data.oficina.organo.organo);
+      setUsuarioOficina(historial?.data.oficina.oficina);
+      setUsuarioCargo(historial?.data.cargo.cargo);
     }).catch(() => {
       setOpenSearchUsuarios(false);
       notification('HISTORIAL NO ENCONTRADO', 'EL USUARIO NO PERTENECE A NINGUNA SEDE, ORGANO U OFICINA', 'error', 'modalCrearIncidencia');
@@ -244,6 +257,21 @@ const IncidenciaAgregar = () => {
     setOpenModal(true)
   }
 
+  const handleTabChange = (event) => {
+    if( event.target.value === "dni"){
+      inputRefApellido.current.value = "";
+    } else {
+      inputRefDNI.current.value = "";
+    }
+    setUsuarioSede(null);
+    setUsuarioOrgano(null);
+    setUsuarioOficina(null);
+    setUsuarioCargo(null);
+    setUsuarioDataNombre(null);
+    setDataNombresNotifica(null);
+    setUsuarioNotificaId(null);
+  }
+
   return (
     <>
       <Button leftIcon={<AddIcon />} size="sm" onClick={handleClickOpenCreate} colorScheme={'facebook'} _focus={{ boxShadow: "none" }}>
@@ -259,10 +287,10 @@ const IncidenciaAgregar = () => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>CREAR NUEVA INCIDENCIA</ModalHeader>
+          <ModalHeader textAlign={'center'}>CREAR NUEVA INCIDENCIA</ModalHeader>
           <ModalCloseButton _focus={{ boxShadow: "none" }} />
-          <ModalBody pb={6}>
-            <FormControl isRequired>
+          <ModalBody pb={2}>
+            <FormControl isRequired mt="-5">
               <FormLabel fontWeight="bold">MOTIVO</FormLabel>
               <Select
                 placeholder="SELECCIONAR UN MOTIVO"
@@ -275,9 +303,9 @@ const IncidenciaAgregar = () => {
               />
             </FormControl>
             <Stack direction={['column', 'column', 'row', 'row']} spacing={2} mb={2} mt={2} justify="space-between" >
-              <Text fontWeight={'semibold'}>USUARIO QUIEN REPORTÓ</Text>
+              <Text fontWeight={'semibold'}>USUARIO CON PROBLEMA</Text>
               <RadioGroup onChange={handleChangeUserRadio} value={radioUserValue}>
-                <Stack direction='row'  fontWeight="bold">
+                <Stack direction='row' fontWeight="bold">
                   <Radio size='md' value='mismo' _focus={{ boxShadow: "none" }} defaultChecked={true}>MI PERSONA</Radio>
                   <Radio size='md' value='otro' _focus={{ boxShadow: "none" }}>OTRO USUARIO</Radio>
                 </Stack>
@@ -285,21 +313,24 @@ const IncidenciaAgregar = () => {
             </Stack>
 
             <Stack direction={'column'} spacing={2} mt={2} hidden={radioUserValue === 'mismo'} >
-              <Tabs variant="enclosed-colored" w="full" size={'md'}>
-                <TabList textAlign="center" justifyContent="center">
-                  <Tab value="2" _focus={{ boxShadow: "none" }} defaultChecked  fontWeight="bold">BUSQUEDA POR APELLIDOS</Tab>
-                  <Tab _focus={{ boxShadow: "none" }} fontWeight="bold">BUSQUEDA POR DNI</Tab>
+              <Tabs variant="enclosed-colored" w="full" size={'sm'}>
+                <TabList textAlign="center" justifyContent="center" onClick={handleTabChange} >
+                  <Tab _focus={{ boxShadow: "none" }} value="apellidos" defaultChecked fontWeight="bold">BUSQUEDA POR APELLIDOS</Tab>
+                  <Tab _focus={{ boxShadow: "none" }} value="dni" fontWeight="bold">BUSQUEDA POR DNI</Tab>
                 </TabList>
                 <TabPanels>
                   <TabPanel>
-                    <HStack spacing={2} mt={2}>
+                    <HStack spacing={2}>
                       <FormControl isRequired={radioValue === 'apellido'} zIndex={0}>
-                        <FormLabel fontWeight="bold">BUSQUEDA POR APELLIDOS AL USUARIO QUIEN REPORTÓ</FormLabel>
+                        <FormLabel fontWeight="bold" fontSize="sm">BUSQUEDA POR APELLIDOS AL USUARIO CON PROBLEMA</FormLabel>
                         <InputGroup>
                           <InputRightElement
+                            boxSize={8}
                             children={
                               <IconButton
                                 colorScheme='facebook'
+                                size={'sm'}
+                                borderRadius="none"
                                 onClick={handleSearchApellido}
                                 icon={<SearchIcon />}
                                 _focus={{ boxShadow: "none" }}
@@ -307,7 +338,7 @@ const IncidenciaAgregar = () => {
                               />
                             }
                           />
-                          <Input placeholder="INGRESE EL APELLIDO" ref={inputRefApellido} textTransform={'uppercase'} onChange={e => { setUsuarioApellido(e.target.value.toUpperCase()) }} />
+                          <Input placeholder="INGRESE EL APELLIDO" size={'sm'} ref={inputRefApellido} textTransform={'uppercase'} onChange={e => { setUsuarioApellido(e.target.value.toUpperCase()) }} />
                         </InputGroup>
                       </FormControl>
 
@@ -342,20 +373,23 @@ const IncidenciaAgregar = () => {
                       </Modal>
 
                       <FormControl isRequired>
-                        <FormLabel fontWeight="bold">NOMBRE DEL USUARIO QUIEN REPORTÓ</FormLabel>
-                        <Input placeholder='NOMBRES APELLIDOS' value={usuarioDataNombre ? usuarioDataNombre : ''} readOnly />
+                        <FormLabel fontWeight="bold" fontSize="sm">NOMBRE DEL USUARIO CON PROBLEMA</FormLabel>
+                        <Input placeholder='NOMBRES APELLIDOS' size={'sm'} value={usuarioDataNombre ? usuarioDataNombre : ''} readOnly />
                       </FormControl>
                     </HStack>
                   </TabPanel>
                   <TabPanel>
-                    <Stack direction={['column', 'column', 'row', 'row']} spacing={2} mb={2} mt={2} justify="space-between">
+                    <Stack direction={['column', 'column', 'row', 'row']} spacing={2} justify="space-between">
                       <FormControl isRequired={radioUserValue === 'otro'} zIndex={0}>
-                        <FormLabel fontWeight="bold">BUSQUEDA POR DNI AL USUARIO QUIEN REPORTÓ</FormLabel>
+                        <FormLabel fontWeight="bold" fontSize="sm">BUSQUEDA POR DNI AL USUARIO QUIEN REPORTÓ</FormLabel>
                         <InputGroup>
                           <InputRightElement
+                            boxSize={8}
                             children={
                               <IconButton
                                 colorScheme='facebook'
+                                size={'sm'}
+                                borderRadius="none"
                                 onClick={handleSearchDNI1}
                                 icon={<SearchIcon />}
                                 _focus={{ boxShadow: "none" }}
@@ -363,17 +397,42 @@ const IncidenciaAgregar = () => {
                               />
                             }
                           />
-                          <Input ref={inputRefDNI} placeholder="DIGITE EL DNI" onChange={e => { setUsuarioNotificaDNI(e.target.value) }} />
+                          <Input ref={inputRefDNI} size={'sm'} placeholder="DIGITE EL DNI" onChange={e => { setUsuarioNotificaDNI(e.target.value) }} />
                         </InputGroup>
                       </FormControl>
                       <FormControl isRequired>
-                        <FormLabel fontWeight="bold">NOMBRE DEL USUARIO QUIEN REPORTÓ</FormLabel>
-                        <Input placeholder='NOMBRES APELLIDOS' value={dataNombresNotifica ? dataNombresNotifica : ''} readOnly />
+                        <FormLabel fontWeight="bold" fontSize="sm">NOMBRE DEL USUARIO QUIEN REPORTÓ</FormLabel>
+                        <Input placeholder='NOMBRES APELLIDOS' size="sm" value={dataNombresNotifica ? dataNombresNotifica : ''} readOnly />
                       </FormControl>
                     </Stack>
                   </TabPanel>
                 </TabPanels>
               </Tabs>
+            </Stack>
+
+            <Stack 
+              direction={['column', 'column', 'row', 'row']} 
+              mb={2}
+              justify="space-between" 
+              hidden={radioUserValue === 'mismo'}>
+              <Table variant="striped" size="sm">
+                <Thead>
+                  <Tr>
+                    <Th>SEDE</Th>
+                    <Th>ORGANO</Th>
+                    <Th>OFICINA</Th>
+                    <Th>CARGO</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  <Tr>
+                    <Td fontSize={'xs'}>{ usuarioSede }</Td>
+                    <Td fontSize={'xs'}>{ usuarioOrgano }</Td>
+                    <Td fontSize={'xs'}>{ usuarioOficina }</Td>
+                    <Td fontSize={'xs'}>{ usuarioCargo }</Td>
+                  </Tr>
+                </Tbody>
+              </Table>
             </Stack>
 
             {/* ----------------- */}
@@ -425,8 +484,13 @@ const IncidenciaAgregar = () => {
           </ModalBody>
           <ModalFooter>
             <Button
-              disabled={indiceMotivo === null || indiceIncidencia.descripcion === null ? true : false}
-              type={'submit'}
+              disabled={
+                radioUserValue === 'mismo' ? (
+                  indiceMotivo === null || indiceIncidencia.descripcion === null ? true : false
+                ) : (
+                  indiceMotivo === null || indiceIncidencia.descripcion === null || usuarioNotificaId === null ? true : false
+                )
+              }
               colorScheme={'facebook'}
               autoFocus mr={3}
               _focus={{ boxShadow: "none" }}

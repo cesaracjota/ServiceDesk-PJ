@@ -6,7 +6,7 @@ import {
   Input,
   FormLabel,
   FormControl,
-  Tabs, TabList, TabPanels, Tab, TabPanel, Button, ButtonGroup, IconButton,
+  Tabs, TabList, TabPanels, Tab, TabPanel, Button, ButtonGroup,
   Breadcrumb, BreadcrumbItem, BreadcrumbLink,
 } from '@chakra-ui/react';
 

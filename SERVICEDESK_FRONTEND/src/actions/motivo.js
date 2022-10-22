@@ -25,7 +25,7 @@ export const createMotivo = (data) => {
 
 export const createMotivo1 = (data) => {
   return async dispatch => {
-    const response = await fetchToken(
+    await fetchToken(
       `motivos`,
       {
         motivo: data.motivo,

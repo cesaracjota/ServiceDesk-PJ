@@ -23,7 +23,7 @@ export const createOrigen = data => {
 
   export const createOrigen1 = data => {
     return async dispatch => {
-      const response = await fetchToken(
+      await fetchToken(
         `origenincidencia`,
         {
           origen: data.origen,

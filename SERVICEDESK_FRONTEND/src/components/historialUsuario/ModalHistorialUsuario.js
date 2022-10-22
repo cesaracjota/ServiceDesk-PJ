@@ -67,7 +67,7 @@ const ModalHistorialUsuario = (props) => {
     if(store.getState().cargo.checking){
       fetchDataCargos();
     }
-  },[]);
+  });
 
   const sedeData = store.getState().sede.rows;
   const organoData = store.getState().organo.rows;
@@ -79,12 +79,12 @@ const ModalHistorialUsuario = (props) => {
   var oficinaInfo = oficinaData;
   var cargoInfo = cargoData;
 
-  const [indice, setIndice] = useState({
+  const indice = {
     idOrgano: null,
     organo: '',
     sede: '',
     activo: '',
-  });
+  };
 
   const tiempoTranscurrido = Date.now();
   const hoy = new Date(tiempoTranscurrido);
@@ -115,30 +115,28 @@ const ModalHistorialUsuario = (props) => {
     { value: 0, label: 'SELECCIONE UN ORGANO' },
   ]);
 
-  const [optionsSede, setOptionsSede] = useState(
-    sedeInfo.map(sede => ({
-      value: sede.idSede,
-      label: sede.sede,
-    }))
-  );
+  const optionsSede = sedeInfo.map(sede => ({
+    value: sede.idSede,
+    label: sede.sede,
+  }));
 
   const [estado, setEstado] = useState(true);
 
   useEffect(() => {
     if (estado) {
-      if (props.oficina != null) {
+      if (props.oficina !== null) {
         setEstado(false);
         setOrganoSelect(
           organoInfo
             .filter(
-              indice => indice.sede.idSede == props.oficina.organo.sede.idSede
+              indice => indice.sede.idSede === props.oficina.organo.sede.idSede
             )
             .map(value => ({ value: value.idOrgano, label: value.organo }))
         );
         setOficinaSelect(
           oficinaInfo
             .filter(
-              indice => indice.organo.idOrgano == props.oficina.organo.idOrgano
+              indice => indice.organo.idOrgano === props.oficina.organo.idOrgano
             )
             .map(value => ({ value: value.idOficina, label: value.oficina }))
         );
@@ -151,19 +149,17 @@ const ModalHistorialUsuario = (props) => {
         });
         setOrganoSelect(
           organoSelect.find(
-            organo => organo.value == props.oficina.organo.idOrgano
+            organo => organo.value === props.oficina.organo.idOrgano
           )
         );
       }
     }
   });
 
-  const [optionsCargo, setoptionsCargo] = useState(
-    cargoInfo.map(cargo => ({
-      value: cargo.idCargo,
-      label: cargo.cargo,
-    }))
-  );
+  const optionsCargo = cargoInfo.map(cargo => ({
+    value: cargo.idCargo,
+    label: cargo.cargo,
+  }));
 
   // Select
   const handleChangeSede = (value) => {
@@ -173,7 +169,7 @@ const ModalHistorialUsuario = (props) => {
       setOrganoSelect([{ value: 0, label: 'SELECCIONE UNA SEDE' }]);
     } else {
       var organo = organoInfo.filter(
-        indice => indice.sede.idSede == value.value
+        indice => indice.sede.idSede === value.value
       );
       setOrganoSelect(
         organo.map(organo => ({
@@ -194,7 +190,7 @@ const ModalHistorialUsuario = (props) => {
     } else {
       setOficinaSelect(
         oficinaData
-          .filter(indice => indice.organo.idOrgano == value.value)
+          .filter(indice => indice.organo.idOrgano === value.value)
           .map(value => ({ value: value.idOficina, label: value.oficina }))
       );
       selectOficinaRef.current.clearValue();
@@ -225,11 +221,11 @@ const ModalHistorialUsuario = (props) => {
         idpersona: Number(props.idPersona),
       },
       cargo:
-        indiceHistorial.cargo.idCargo == null
+        indiceHistorial.cargo.idCargo === null
           ? props.cargo
           : indiceHistorial.cargo,
       oficina:
-        indiceHistorial.oficina.idOficina == null
+        indiceHistorial.oficina.idOficina === null
           ? props.oficina
           : indiceHistorial.oficina,
       iniciaCargo: indiceHistorial.iniciaCargo,
@@ -239,15 +235,15 @@ const ModalHistorialUsuario = (props) => {
     dispatch(createHistorialPersona(historialUsuario)).then(() => {
       if ( props.editar ){
         if (
-          indiceHistorial.oficina.idOficina != null ||
-          indiceHistorial.cargo.idCargo != null
+          indiceHistorial.oficina.idOficina !== null ||
+          indiceHistorial.cargo.idCargo !== null
           ) {
           dispatch(props.handleClick());
         }
       } else {
         if (
-          indiceHistorial.oficina.idOficina != null &&
-          indiceHistorial.cargo.idCargo != null
+          indiceHistorial.oficina.idOficina !== null &&
+          indiceHistorial.cargo.idCargo !== null
         ) {
           dispatch(props.handleClick());
         }
@@ -327,9 +323,6 @@ const ModalHistorialUsuario = (props) => {
               <Select
                 onChange={handleChangeCargo}
                 placeholder="SELECCIONE UN CARGO"
-                // defaultValue={
-                //   indiceHistorial ? indiceHistorial.cargo.cargo : ''
-                // }
                 isClearable={true}
                 options={optionsCargo}
                 isRequired

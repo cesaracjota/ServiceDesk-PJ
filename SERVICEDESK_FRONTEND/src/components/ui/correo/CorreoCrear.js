@@ -6,7 +6,6 @@ import {
   VStack,
   FormControl,
   Input,
-  Textarea,
   useColorModeValue,
   Divider,
   FormLabel,

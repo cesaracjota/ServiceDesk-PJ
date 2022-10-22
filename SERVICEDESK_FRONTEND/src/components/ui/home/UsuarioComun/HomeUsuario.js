@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Box, Flex, Link, chakra, Image, Text, Heading, Stack, Button, Avatar, Skeleton, SkeletonText, SkeletonCircle } from "@chakra-ui/react"
 import { NavLink } from 'react-router-dom';
 import { CgChevronDoubleDown } from 'react-icons/cg';
-import { fetchFraseDia } from '../../../../actions/persona';
 
 const HomeUsuario = () => {
 
@@ -10,21 +9,23 @@ const HomeUsuario = () => {
     const [autorFrase, setAutorFrase] = useState('');
     const [isLoaded, setIsLoaded] = useState(false);
 
-    const fetchFrases = async () => {
+    const fetchFraseRandom = async() => {
         try {
-            const response = await fetchFraseDia();
-            setFraseDia(response.data.phrase);
-            setAutorFrase((response.data.author).trimStart().split(" ").join(" "));
+            const response = await fetch('https://agyl-frases-api.vercel.app/api/frases/frase/random/', { headers: { 'Allow-Control-Allow-Origin': '*' }});
+            const data = await response.json();
+            setFraseDia(data?.frase?.contenido);
+            setAutorFrase(data?.frase?.autor);
             setIsLoaded(true);
         } catch (error) {
             setFraseDia('No se pudo cargar la frase del día');
             setAutorFrase('Autor Anonimo');
             setIsLoaded(true);
+            console.log(error);
         }
     }
 
     useEffect(() => {
-        fetchFrases();
+        fetchFraseRandom();
     }, []);
 
     return (

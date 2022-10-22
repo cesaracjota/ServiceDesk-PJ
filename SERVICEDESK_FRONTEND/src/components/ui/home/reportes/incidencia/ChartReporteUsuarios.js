@@ -16,8 +16,6 @@ const ChartReporteUsuarios = ({ reportes, nombreUsuarios }) => {
   var tramitadas = data.map(item => item.tramitadas)
   var total = data.map(item => item.total)
 
-  var pendientes = data.map(item => item.pendientes)
-
   const BellcurveOptions = {
     title: {
       text: 'TOTAL INCIDENCIAS POR USUARIO'

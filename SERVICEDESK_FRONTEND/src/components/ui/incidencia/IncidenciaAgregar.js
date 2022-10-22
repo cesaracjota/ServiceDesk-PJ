@@ -476,11 +476,11 @@ const saveOrigen = () => {
       >
         <ModalOverlay />
           <ModalContent borderRadius={'none'}>
-            <ModalHeader>CREAR NUEVA INCIDENCIA PARA UN USUARIO</ModalHeader>
+            <ModalHeader textAlign={'center'}>CREAR NUEVA INCIDENCIA PARA UN USUARIO</ModalHeader>
             <ModalCloseButton _focus={{ boxShadow: "none" }} />
             <ModalBody borderRadius={'none'}>
-              <Stack direction={['column', 'column', 'row', 'row']} spacing={2} mb={2} justify="space-between" >
-                <Text fontWeight={'semibold'}>USUARIO QUIEN NOTIFICÓ</Text>
+              <Stack direction={['column', 'column', 'row', 'row']} spacing={2} mb={2} mt="-5" justify="space-between" >
+                <Text fontWeight={'semibold'}>USUARIO QUIEN REPORTÓ</Text>
                 <RadioGroup onChange={handleChangeUserRadio} value={radioUserValue}>
                   <Stack direction='row'>
                     <Radio size='md' value='mismo' _focus={{ boxShadow: "none" }} defaultChecked={true}>EL MISMO USUARIO QUIEN REPORTÓ</Radio>
@@ -490,21 +490,24 @@ const saveOrigen = () => {
               </Stack>
 
               <Stack direction={'column'} spacing={2} mt={2} hidden={radioUserValue === 'mismo'} >
-                <Tabs variant="enclosed-colored" w="full" size={'md'}>
+                <Tabs variant="enclosed-colored" w="full" size={'sm'}>
                   <TabList textAlign="center" justifyContent="center">
-                    <Tab _focus={{ boxShadow: "none" }} defaultChecked={true} fontWeight="semibold">BUSQUEDA POR APELLIDOS</Tab>
-                    <Tab _focus={{ boxShadow: "none" }} fontWeight="semibold">BUSQUEDA POR DNI</Tab>
+                    <Tab _focus={{ boxShadow: "none" }} defaultChecked={true} fontWeight="semibold" fontSize="sm">BUSQUEDA POR APELLIDOS</Tab>
+                    <Tab _focus={{ boxShadow: "none" }} fontWeight="semibold" fontSize="sm">BUSQUEDA POR DNI</Tab>
                   </TabList>
                   <TabPanels>
                     <TabPanel>
-                      <HStack spacing={10} mt={2}>
+                      <HStack spacing={10}>
                         <FormControl zIndex={0}>
-                          <FormLabel fontWeight="semibold">BUSQUEDA POR APELLIDO DEL USUARIO QUIEN NOTIFICÓ</FormLabel>
+                          <FormLabel fontWeight="semibold" fontSize="sm">BUSQUEDA POR APELLIDO DEL USUARIO QUIEN NOTIFICÓ</FormLabel>
                           <InputGroup>
                             <InputRightElement
+                              boxSize={8}
                               children={
                                 <IconButton
                                   colorScheme='facebook'
+                                  size={'sm'}
+                                  borderRadius="none"
                                   onClick={handleSearchApellido1}
                                   icon={<SearchIcon />}
                                   _focus={{ boxShadow: "none" }}
@@ -512,7 +515,7 @@ const saveOrigen = () => {
                                 />
                               }
                             />
-                            <Input placeholder="INGRESE EL APELLIDO" ref={inputRefApellido1} textTransform={'uppercase'} onChange={e => { setUsuarioApellido1(e.target.value.toUpperCase()) }} />
+                            <Input placeholder="INGRESE EL APELLIDO" size={'sm'} ref={inputRefApellido1} textTransform={'uppercase'} onChange={e => { setUsuarioApellido1(e.target.value.toUpperCase()) }} />
                           </InputGroup>
                         </FormControl>
 
@@ -547,20 +550,23 @@ const saveOrigen = () => {
                         </Modal>
 
                         <FormControl isRequired>
-                          <FormLabel fontWeight="semibold">NOMBRE DEL USUARIO QUIEN NOTIFICÓ</FormLabel>
-                          <Input placeholder='NOMBRES APELLIDOS' value={usuarioDataNombre1 ? usuarioDataNombre1 : ''} readOnly />
+                          <FormLabel fontWeight="semibold" fontSize="sm">NOMBRE DEL USUARIO QUIEN NOTIFICÓ</FormLabel>
+                          <Input placeholder='NOMBRES APELLIDOS' size={'sm'} value={usuarioDataNombre1 ? usuarioDataNombre1 : ''} readOnly />
                         </FormControl>
                       </HStack>
                     </TabPanel>
                     <TabPanel>
-                      <HStack spacing={10} mt={2}>
+                      <HStack spacing={10}>
                         <FormControl zIndex={0}>
-                          <FormLabel fontWeight="semibold">BUSQUEDA POR DNI</FormLabel>
+                          <FormLabel fontWeight="semibold" fontSize="sm">BUSQUEDA POR DNI</FormLabel>
                           <InputGroup >
                             <InputRightElement
+                              boxSize={8}
                               children={
                                 <IconButton
                                   colorScheme='facebook'
+                                  size={'sm'}
+                                  borderRadius="none"
                                   onClick={handleSearchDNI1}
                                   icon={<SearchIcon />}
                                   _focus={{ boxShadow: "none" }}
@@ -568,12 +574,12 @@ const saveOrigen = () => {
                                 />
                               }
                             />
-                            <Input placeholder="DIGITE EL DNI" ref={inputRefDNI1} onChange={e => { setUsuarioNotificaDNI(e.target.value) }} />
+                            <Input placeholder="DIGITE EL DNI" size={'sm'} ref={inputRefDNI1} onChange={e => { setUsuarioNotificaDNI(e.target.value) }} />
                           </InputGroup>
                         </FormControl>
                         <FormControl isRequired>
-                          <FormLabel fontWeight="semibold">NOMBRE DEL USUARIO QUIEN NOTIFICÓ</FormLabel>
-                          <Input placeholder='NOMBRES APELLIDOS' value={dataNombresNotifico ? dataNombresNotifico : ''} readOnly />
+                          <FormLabel fontWeight="semibold" fontSize={'sm'}>NOMBRE DEL USUARIO QUIEN NOTIFICÓ</FormLabel>
+                          <Input placeholder='NOMBRES APELLIDOS' size={'sm'} value={dataNombresNotifico ? dataNombresNotifico : ''} readOnly />
                         </FormControl>
                       </HStack>
                     </TabPanel>
@@ -584,7 +590,7 @@ const saveOrigen = () => {
               <Divider borderWidth="1px" borderColor={'#0078ff'} />
 
               <HStack spacing={2} mt={2} mb={2} justify="space-between">
-                <Text fontWeight="semibold">USUARIO QUIEN TIENE EL PROBLEMA</Text>
+                <Text fontWeight="semibold">USUARIO CON PROBLEMA</Text>
                 <RadioGroup onChange={handleChangeRadio} value={radioValue} mt={2}>
                   <Stack direction='row'>
                     <Radio size='md' value='apellido' _focus={{ boxShadow: "none" }} defaultChecked={true}>BUSCAR POR APELLIDO</Radio>
@@ -595,12 +601,15 @@ const saveOrigen = () => {
 
               <HStack spacing={10} mt={2} hidden={radioValue === 'apellido'} >
                 <FormControl isRequired={radioValue === 'dni'} zIndex={0}>
-                  <FormLabel fontWeight="semibold">BUSQUEDA POR DNI</FormLabel>
+                  <FormLabel fontWeight="semibold" fontSize={'sm'}>BUSQUEDA POR DNI</FormLabel>
                   <InputGroup >
                     <InputRightElement
+                      boxSize={8}
                       children={
                         <IconButton
                           colorScheme='facebook'
+                          size={'sm'}
+                          borderRadius="none"
                           onClick={handleSearchDNI}
                           icon={<SearchIcon />}
                           _focus={{ boxShadow: "none" }}
@@ -608,23 +617,26 @@ const saveOrigen = () => {
                         />
                       }
                     />
-                    <Input placeholder="DIGITE EL DNI" ref={inputRefDNI} onChange={e => { setUsuarioDNI(e.target.value) }} />
+                    <Input placeholder="DIGITE EL DNI" size={'sm'} ref={inputRefDNI} onChange={e => { setUsuarioDNI(e.target.value) }} />
                   </InputGroup>
                 </FormControl>
                 <FormControl isRequired>
-                  <FormLabel fontWeight="semibold">NOMBRE DEL USUARIO QUIEN TIENE EL PROBLEMA</FormLabel>
-                  <Input placeholder='NOMBRES APELLIDOS' value={dataNombres ? dataNombres : ''} readOnly />
+                  <FormLabel fontWeight="semibold" fontSize={'sm'}>NOMBRE DEL USUARIO QUIEN TIENE EL PROBLEMA</FormLabel>
+                  <Input placeholder='NOMBRES APELLIDOS' size={'sm'} value={dataNombres ? dataNombres : ''} readOnly />
                 </FormControl>
               </HStack>
 
               <HStack spacing={10} mt={2} hidden={radioValue === 'dni'}>
                 <FormControl isRequired={radioValue === 'apellido'} zIndex={0}>
-                  <FormLabel fontWeight="semibold">BUSQUEDA POR APELLIDOS</FormLabel>
+                  <FormLabel fontWeight="semibold" fontSize={'sm'}>BUSQUEDA POR APELLIDOS</FormLabel>
                   <InputGroup>
                     <InputRightElement
+                      boxSize={8}
                       children={
                         <IconButton
                           colorScheme='facebook'
+                          size={'sm'}
+                          borderRadius="none"
                           onClick={handleSearchApellido}
                           icon={<SearchIcon />}
                           _focus={{ boxShadow: "none" }}
@@ -632,7 +644,7 @@ const saveOrigen = () => {
                         />
                       }
                     />
-                    <Input placeholder="INGRESE EL APELLIDO" ref={inputRefApellido} textTransform={'uppercase'} onChange={e => { setUsuarioApellido(e.target.value.toUpperCase()) }} />
+                    <Input placeholder="INGRESE EL APELLIDO" size={'sm'} ref={inputRefApellido} textTransform={'uppercase'} onChange={e => { setUsuarioApellido(e.target.value.toUpperCase()) }} />
                   </InputGroup>
                 </FormControl>
 
@@ -667,13 +679,13 @@ const saveOrigen = () => {
                 </Modal>
 
                 <FormControl isRequired>
-                  <FormLabel fontWeight="semibold">NOMBRE DEL USUARIO</FormLabel>
-                  <Input placeholder='NOMBRES APELLIDOS' value={usuarioDataNombre ? usuarioDataNombre : ''} readOnly />
+                  <FormLabel fontWeight="semibold" fontSize={'sm'}>NOMBRE DEL USUARIO</FormLabel>
+                  <Input placeholder='NOMBRES APELLIDOS' size={'sm'} value={usuarioDataNombre ? usuarioDataNombre : ''} readOnly />
                 </FormControl>
               </HStack>
 
               <TableContainer>
-                <Table size='sm'>
+                <Table size='sm' variant={'striped'}>
                   <Thead>
                     <Tr>
                       <Th>SEDE</Th>
@@ -684,10 +696,10 @@ const saveOrigen = () => {
                   </Thead>
                   <Tbody>
                     <Tr>
-                      <Td>{usuarioSede}</Td>
-                      <Td>{usuarioOrgano}</Td>
-                      <Td>{usuarioOficina}</Td>
-                      <Td>{usuarioCargo}</Td>
+                      <Td fontSize={'xs'}>{usuarioSede}</Td>
+                      <Td fontSize={'xs'}>{usuarioOrgano}</Td>
+                      <Td fontSize={'xs'}>{usuarioOficina}</Td>
+                      <Td fontSize={'xs'}>{usuarioCargo}</Td>
                     </Tr>
                   </Tbody>
                 </Table>

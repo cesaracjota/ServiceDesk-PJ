@@ -10,18 +10,15 @@ export const CorreoCredencial = () => {
   const dispatch = useDispatch();
 
   const fetchData = async ()=> {
-    await fetchListCorreoCredencial().then((res)=>{
-      dispatch(getCorreoCredencial(res));
-    }).catch((err)=>{
-      // console.log(err);
-    });
+    const response = await fetchListCorreoCredencial();
+    dispatch(getCorreoCredencial(response));
   }
 
   useEffect(() => {
     if(store.getState().correoCredencial.checking){
       fetchData();
     }
-  }, [dispatch]);
+  });
 
   return (
     <>

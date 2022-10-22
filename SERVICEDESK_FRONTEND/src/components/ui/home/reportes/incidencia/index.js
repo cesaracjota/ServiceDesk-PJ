@@ -21,7 +21,7 @@ export const ReporteIncidencia = () => {
     if(store.getState().sede.checking){
       fetchDataSedes();
     }
-  },[]);
+  });
 
   return (
     <>
@@ -43,7 +43,7 @@ export const IncidenciaSegundoReporte = () => {
     if(store.getState().sede.checking){
       fetchDataSedes();
     }
-  },[]);
+  });
 
   return (
     <>
@@ -65,7 +65,7 @@ export const IncidenciaTercerReporte = () => {
     if(store.getState().sede.checking){
       fetchDataSedes();
     }
-  },[]);
+  });
 
   return (
     <>

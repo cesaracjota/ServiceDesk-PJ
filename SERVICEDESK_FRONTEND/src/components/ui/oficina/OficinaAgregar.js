@@ -38,6 +38,8 @@ const OficinaAgregar = () => {
     setOpenCreate(true);
   };
 
+  const [organoValue, setorganoValue] = useState(null);
+
   const initialOficina = {
     idOficina: null,
     oficina: '',
@@ -51,9 +53,6 @@ const OficinaAgregar = () => {
   const [organoSelect, setorganoSelect] = useState([
     { idOrgano: 0, organo: 'SELECCIONE UNA SEDE' },
   ]);
-  const [organoValue, setorganoValue] = useState(null);
-
-  const { oficina, organo, activo } = dataOficina;
 
   const handleChange = (value) => {
     if (value === null) {
@@ -76,8 +75,15 @@ const OficinaAgregar = () => {
   };
 
   const saveOficina = () => {
-    var organo = organoValue;
-    dispatch(createOficina({ oficina, organo, activo }))
+    var datosOficina = {
+      oficina: dataOficina.oficina,
+      organo: {
+        idOrgano: organoValue,
+      },
+      activo: dataOficina.activo,
+    };
+
+    dispatch(createOficina(datosOficina))
       .then(() => {
         handleCloseModal(true);
       })
@@ -179,7 +185,7 @@ const OficinaAgregar = () => {
               autoFocus
               mr={3}
               _focus={{ boxShadow: "none" }}
-              disabled = {organoValue === null || oficina === '' ? true : false}
+              disabled = {organoValue === null || dataOficina.oficina === '' ? true : false}
             >
               GUARDAR
             </Button>
