@@ -50,7 +50,7 @@ export default function Inicio() {
             <Flex alignItems="center" justifyContent="space-between">
               <Image src="https://material-kit-pro-react.devias.io/static/banner-illustration.png" alt="Service Desk" w="140px" display={['none', 'none', 'block', 'block']} />
               <Stack spacing={2} direction={'column'}>
-                <Heading fontSize={'5xl'} fontWeight="extrabold">Bienvenid@</Heading>
+                <Heading fontSize={'5xl'} fontWeight="extrabold">Bienvenido(a)</Heading>
                 <Text fontSize={'lg'}>Al Sistema de Gestion de Incidencias - Service Desk - Corte Superior de Justicia Arequipa</Text>
                 <NavLink to={'/dashboard/mis-incidencias'}>
                   <Button

@@ -11,7 +11,7 @@ export const fetchHistorialPersona = async (id) => {
     HistorialPersona.data = data;
     return HistorialPersona;
   }else{
-    notification('Error al cargar Datos', 'No se pudo cargar el historial', 'error');
+    notification('ERROR AL CARGAR DATOS', 'NO SE LOGRÓ CARGAR LOS DATOS DEL HISTORIAL', 'error');
     return false;
   }
 };
@@ -34,9 +34,9 @@ export const createHistorialPersona = (data) => {
     );
 
     if (response.status === 200 || response.status === 201) {
-      notification('Datos registrados correctamente.', 'Sus Datos ha sido registrado correctamente', 'success', 'modalOrganoAsignacion');
+      notification('DATOS REGISTRADOS', 'SUS DATOS SE REGISTRARON CORRECTAMENTE', 'success', 'modalOrganoAsignacion');
     } else {
-      notification('Error de registro sus Datos', 'No se pudo registrar sus Datos', 'error', 'modalOrganoAsignacion');
+      notification('ERROR DE REGISTRO', 'NO SE LOGRÓ REGISTRAR SUS DATOS', 'error', 'modalOrganoAsignacion');
     }
   };
 };

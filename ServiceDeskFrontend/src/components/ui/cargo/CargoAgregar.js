@@ -58,15 +58,15 @@ const CargoAgregar = () => {
                 isOpen={openCreate}
                 onClose={handleCloseModal}
                 closeOnOverlayClick={true}
-                size='xl'
+                size='3xl'
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>AGREGAR NUEVO CARGO</ModalHeader>
+                    <ModalHeader textAlign="center">AGREGAR NUEVO CARGO</ModalHeader>
                     <ModalCloseButton _focus={{ boxShadow: "none" }} />
                     <ModalBody pb={6}>
                         <FormControl>
-                            <FormLabel>CARGO</FormLabel>
+                            <FormLabel fontWeight={'bold'}>CARGO</FormLabel>
                             <Input
                                 onChange={(e) => { setCargo({ ...dataCargo, cargo: (e.target.value).toUpperCase() }) }}
                                 textTransform={'uppercase'}
@@ -75,7 +75,7 @@ const CargoAgregar = () => {
                                 type={'text'} />
                         </FormControl>
                         <FormControl mt={4} isRequired>
-                            <FormLabel>ESTADO</FormLabel>
+                            <FormLabel fontWeight={'bold'}>ESTADO</FormLabel>
                             <Select
                                 defaultValue={dataCargo.activo = 'S'}
                                 onChange={(e) => { setCargo({ ...dataCargo, activo: (e.target.value) }) }}
@@ -86,7 +86,14 @@ const CargoAgregar = () => {
                         </FormControl>
                     </ModalBody>
                     <ModalFooter>
-                        <Button onClick={() => saveCargo()} colorScheme={'facebook'} autoFocus mr={3} _focus={{ boxShadow: "none" }}>
+                        <Button 
+                            onClick={() => saveCargo()} 
+                            colorScheme={'facebook'} 
+                            autoFocus 
+                            mr={3} 
+                            _focus={{ boxShadow: "none" }}
+                            disabled={cargo === '' ? true : false}
+                            >
                             GUARDAR
                         </Button>
                         <Button onClick={handleCloseModal} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>

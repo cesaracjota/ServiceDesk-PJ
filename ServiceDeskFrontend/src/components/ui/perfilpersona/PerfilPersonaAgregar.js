@@ -58,7 +58,7 @@ const PerfilPersonaAgregar = () => {
             <Modal
                 isOpen={openCreate}
                 onClose={handleCloseModal}
-                size={'2xl'}
+                size={'3xl'}
             >
                 <ModalOverlay />
                 <form>
@@ -67,7 +67,7 @@ const PerfilPersonaAgregar = () => {
                         <ModalCloseButton _focus={{ boxShadow: "none" }} />
                         <ModalBody pb={6}>
                             <FormControl>
-                                <FormLabel>PERFIL</FormLabel>
+                                <FormLabel fontWeight="semibold">PERFIL</FormLabel>
                                 <Input
                                     onChange={(e) => { setPerfil({ ...userperfil, perfil: (e.target.value).toUpperCase() }) }}
                                     placeholder='Perfil'
@@ -76,16 +76,16 @@ const PerfilPersonaAgregar = () => {
                                 />
                             </FormControl>
                             <FormControl mt={4} isRequired={true}>
-                                <FormLabel>DESCRIPCIÓN</FormLabel>
+                                <FormLabel fontWeight="semibold">DESCRIPCIÓN</FormLabel>
                                 <Textarea
                                     onChange={(e) => { setPerfil({ ...userperfil, descripcion: (e.target.value).toUpperCase() }) }}
                                     placeholder='Descripcion'
                                     textTransform={'uppercase'}
-                                    rows={2}
+                                    rows={1}
                                 />
                             </FormControl>
                             <FormControl mt={4} isRequired>
-                                <FormLabel>ESTADO</FormLabel>
+                                <FormLabel fontWeight="semibold">ESTADO</FormLabel>
                                 <Select
                                     defaultValue={userperfil.activo = 'S'}
                                     onChange={(e) => { setPerfil({ ...userperfil, activo: (e.target.value) }) }}

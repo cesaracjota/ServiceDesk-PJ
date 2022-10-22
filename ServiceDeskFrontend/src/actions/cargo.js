@@ -17,9 +17,9 @@ export const createCargo = (data) => {
 
     if (response.status === 200 || response.status === 201) {
       dispatch(getCargos(await loadCargo()));
-      notification('Cargo registrado', 'Cargo se ha registrado correctamente.', 'success');
+      notification('CARGO REGISTRADO', 'EL CARGO SE HA REGISTRADO CORRECTAMENTE', 'success');
     } else {
-      notification('Error de registro', 'No se pudo registrar el Cargo', 'error');
+      notification('ERROR DE REGISTRO', 'EL CARGO NO SE PUDO REGISTRAR CORRECTAMENTE', 'error');
     }
   };
 };
@@ -74,9 +74,9 @@ export const updateCargo = data => {
 
     if (response.status === 200) {
       dispatch(getCargos(await loadCargo()));
-      notification('Cargo actualizado', 'Cargo se ha actualizado correctamente', 'success');
+      notification('CARGO MODIFICADO', 'EL CARGO HA SIDO MODIFICADO CORRECTAMENTE', 'success');
     } else {
-      notification('Error de actualización', 'No se pudo actualizar el Cargo', 'error');
+      notification('ERROR AL MODIFICAR', 'NO SE LOGRÓ MODIFICAR EL CARGO, CORRECTAMENTE ', 'error');
     }
   };
 };
@@ -89,9 +89,9 @@ export const deleteCargo = id => {
 
     if (response.status === 200) {
       dispatch(getCargos(await loadCargo()));
-      notification('Cargo modificado', 'Cargo se ha actualizado su estado correctamente', 'success');
+      notification('CARGO MODIFICADO', 'EL CARGO HA SIDO MODIFICADO CORRECTAMENTE', 'success');
     } else {
-      notification('Error de actualización', 'No se pudo eliminar el Cargo', 'error');
+      notification('ERROR AL MODIFICAR', 'NO SE LOGRÓ MODIFICAR EL CARGO, CORRECTAMENTE', 'error');
     }
   };
 };

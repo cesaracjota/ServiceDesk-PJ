@@ -30,14 +30,12 @@ const OficinaAgregar = () => {
   const sedeData = store.getState().sede.rows;
   const organoData = store.getState().organo.rows;
 
+  const selectInputRefOrgano = React.useRef();
+
   var organoInfo = organoData;
 
   const handleClickOpenCreate = () => {
     setOpenCreate(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpenCreate(false);
   };
 
   const initialOficina = {
@@ -53,26 +51,32 @@ const OficinaAgregar = () => {
   const [organoSelect, setorganoSelect] = useState([
     { idOrgano: 0, organo: 'SELECCIONE UNA SEDE' },
   ]);
-  const [organoNombre, setorganoNombre] = useState(null);
+  const [organoValue, setorganoValue] = useState(null);
 
   const { oficina, organo, activo } = dataOficina;
 
-  const handleChange = value => {
+  const handleChange = (value) => {
     if (value === null) {
       setorganoSelect([{ idOrgano: 0, organo: 'SELECCIONE UNA SEDE' }]);
+      selectInputRefOrgano.current.setValue([{ value: 0, label: 'SELECCIONE UNA SEDE' }]);
     } else {
       setorganoSelect(
         organoInfo.filter(indice => indice.sede.idSede === value.value)
       );
+      selectInputRefOrgano.current.setValue([{ value: 0, label: 'SELECCIONE UN ORGANO' }]);
     }
   };
 
-  const handleChangeOrgano = value => {
-    setorganoNombre(value.value);
+  const handleChangeOrgano = (value) => {
+    if (value !== null) {
+      setorganoValue(value.value);
+    } else {
+      selectInputRefOrgano.current.setValue([{ value: 0, label: 'SELECCIONE UN ORGANO' }]);
+    }
   };
 
   const saveOficina = () => {
-    var organo = organoNombre;
+    var organo = organoValue;
     dispatch(createOficina({ oficina, organo, activo }))
       .then(() => {
         handleCloseModal(true);
@@ -80,6 +84,14 @@ const OficinaAgregar = () => {
       .catch(err => {
         console.log(err);
       });
+  };
+
+  
+  const handleCloseModal = () => {
+    setOpenCreate(false);
+    selectInputRefOrgano.current.clearValue();
+    setOficina(initialOficina);
+    setorganoValue(null);
   };
 
   return (
@@ -92,15 +104,15 @@ const OficinaAgregar = () => {
         isOpen={openCreate}
         onClose={handleCloseModal}
         closeOnOverlayClick={true}
-        size={'2xl'}
+        size={'3xl'}
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>AGREGAR NUEVA OFICINA</ModalHeader>
+          <ModalHeader textAlign="center">AGREGAR NUEVA OFICINA</ModalHeader>
           <ModalCloseButton _focus={{ boxShadow: "none" }} />
           <ModalBody pb={6}>
             <FormControl isRequired={true}>
-              <FormLabel>SEDE</FormLabel>
+              <FormLabel fontWeight="semibold">SEDE</FormLabel>
               <Select
                 required
                 onChange={handleChange}
@@ -115,23 +127,24 @@ const OficinaAgregar = () => {
               />
             </FormControl>
             <FormControl mt={4} isRequired={true}>
-              <FormLabel>ORGANO</FormLabel>
+              <FormLabel fontWeight="semibold">ORGANO</FormLabel>
               <Select
                 onChange={handleChangeOrgano}
                 defaultValue={organoSelect.map(organo => ({
                   value: organo.idOrgano,
                   label: organo.organo,
                 }))}
-                isClearable
                 options={organoSelect.map(organo => ({
                   value: organo.idOrgano,
                   label: organo.organo,
                 }))}
+                ref={selectInputRefOrgano}
+                isClearable
                 placeholder="SELECCIONE UN ORGANO"
               />
             </FormControl>
             <FormControl mt={4}>
-              <FormLabel>OFICINA</FormLabel>
+              <FormLabel fontWeight="semibold">OFICINA</FormLabel>
               <Input
                 onChange={e => {
                   setOficina({
@@ -145,7 +158,7 @@ const OficinaAgregar = () => {
               />
             </FormControl>
             <FormControl mt={4} isRequired>
-              <FormLabel>ESTADO</FormLabel>
+              <FormLabel fontWeight="semibold">ESTADO</FormLabel>
               <SelectForm
                 defaultValue={(dataOficina.activo = 'S')}
                 onChange={e => {
@@ -166,6 +179,7 @@ const OficinaAgregar = () => {
               autoFocus
               mr={3}
               _focus={{ boxShadow: "none" }}
+              disabled = {organoValue === null || oficina === '' ? true : false}
             >
               GUARDAR
             </Button>

@@ -32,10 +32,6 @@ const OrganoAgregar = () => {
     setOpenCreate(true);
   };
 
-  const handleCloseModal = () => {
-    setOpenCreate(false);
-  };
-
   const initialOrgano = {
     idOrgano: null,
     organo: '',
@@ -60,10 +56,23 @@ const OrganoAgregar = () => {
   };
 
   const handleChangeSede = (value) => {
-    setOrgano({
-      ...dataOrgano,
-      sede: { idSede: value.value, sede: value.label },
-    });
+    if (value !== null) {
+        setOrgano({
+          ...dataOrgano,
+          sede: { idSede: value.value, sede: value.label },
+        });
+    } else {
+      setOrgano({
+        ...dataOrgano,
+        sede: { idSede: null, sede: '' },
+      })
+    }
+  
+  };
+
+  const handleCloseModal = () => {
+    setOpenCreate(false);
+    setOrgano(initialOrgano);
   };
 
   return (
@@ -82,17 +91,16 @@ const OrganoAgregar = () => {
         isOpen={openCreate}
         onClose={handleCloseModal}
         closeOnOverlayClick={true}
-        size={'2xl'}
+        size={'3xl'}
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>AGREGAR NUEVO ORGANO</ModalHeader>
+          <ModalHeader textAlign="center">AGREGAR NUEVO ORGANO</ModalHeader>
           <ModalCloseButton _focus={{ boxShadow: "none" }} />
-          <ModalBody pb={6}>
+          <ModalBody pb={8}>
             <FormControl>
-              <FormLabel>SEDE</FormLabel>
+              <FormLabel fontWeight="semibold">SEDE</FormLabel>
               <Select
-                // defaultValue={indice ? indice.sede.idSede : ''}
                 placeholder="SELECCIONE UNA SEDE"
                 onChange={handleChangeSede}
                 options={sedeData.map(sede => ({
@@ -104,7 +112,7 @@ const OrganoAgregar = () => {
               />
             </FormControl>
             <FormControl mt={4} isRequired>
-              <FormLabel>ORGANO</FormLabel>
+              <FormLabel fontWeight="semibold">ORGANO</FormLabel>
               <Input
                 onChange={e => {
                   setOrgano({
@@ -118,7 +126,7 @@ const OrganoAgregar = () => {
               />
             </FormControl>
             <FormControl mt={4}>
-              <FormLabel>ESTADO</FormLabel>
+              <FormLabel fontWeight="semibold">ESTADO</FormLabel>
               <ChakraSelect
                 defaultValue={(dataOrgano.activo = 'S')}
                 onChange={e => {
@@ -138,6 +146,7 @@ const OrganoAgregar = () => {
               autoFocus
               mr={3}
               _focus={{ boxShadow: "none" }}
+              disabled={organo === '' || sede.idSede === null}
             >
               GUARDAR
             </Button>

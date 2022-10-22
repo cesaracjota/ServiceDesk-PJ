@@ -66,7 +66,7 @@ const OrigenAgregar = () => {
                     <ModalCloseButton _focus={{ boxShadow: "none" }} />
                     <ModalBody pb={6}>
                         <FormControl>
-                            <FormLabel>Origen</FormLabel>
+                            <FormLabel fontWeight="semibold">ORIGEN</FormLabel>
                             <Input
                                 textTransform={'uppercase'}
                                 onChange={(e) => { setOrigen({ ...dataOrigen, origen: e.target.value.toUpperCase() }) }}

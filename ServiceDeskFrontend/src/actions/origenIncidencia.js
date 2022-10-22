@@ -14,9 +14,9 @@ export const createOrigen = data => {
   
       if (response.status === 200 || response.status === 201) {
         dispatch(getOrigen(await loadOrigen()));
-        notification('Origen registrado', 'Origen ha sido registrado correctamente.', 'success');
+        notification('ORIGEN CREADO', 'EL ORIGEN DE LA INCIDENCIA HA SIDO REGISTRADO CORRECTAMENTE', 'success');
       } else {
-        notification('Error de registro', 'No se pudo registrar el Origen', 'error');
+        notification('ERROR DE REGISTRO', 'NO SE LOGRÓ CREAR LA EL ORIGEN DE LA INCIDENCIA', 'error');
       }
     };
   };
@@ -62,9 +62,9 @@ export const createOrigen = data => {
   
       if (response.status === 200 || response.status === 201) {
         dispatch(getOrigen(await loadOrigen()));
-        notification('Origen actualizado', 'Origen ha sido actualizado correctamente.', 'success');
+        notification('ORIGEN MODIFICADO', 'EL ORIGEN DE LA INCIDENCIA, HA SIDO MODIFICADO CORRECTAMENTE', 'success');
       } else {
-        notification('Error al actualizar', 'No se pudo actualizar el origen de incidencia', 'error');
+        notification('ERROR DE MODIFICACIÓN', 'NO SE LOGRÓ MODIFICAR EL ORIGEN DE LA INCIDENCIA', 'error');
       }
     };
   };
@@ -77,10 +77,10 @@ export const createOrigen = data => {
   
       if (response.status === 200 || response.status === 201) {
         dispatch(getOrigen(await loadOrigen()));
-        notification('Origen eliminado', 'Origen ha sido eliminado correctamente', 'success');
+        notification('ORIGEN ELIMINADO', 'EL ORIGEN DE LA INCIDENCIA, HA SIDO ELIMINADO CORRECTAMENTE', 'success');
   
       } else {
-        notification('Error al actualizar', 'No se pudo eliminar el origen', 'error');
+        notification('ERROR AL ELIMINAR', 'NO SE LOGRÓ ELIMINAR EL ORIGEN DE LA INCIDENCIA', 'error');
       }
     };
   };

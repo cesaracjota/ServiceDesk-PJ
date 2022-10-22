@@ -85,12 +85,10 @@ const ModalActualizarHistorial = ({ rowData }) => {
         { value: 0, label: 'SELECCIONE UN ORGANO' },
     ]);
 
-    const [optionsSede, setOptionsSede] = useState(
-        dataSede.map(sede => ({
-            value: sede.idSede,
-            label: sede.sede,
-        }))
-    );
+    const optionsSede = dataSede.map(sede => ({
+        value: sede.idSede,
+        label: sede.sede,
+    }));
 
     const handleOpenModal = () => {
         setOpenModal(true);
@@ -127,7 +125,7 @@ const ModalActualizarHistorial = ({ rowData }) => {
             setOrganoSelect([{ value: 0, label: 'SELECCIONE UNA SEDE' }]);
         } else {
             var organo = dataOrgano.filter(
-                indice => indice.sede.idSede == value.value
+                indice => indice.sede.idSede === value.value
             );
             setOrganoSelect(
                 organo.map(organo => ({
@@ -145,7 +143,7 @@ const ModalActualizarHistorial = ({ rowData }) => {
         } else {
             setOficinaSelect(
                 dataOficina
-                    .filter(indice => indice.organo.idOrgano == value.value)
+                    .filter(indice => indice.organo.idOrgano === value.value)
                     .map(value => ({ value: value.idOficina, label: value.oficina }))
             );
             selectOficinaRef.current.clearValue();
@@ -200,7 +198,7 @@ const ModalActualizarHistorial = ({ rowData }) => {
             <Modal size={'6xl'} isOpen={openModal} onClose={handleCloseModal} id="modalOrganoAsignacion">
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader textAlign="center" fontWeight={'extrabold'}>VER Y ACTUALIZAR DATOS ADICIONALES DEL USUARIO</ModalHeader>
+                    <ModalHeader textAlign="center">VER Y ACTUALIZAR DATOS ADICIONALES DEL USUARIO</ModalHeader>
                     <ModalCloseButton _focus={{ boxShadow: "none" }} />
                     <ModalBody>
 

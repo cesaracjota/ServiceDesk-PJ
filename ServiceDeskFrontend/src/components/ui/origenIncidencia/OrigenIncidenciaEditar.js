@@ -75,7 +75,7 @@ export const OrigenIncidenciaEditar = ({ row }) => {
                             />
                         </FormControl>
                         <FormControl>
-                            <FormLabel>ORIGEN</FormLabel>
+                            <FormLabel fontWeight="semibold">ORIGEN</FormLabel>
                             <Input
                                 defaultValue={indice ? indice.origen : ''}
                                 textTransform={'uppercase'}

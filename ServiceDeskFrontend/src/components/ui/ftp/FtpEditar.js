@@ -64,10 +64,10 @@ export const FtpEditar = ({ row }) => {
                 size={'sm'}
                 _focus={{ boxShadow: "none" }}
             />
-            <Modal isOpen={openedit} onClose={handleCloseEdit} size={'2xl'}>
+            <Modal isOpen={openedit} onClose={handleCloseEdit} size={'3xl'}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader display={'flex'} justifyContent={'center'}>
+                    <ModalHeader textAlign="center">
                         EDITAR FTP CONFIGURACIÓN
                     </ModalHeader>
                     <ModalCloseButton _focus={{ boxShadow: "none" }} />
@@ -82,7 +82,7 @@ export const FtpEditar = ({ row }) => {
                         </FormControl>
                         <Stack direction={['column', 'column', 'row']}>
                             <FormControl>
-                                <FormLabel>USUARIO</FormLabel>
+                                <FormLabel fontWeight="semibold">USUARIO</FormLabel>
                                 <Input
                                     defaultValue={indice ? indice.usuario : ''}
                                     type="text"
@@ -92,7 +92,7 @@ export const FtpEditar = ({ row }) => {
                                 />
                             </FormControl>
                             <FormControl mt={2}>
-                                <FormLabel>CLAVE</FormLabel>
+                                <FormLabel fontWeight="semibold">CLAVE</FormLabel>
                                 <Input
                                     defaultValue={indice ? indice.clave : ''}
                                     type="password"
@@ -103,7 +103,7 @@ export const FtpEditar = ({ row }) => {
                             </FormControl>
                         </Stack>
                         <FormControl mt={2}>
-                            <FormLabel>DESCRIPCIÓN</FormLabel>
+                            <FormLabel fontWeight="semibold">DESCRIPCIÓN</FormLabel>
                             <Textarea
                                 defaultValue={indice ? indice.descripcion : ''}
                                 type="text"
@@ -116,7 +116,7 @@ export const FtpEditar = ({ row }) => {
                         </FormControl>
                         <Stack direction={['column', 'column', 'row']} mt={2}>
                             <FormControl>
-                                <FormLabel>IP</FormLabel>
+                                <FormLabel fontWeight="semibold">IP</FormLabel>
                                 <Input
                                     defaultValue={indice ? indice.ip : ''}
                                     type="text"
@@ -126,7 +126,7 @@ export const FtpEditar = ({ row }) => {
                                 />
                             </FormControl>
                             <FormControl>
-                                <FormLabel>ESTADO</FormLabel>
+                                <FormLabel fontWeight="semibold">ESTADO</FormLabel>
                                 <Select
                                     defaultValue={indice ? indice.estado : ''}
                                     onChange={e =>

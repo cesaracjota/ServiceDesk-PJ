@@ -58,7 +58,7 @@ export const LoginScreen = () => {
       <Box flex={"1"} bg="red.700" borderBottomRadius="3xl" boxShadow={'xl'}>
         <Center py={4}>
           <Text color="#999999" fontSize={["md", "2xl", "3xl", "4xl"]} fontWeight="extrabold" textAlign="center" verticalAlign={'center'}>
-            SERVICE DESk
+            SERVICE DESK
           </Text>
         </Center>
       </Box>

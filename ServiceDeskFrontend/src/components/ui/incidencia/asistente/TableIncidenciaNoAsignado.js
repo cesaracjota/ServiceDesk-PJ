@@ -45,19 +45,12 @@ export default function TableIncidenciaNoAsignados() {
   const { identificador } = useSelector(state => state.auth);
 
   const data = store.getState().incidenciasNoAsignadas.rows;
-  const tecnicosData = store.getState().tecnicoDisponible.rows;
 
   const [tableRowsData, setTableRowsData] = useState(data);
 
   const ContadorPendientes = data.filter(row => row.historialIncidencia.filter(pendiente => pendiente.estadoIncidencia === "P" && pendiente.estado === "A").length > 0);
   const ContadorTramite = data.filter(row => row.historialIncidencia.filter(tramite => tramite.estadoIncidencia === "T" && tramite.estado === "A").length > 0);
   const ContadorAtendidas = data.filter(row => row.historialIncidencia.filter(atendida => atendida.estadoIncidencia === "A" && atendida.estado === "A").length > 0);
-
-  // const [openModal, setOpenModal] = React.useState(false);
-
-  // const [idIncidencia, setIndiceIncidencia] = useState(null);
-  // const [indiceTecnico, setIndiceTecnico] = useState(null);
-  // const [incidenciaPersonaNotifica, setIncidenciaPersonaNotifica] = useState(null);
 
   const usuario = store.getState().auth;
 
@@ -267,7 +260,7 @@ export default function TableIncidenciaNoAsignados() {
               color="yellow.500"
               _dark={{ color: "white" }}
             >
-              Incidencias en Tramite
+              INCIDENCIAS EN TRÁMITE
             </chakra.h3>
             <Flex
               alignItems="center"
@@ -517,13 +510,13 @@ const ModalAsignarTecnico = ({ row, refreshTable }) => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>ASIGNAR A UN SOPORTE TÉCNICO</ModalHeader>
+          <ModalHeader>ASIGNAR A UN SOPORTE UN USUARIO O SOPORTE TÉCNICO</ModalHeader>
           <ModalCloseButton _focus={{ boxShadow: "none" }} />
           <ModalBody pb={6}>
             <FormControl isRequired>
-              <FormLabel>SOPORTES TÉCNICOS</FormLabel>
+              <FormLabel fontWeight="semibold">USUARIOS DISPONIBLES PARA ASIGNAR</FormLabel>
               <Select
-                placeholder="--------- ELIGE UN SOPORTE TECNICO -----------"
+                placeholder="SELECCIONE UN USUARIO"
                 onChange={handleChangeTecnico}
                 options={tecnicosData.map(tecnico => ({
                   value: tecnico.persona.idpersona,

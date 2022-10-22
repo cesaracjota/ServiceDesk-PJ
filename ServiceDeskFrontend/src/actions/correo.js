@@ -1,6 +1,5 @@
 import { fetchToken } from '../helpers/fetch';
 import { notification } from '../helpers/alert';
-import { getCorreosEnviados } from '../components/ui/correo/index';
 
 // CREATE CORREO /listall/{id}/persona/to
 
@@ -19,12 +18,10 @@ export const createCorreo = data => {
       'POST'
     );
 
-    const body = await response.json();
-
     if (response.status === 200 || response.status === 201) {
-      notification('Correo enviado correctamente.', 'El correo enviado correctamente.', 'success');
+      notification('CORREO ENVIADO CORRECTAMENTE', 'EL CORREO HA SIDO ENVIADO CORRECTAMENTE', 'success');
     } else {
-      notification('Error de envio', 'No se pudo enviar el Correo', 'error');
+      notification('ERROR DE ENVIO', 'NO SE LOGRÓ ENVIAR EL CORREO', 'error');
     }
   };
 };

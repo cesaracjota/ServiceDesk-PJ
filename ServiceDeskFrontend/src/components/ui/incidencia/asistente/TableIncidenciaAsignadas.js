@@ -182,7 +182,7 @@ export default function TableIncidenciaAsignados() {
               rowId={row.idIncidencia}
               identificador={identificador}
             />
-            {historial[0].estadoIncidencia !== 'A' ? (
+            {historial[0].estadoIncidencia !== 'A' && historial[0].estadoIncidencia !== 'T' ? (
               <ModalReAsignarTecnico
                 row={row}
               />
@@ -213,7 +213,7 @@ export default function TableIncidenciaAsignados() {
                             <Avatar size={'xs'} name={row.persona_asignado?.nombre + ' ' + row.persona_asignado?.apellido} />
                             <HStack justifyContent='space-between' w={'full'}>
                               <Text fontSize={'9px'}>{row.persona_asignado?.nombre + ' ' + row.persona_asignado?.apellido}</Text>
-                              <Text fontSize={'9px'}>{Moment(row.fecha).format("yyyy-MM-DD - HH:mm:ss").trimEnd()}</Text>
+                              <Text fontSize={'9px'}>{Moment(row.fecha).format("DD/MM/DD - HH:mm:ss").trimEnd()}</Text>
                             </HStack>
                           </Stack>
                         ))}
@@ -568,7 +568,7 @@ export const ModalReAsignarTecnico = ({ row, refreshData }) => {
             <ModalCloseButton _focus={{ boxShadow: "none" }} />
             <ModalBody pb={6}>
               <FormControl isRequired>
-                <FormLabel>LISTA DE USUARIOS PARA RE-ASIGNAR</FormLabel>
+                <FormLabel fontWeight="semibold">LISTA DE USUARIOS PARA RE-ASIGNAR</FormLabel>
                 <Select
                   placeholder="SELECCIONE UN USUARIO PARA RE-ASIGNAR"
                   onChange={handleChangeTecnico}

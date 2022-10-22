@@ -9,7 +9,6 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Link as LinkB,
   Text,
   useColorModeValue,
   Stack,
@@ -60,7 +59,7 @@ export const RegisterValidateScreen = () => {
       dataUsuario.password1 !== '' &&
       dataUsuario.password2 !== ''
     ) {
-      notification('Error', 'Las contraseñas no coinciden', 'error');
+      notification('ERROR DE VALIDACIÓN', 'LAS CONTRASEÑAS NO COINCIDEN', 'error');
     } else {
       var usuario = {
         nombre: data.nombre,

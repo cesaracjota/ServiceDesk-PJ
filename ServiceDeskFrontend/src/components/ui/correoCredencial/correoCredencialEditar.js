@@ -70,10 +70,10 @@ export const CorreoCredencialEditar = ({ row }) => {
                 _focus={{ boxShadow: "none" }}
                 mr={2}
             />
-            <Modal isOpen={openedit} onClose={handleCloseEdit} size={'2xl'}>
+            <Modal isOpen={openedit} onClose={handleCloseEdit} size={'3xl'}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader display={'flex'} justifyContent={'center'}>
+                    <ModalHeader textAlign="center">
                         EDITAR CREDENCIALES DEL CORREO
                     </ModalHeader>
                     <ModalCloseButton _focus={{ boxShadow: "none" }} />
@@ -94,7 +94,7 @@ export const CorreoCredencialEditar = ({ row }) => {
                         </HStack>
                         <Stack direction={['column', 'column', 'row']}>
                             <FormControl>
-                                <FormLabel>CORREO</FormLabel>
+                                <FormLabel fontWeight="semibold">CORREO</FormLabel>
                                 <Input
                                     defaultValue={indice ? indice.correo : ''}
                                     type="text"
@@ -104,7 +104,7 @@ export const CorreoCredencialEditar = ({ row }) => {
                                 />
                             </FormControl>
                             <FormControl mt={2}>
-                                <FormLabel>CONTRASEÑA</FormLabel>
+                                <FormLabel fontWeight="semibold">CONTRASEÑA</FormLabel>
                                 <Input
                                     defaultValue={indice ? indice.password : ''}
                                     type="password"
@@ -116,7 +116,7 @@ export const CorreoCredencialEditar = ({ row }) => {
                         </Stack>
                         <Stack direction={'column'} mt={2}>
                             <FormControl>
-                                <FormLabel>ESTADO</FormLabel>
+                                <FormLabel fontWeight="semibold">ESTADO</FormLabel>
                                 <Select
                                     defaultValue={indice ? indice.activo : ''}
                                     onChange={e =>

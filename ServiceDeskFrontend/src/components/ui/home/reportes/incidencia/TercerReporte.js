@@ -42,7 +42,6 @@ export default function TercerReporte() {
 
   const [reportes, setReportes] = useState([]);
   const [nombreTecnicos, setNombreTecnicos] = useState([]);
-  const [totalReportes, setTotalReportes] = useState([]);
 
   const BuscarFiltros = () => {
     var data = {
@@ -280,7 +279,6 @@ export default function TercerReporte() {
                 <ReporteTiempos
                   reportes={reportes}
                   nombreTecnicos={nombreTecnicos}
-                  totalReportes={totalReportes}
                 />
               </TabPanel>
               <TabPanel>

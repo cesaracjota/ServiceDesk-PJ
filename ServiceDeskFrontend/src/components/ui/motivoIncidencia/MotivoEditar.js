@@ -76,7 +76,7 @@ export const MotivoEditar = ({ row }) => {
                             />
                         </FormControl>
                         <FormControl>
-                            <FormLabel>MOTIVO</FormLabel>
+                            <FormLabel fontWeight="semibold">MOTIVO</FormLabel>
                             <Input
                                 defaultValue={indice ? indice.motivo : ''}
                                 textTransform={'uppercase'}

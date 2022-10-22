@@ -20,9 +20,9 @@ export const createFtp = (data) => {
 
         if (response.status === 200 || response.status === 201) {
             dispatch(getFtp(await loadFtp()));
-            notification('Ftp registrado', 'Ftp se ha registrado correctamente.', 'success');
+            notification('FTP CREADA', 'FTP CREADA CORRECTAMENTE', 'success');
         } else {
-            notification('Error de registro', 'No se pudo registrar el Ftp', 'error');
+            notification('ERROR DE CREACIÓN', 'NO SE LOGRÓ REGISTRAR EL FTP', 'error');
         }
     };
 };
@@ -80,9 +80,9 @@ export const updateFtp = (data) => {
 
         if (response.status === 200) {
             dispatch(getFtp(await loadFtp()));
-            notification('Ftp actualizado', 'Ftp se ha actualizado correctamente', 'success');
+            notification('FTP MOFICADO', 'EL FTP SE HA MODIFICADO CORRECTAMENTE', 'success');
         } else {
-            notification('Error de actualización', 'No se pudo actualizar el Ftp', 'error');
+            notification('ERROR DE MODIFICACIÓN', 'NO SE LOGRÓ MODIFICAR EL FTP', 'error');
         }
     };
 };
@@ -95,9 +95,9 @@ export const deleteFtp = (id) => {
 
         if (response.status === 200) {
             dispatch(getFtp(await loadFtp()));
-            notification('Ftp modificado', 'Ftp se ha actualizado su estado correctamente', 'success');
+            notification('FTP MOFICADO', 'SE HA MODIFICADO EL ESTADO DEL FTP CORRECTAMENTE', 'success');
         } else {
-            notification('Error de actualización', 'No se pudo eliminar el Ftp', 'error');
+            notification('ERROR AL MODIFICAR', 'NO SE LOGRÓ MODIFICAR EL ESTADO DEL FTP', 'error');
         }
     };
 };

@@ -60,15 +60,15 @@ const SedeAgregar = () => {
                 isOpen={openCreate}
                 onClose={handleCloseModal}
                 closeOnOverlayClick={true}
-                size={'2xl'}
+                size={'3xl'}
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>AGREGAR NUEVA SEDE</ModalHeader>
+                    <ModalHeader textAlign="center">AGREGAR NUEVA SEDE</ModalHeader>
                     <ModalCloseButton _focus={{ boxShadow: "none" }} />
                     <ModalBody pb={6}>
                         <FormControl>
-                            <FormLabel>SEDE</FormLabel>
+                            <FormLabel fontWeight="semibold">SEDE</FormLabel>
                             <Input
                                 onChange={(e) => { setSede({ ...dataSede, sede: (e.target.value).toUpperCase() }) }}
                                 placeholder='Nombre de la sede'
@@ -77,7 +77,7 @@ const SedeAgregar = () => {
                                 type={'text'} />
                         </FormControl>
                         <FormControl mt={4} isRequired>
-                            <FormLabel>DIRECCIÓN</FormLabel>
+                            <FormLabel fontWeight="semibold">DIRECCIÓN</FormLabel>
                             <Input
                                 onChange={(e) => { setSede({ ...dataSede, direccion: (e.target.value).toUpperCase() }) }}
                                 placeholder='Av Arequipa 202'
@@ -86,7 +86,7 @@ const SedeAgregar = () => {
                             />
                         </FormControl>
                         <FormControl mt={4} isRequired>
-                            <FormLabel>ESTADO</FormLabel>
+                            <FormLabel fontWeight="semibold">ESTADO</FormLabel>
                             <Select
                                 defaultValue={dataSede.activo = 'S'}
                                 onChange={(e) => { setSede({ ...dataSede, activo: (e.target.value) }) }}

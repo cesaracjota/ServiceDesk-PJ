@@ -249,14 +249,14 @@ const IncidenciaAgregar = () => {
         setUsuarioOficina(historial.data.oficina.oficina)
         setUsuarioCargo(historial.data.cargo.cargo)
       }).catch(() => {
-        notification('Historial no encontrado', 'El usuario no pertenece a ningun sede, organo, sede', 'error', 'modalCrearIncidencia');
+        notification('HISTORIAL NO ENCONTRADO', 'EL USUARIO NO PERTENECE A NINGUNA SEDE, ORGANO U OFICINA', 'info', 'modalCrearIncidencia');
         handleResetValues();
       });
       setUsuarioData(res);
       setUsuarioNotificaData(res);
       setDataNombres(res.nombre + ' ' + res.apellido);
     }).catch(() => {
-      notification('Usuario no encontrado', 'No se pudo encontrar el Usuario', 'error', 'modalCrearIncidencia');
+      notification('USUARIO NO ENCONTRADO', 'NO SE LOGRÓ ENCONTRAR EL USUARIO, INTENTE DE NUEVO', 'error', 'modalCrearIncidencia');
       handleResetValues();
     });
   }
@@ -266,7 +266,7 @@ const IncidenciaAgregar = () => {
       setUsuarioNotificaId(res.idpersona);
       setDataNombresNotifico(res.nombre + ' ' + res.apellido);
     }).catch(() => {
-      notification('Usuario no encontrado', 'No se pudo encontrar el Usuario', 'error', 'modalCrearIncidencia');
+      notification('USUARIO NO ENCONTRADO', 'NO SE LOGRÓ ENCONTRAR EL USUARIO, INTENTE DE NUEVO', 'error', 'modalCrearIncidencia');
       handleResetValues();
     });
   }
@@ -277,11 +277,11 @@ const IncidenciaAgregar = () => {
         setUsuarioListData(res.data);
         setOpenSearchUsuarios(true);
       } else {
-        notification('Usuario no encontrado', 'No se pudo encontrar el usuario con ese apellido', 'error', 'modalCrearIncidencia');
+        notification('USUARIO NO ENCONTRADO', 'NO SE LOGRÓ ENCONTRAR EL USUARIO CON ESE APELLIDO, INTENTE DE NUEVO', 'error', 'modalCrearIncidencia');
         handleResetValues()
       }
     }).catch(() => {
-      notification('Usuario no encontrado', 'No se pudo encontrar el usuario', 'error', 'modalCrearIncidencia');
+      notification('USUARIO NO ENCONTRADO', 'NO SE LOGRÓ ENCONTRAR EL USUARIO, INTENTE DE NUEVO', 'error', 'modalCrearIncidencia');
       setUsuarioData([]);
       handleResetValues()
     })
@@ -293,11 +293,11 @@ const IncidenciaAgregar = () => {
         setUsuarioListData1(res.data);
         setOpenSearchUsuarios1(true);
       } else {
-        notification('Usuario no encontrado', 'No se pudo encontrar el usuario con ese apellido', 'error', 'modalCrearIncidencia');
+        notification('USUARIO NO ENCONTRADO', 'NO SE LOGRÓ ENCONTRAR EL USUARIO CON ESE APELLIDO, INTENTE DE NUEVO', 'error', 'modalCrearIncidencia');
         handleResetValues()
       }
     }).catch(() => {
-      notification('Usuario no encontrado', 'No se pudo encontrar el usuario', 'error', 'modalCrearIncidencia');
+      notification('USUARIO NO ENCONTRADO', 'NO SE LOGRÓ ENCONTRAR EL USUARIO, INTENTE DE NUEVO', 'error', 'modalCrearIncidencia');
       setUsuarioData([]);
       handleResetValues()
     })
@@ -314,7 +314,7 @@ const IncidenciaAgregar = () => {
       setUsuarioCargo(historial.data.cargo.cargo)
     }).catch(() => {
       setOpenSearchUsuarios(false);
-      notification('Error al Seleccionar', 'No se puede crear incidencia para este user, no tiene asignado a ninguna sede, organo, oficina', 'info', 'modalCrearIncidencia');
+      notification('HISTORIAL NO ENCONTRADO', 'EL USUARIO NO PERTENECE A NINGUNA SEDE, ORGANO U OFICINA', 'info', 'modalCrearIncidencia');
       handleResetValues();
     })
   }
@@ -401,11 +401,8 @@ const IncidenciaAgregar = () => {
   const [motivos, setMotivos] = useState(motivoData);
 
   const listarMotivos = async () => {
-    await fetchMotivos().then(res => {
-      setMotivos(res.data);
-    }).catch(() => {
-      notification('Error al listar', 'No se pudo listar los motivos', 'error', 'modalCrearIncidencia');
-    })
+    const response = await fetchMotivos();
+    setMotivos(response.data);
   }
 
   const initialMotivo = {
@@ -423,12 +420,12 @@ const IncidenciaAgregar = () => {
     dispatch(createMotivo1({ motivo }))
       .then(() => {
         listarMotivos();
-        notification('Motivo creado', 'Se ha creado el motivo correctamente', 'success', 'modalCrearIncidencia');
+        notification('MOTIVO CREADO', 'EL MOTIVO HA SIDO CREADO CORRECTAMENTE', 'success', 'modalCrearIncidencia');
         inputRefMotivo.current.value = "";
         setMotivo(initialMotivo);
       }).catch(err => {
         console.log(err);
-        notification('Error al crear', 'No se pudo crear el motivo', 'error', 'modalCrearIncidencia');
+        notification('ERROR DE REGISTRO', 'NO SE LOGRÓ CREAR EL MOTIVO', 'error', 'modalCrearIncidencia');
       })
   }
 
@@ -437,11 +434,8 @@ const IncidenciaAgregar = () => {
   const [origenes, setOrigenes] = useState(origenData);
 
   const listarOrigenes = async () => {
-    await fetchOrigen().then(res => {
-      setOrigenes(res.data);
-    }).catch(() => {
-      notification('Error al listar', 'No se pudo listar los motivos', 'error', 'modalCrearIncidencia');
-    })
+    const response = await fetchOrigen();
+    setOrigenes(response.data);
   }
 
   const initialOrigen = {
@@ -459,12 +453,12 @@ const saveOrigen = () => {
     dispatch(createOrigen1({ origen }))
         .then(() => {
           listarOrigenes();
-          notification('Origen creado', 'Se ha creado el origen correctamente', 'success', 'modalCrearIncidencia');
+          notification('ORIGEN CREADO', 'EL ORIGEN HA SIDO CREADO CORRECTAMENTE', 'success', 'modalCrearIncidencia');
           inputRefOrigen.current.value = "";
           setOrigen(initialOrigen);
         }).catch(err => {
             console.log(err);
-            notification('Error al crear', 'No se pudo crear el origen', 'error', 'modalCrearIncidencia');
+            notification('ERROR DE REGISTRO', 'NO SE LOGRÓ CREAR EL ORIGEN', 'error', 'modalCrearIncidencia');
         })
 }
 
@@ -498,14 +492,14 @@ const saveOrigen = () => {
               <Stack direction={'column'} spacing={2} mt={2} hidden={radioUserValue === 'mismo'} >
                 <Tabs variant="enclosed-colored" w="full" size={'md'}>
                   <TabList textAlign="center" justifyContent="center">
-                    <Tab _focus={{ boxShadow: "none" }} defaultChecked={true}>BUSQUEDA POR APELLIDOS</Tab>
-                    <Tab _focus={{ boxShadow: "none" }}>BUSQUEDA POR DNI</Tab>
+                    <Tab _focus={{ boxShadow: "none" }} defaultChecked={true} fontWeight="semibold">BUSQUEDA POR APELLIDOS</Tab>
+                    <Tab _focus={{ boxShadow: "none" }} fontWeight="semibold">BUSQUEDA POR DNI</Tab>
                   </TabList>
                   <TabPanels>
                     <TabPanel>
                       <HStack spacing={10} mt={2}>
                         <FormControl zIndex={0}>
-                          <FormLabel>BUSQUEDA POR APELLIDO DEL USUARIO QUIEN NOTIFICÓ</FormLabel>
+                          <FormLabel fontWeight="semibold">BUSQUEDA POR APELLIDO DEL USUARIO QUIEN NOTIFICÓ</FormLabel>
                           <InputGroup>
                             <InputRightElement
                               children={
@@ -533,7 +527,7 @@ const saveOrigen = () => {
                             <ModalCloseButton _focus={{ boxShadow: "none" }} onClick={handleCloseModalSearch1} />
                             <ModalBody pb={6}>
                               <FormControl>
-                                <FormLabel>LISTA DE USUARIOS</FormLabel>
+                                <FormLabel fontWeight="semibold">LISTA DE USUARIOS</FormLabel>
                                 <Select
                                   placeholder=" SELECCIONE UN USUARIO "
                                   onChange={handleChangeUsuario1}
@@ -553,7 +547,7 @@ const saveOrigen = () => {
                         </Modal>
 
                         <FormControl isRequired>
-                          <FormLabel>NOMBRE DEL USUARIO QUIEN NOTIFICÓ</FormLabel>
+                          <FormLabel fontWeight="semibold">NOMBRE DEL USUARIO QUIEN NOTIFICÓ</FormLabel>
                           <Input placeholder='NOMBRES APELLIDOS' value={usuarioDataNombre1 ? usuarioDataNombre1 : ''} readOnly />
                         </FormControl>
                       </HStack>
@@ -561,7 +555,7 @@ const saveOrigen = () => {
                     <TabPanel>
                       <HStack spacing={10} mt={2}>
                         <FormControl zIndex={0}>
-                          <FormLabel>BUSQUEDA POR DNI</FormLabel>
+                          <FormLabel fontWeight="semibold">BUSQUEDA POR DNI</FormLabel>
                           <InputGroup >
                             <InputRightElement
                               children={
@@ -578,25 +572,19 @@ const saveOrigen = () => {
                           </InputGroup>
                         </FormControl>
                         <FormControl isRequired>
-                          <FormLabel>NOMBRE DEL USUARIO QUIEN NOTIFICÓ</FormLabel>
+                          <FormLabel fontWeight="semibold">NOMBRE DEL USUARIO QUIEN NOTIFICÓ</FormLabel>
                           <Input placeholder='NOMBRES APELLIDOS' value={dataNombresNotifico ? dataNombresNotifico : ''} readOnly />
                         </FormControl>
                       </HStack>
                     </TabPanel>
                   </TabPanels>
                 </Tabs>
-                {/* <RadioGroup onChange={handleChangeRadio} value={radioValue} mt={2}>
-                <Stack direction='row'>
-                  <Radio size='md' value='apellido' _focus={{ boxShadow: "none" }} defaultChecked={true}>BUSQUEDA POR APELLIDO</Radio>
-                  <Radio size='md' value='dni' _focus={{ boxShadow: "none" }}>BUSQUEDA POR DNI</Radio>
-                </Stack>
-              </RadioGroup> */}
               </Stack>
 
               <Divider borderWidth="1px" borderColor={'#0078ff'} />
 
               <HStack spacing={2} mt={2} mb={2} justify="space-between">
-                <Text fontWeight={'semibold'}>USUARIO QUIEN TIENE EL PROBLEMA</Text>
+                <Text fontWeight="semibold">USUARIO QUIEN TIENE EL PROBLEMA</Text>
                 <RadioGroup onChange={handleChangeRadio} value={radioValue} mt={2}>
                   <Stack direction='row'>
                     <Radio size='md' value='apellido' _focus={{ boxShadow: "none" }} defaultChecked={true}>BUSCAR POR APELLIDO</Radio>
@@ -607,7 +595,7 @@ const saveOrigen = () => {
 
               <HStack spacing={10} mt={2} hidden={radioValue === 'apellido'} >
                 <FormControl isRequired={radioValue === 'dni'} zIndex={0}>
-                  <FormLabel>BUSQUEDA POR DNI</FormLabel>
+                  <FormLabel fontWeight="semibold">BUSQUEDA POR DNI</FormLabel>
                   <InputGroup >
                     <InputRightElement
                       children={
@@ -624,14 +612,14 @@ const saveOrigen = () => {
                   </InputGroup>
                 </FormControl>
                 <FormControl isRequired>
-                  <FormLabel>NOMBRE DEL USUARIO QUIEN TIENE EL PROBLEMA</FormLabel>
+                  <FormLabel fontWeight="semibold">NOMBRE DEL USUARIO QUIEN TIENE EL PROBLEMA</FormLabel>
                   <Input placeholder='NOMBRES APELLIDOS' value={dataNombres ? dataNombres : ''} readOnly />
                 </FormControl>
               </HStack>
 
               <HStack spacing={10} mt={2} hidden={radioValue === 'dni'}>
                 <FormControl isRequired={radioValue === 'apellido'} zIndex={0}>
-                  <FormLabel>BUSQUEDA POR APELLIDOS</FormLabel>
+                  <FormLabel fontWeight="semibold">BUSQUEDA POR APELLIDOS</FormLabel>
                   <InputGroup>
                     <InputRightElement
                       children={
@@ -659,7 +647,7 @@ const saveOrigen = () => {
                     <ModalCloseButton _focus={{ boxShadow: "none" }} onClick={handleCloseModalSearch} />
                     <ModalBody pb={6}>
                       <FormControl>
-                        <FormLabel>LISTA DE USUARIOS</FormLabel>
+                        <FormLabel fontWeight="semibold">LISTA DE USUARIOS</FormLabel>
                         <Select
                           placeholder=" SELECCIONE UN USUARIO "
                           onChange={handleChangeUsuario}
@@ -679,7 +667,7 @@ const saveOrigen = () => {
                 </Modal>
 
                 <FormControl isRequired>
-                  <FormLabel>NOMBRE DEL USUARIO</FormLabel>
+                  <FormLabel fontWeight="semibold">NOMBRE DEL USUARIO</FormLabel>
                   <Input placeholder='NOMBRES APELLIDOS' value={usuarioDataNombre ? usuarioDataNombre : ''} readOnly />
                 </FormControl>
               </HStack>
@@ -718,10 +706,10 @@ const saveOrigen = () => {
                       <PopoverContent _focus={{ boxShadow: "none" }}>
                         <PopoverArrow />
                         <PopoverCloseButton _focus={{ boxShadow: "none" }} />
-                        <PopoverHeader>AGREGAR NUEVO</PopoverHeader>
+                        <PopoverHeader fontWeight="semibold">AGREGAR NUEVO</PopoverHeader>
                         <PopoverBody>
                           <FormControl>
-                            <FormLabel>ORIGEN</FormLabel>
+                            <FormLabel fontWeight="semibold">ORIGEN</FormLabel>
                             <Input
                               textTransform={'uppercase'}
                               placeholder="ORIGEN INCIDENCIA"
@@ -768,10 +756,10 @@ const saveOrigen = () => {
                       <PopoverContent _focus={{ boxShadow: "none" }}>
                         <PopoverArrow />
                         <PopoverCloseButton _focus={{ boxShadow: "none" }} />
-                        <PopoverHeader>AGREGAR NUEVO</PopoverHeader>
+                        <PopoverHeader fontWeight="semibold">AGREGAR NUEVO</PopoverHeader>
                         <PopoverBody>
                           <FormControl>
-                            <FormLabel>MOTIVO</FormLabel>
+                            <FormLabel fontWeight="semibold">MOTIVO</FormLabel>
                             <Input
                               textTransform={'uppercase'}
                               placeholder="MOTIVO INCIDENCIA"
@@ -810,7 +798,7 @@ const saveOrigen = () => {
                 </FormControl>
               </HStack>
               <FormControl mt={2} isRequired>
-                <FormLabel>DESCRIPCIÓN</FormLabel>
+                <FormLabel fontWeight="semibold">DESCRIPCIÓN</FormLabel>
                 <ReactQuill
                   theme="snow"
                   formats={formats}
@@ -828,7 +816,7 @@ const saveOrigen = () => {
                 />
               </FormControl>
               <FormControl mt={2}>
-                <FormLabel>ARCHIVO(opcional)</FormLabel>
+                <FormLabel fontWeight="semibold">ARCHIVO(opcional)</FormLabel>
                 <Input
                   type='file'
                   onChange={handleSubmitFile}

@@ -12,11 +12,11 @@ export const createPersonaOrgano = (idpersona, idOrgano) => {
       'POST'
     );
     if (response.status === 200 || response.status === 201) {
-      notification('Organo asiganado', 'Organo ha sido asiganado correctamente.', 'success', 'modalOrganoAsignacion');
+      notification('ORGANO ASIGNADO', 'EL ORGANO HA SIDO ASIGNADO CORRECTAMENTE', 'success', 'modalOrganoAsignacion');
     } else if (response.status === 422) {
-      notification('Error de asignación', 'No se puede asignar este organo', 'error', 'modalOrganoAsignacion');
+      notification('ERROR DE ASIGNACIÓN', 'NO SE PUEDE ASIGNAR ESTE ORGANO', 'error', 'modalOrganoAsignacion');
     } else {
-      notification('Error de asignacion', 'No se pudo asignar este organo', 'error', 'modalOrganoAsignacion');
+      notification('ERROR DE ASIGNACIÓN', 'NO SE LOGRÓ ASIGNAR EL ORGANO, INTENTE DE NUEVO', 'error', 'modalOrganoAsignacion');
     }
   };
 };
@@ -45,9 +45,9 @@ export const deletePersonaOrgano = (id) => {
     const response = await fetchToken(`personaorganos/${id}`, '', 'DELETE');
 
     if (response.status === 200 || response.status === 201) {
-      notification('Eliminado', 'Se ha eliminado correctamente', 'success', 'modalOrganoAsignacion');
+      notification('REGISTRO ELIMINADO', 'EL REGISTRO SE LOGRÓ ELIMINAR CORRECTAMENTE', 'success', 'modalOrganoAsignacion');
     } else {
-      notification('No se pudo eliminar', 'No se pudo eliminar correctamente', 'error', 'modalOrganoAsignacion');
+      notification('ERROR AL ELIMINAR', 'NO SE LOGRÓ ELIMINAR EL REGISTRO', 'error', 'modalOrganoAsignacion');
     }
   };
 };

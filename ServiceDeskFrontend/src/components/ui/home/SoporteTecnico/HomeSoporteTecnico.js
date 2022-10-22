@@ -10,21 +10,36 @@ const HomeSoporte = () => {
     const [autorFrase, setAutorFrase] = useState('');
     const [isLoaded, setIsLoaded] = useState(false);
 
-    const fetchFrases = async () => {
+    // const fetchFrases = async () => {
+    //     try {
+    //         const response = await fetchFraseDia();
+    //         setFraseDia(response.data.phrase);
+    //         setAutorFrase((response.data.author).trimStart().split(" ").join(" "));
+    //         setIsLoaded(true);
+    //     } catch (error) {
+    //         setFraseDia('No se pudo cargar la frase del día');
+    //         setAutorFrase('Autor Anonimo');
+    //         setIsLoaded(true);
+    //     }
+    // }
+
+    const fetchFraseRandom = async() => {
         try {
-            const response = await fetchFraseDia();
-            setFraseDia(response.data.phrase);
-            setAutorFrase((response.data.author).trimStart().split(" ").join(" "));
+            const response = await fetch('https://agyl-frases-api.vercel.app/api/frases/frase/random/', { headers: { 'Allow-Control-Allow-Origin': '*' }});
+            const data = await response.json();
+            setFraseDia(data?.frase?.contenido);
+            setAutorFrase(data?.frase?.autor);
             setIsLoaded(true);
         } catch (error) {
             setFraseDia('No se pudo cargar la frase del día');
             setAutorFrase('Autor Anonimo');
             setIsLoaded(true);
+            console.log(error);
         }
     }
 
     useEffect(() => {
-        fetchFrases();
+        fetchFraseRandom();
     }, []);
 
     return (
@@ -101,7 +116,7 @@ const HomeSoporte = () => {
                                     w="full"
                                     h={"100px"}
                                     fit="cover"
-                                    visibility={['unset', 'unset', 'hidden']}
+                                    visibility={['unset', 'unset', 'unset', 'hidden']}
                                     src="https://images.unsplash.com/photo-1550439062-609e1531270e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
                                     alt="Article"
                                 />
@@ -125,7 +140,7 @@ const HomeSoporte = () => {
                                         }}
                                         mb={2}
                                     >
-                                        FRASE DEL DÍA
+                                        FRASE ALEATORIA
                                     </Link>
                                 </Skeleton>
                                 <SkeletonText mt='4' noOfLines={2} spacing='4' isLoaded={isLoaded}>

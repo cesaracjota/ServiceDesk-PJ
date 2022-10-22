@@ -75,7 +75,7 @@ export const Persona = () => {
     if(store.getState().cargo.checking){
       fetchDataCargos();
     }
-  },[]);
+  });
 
   return (
     <>

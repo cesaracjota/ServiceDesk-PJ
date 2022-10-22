@@ -1,554 +1,295 @@
-<!DOCTYPE html
-        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns:th="http://www.thymeleaf.org" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
-
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;" />
-  <!--[if !mso]-->
-  <!-- -->
-  <link href='https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700' rel="stylesheet">
-  <link href='https://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel="stylesheet">
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="format-detection" content="date=no" />
+	<meta name="format-detection" content="address=no" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="x-apple-disable-message-reformatting" />
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,400i,700,700i" rel="stylesheet" />
+	<title>ServiceDesk - Corte Superior De Justicia de Arequipa</title>
 
-  <title>Service Desk</title>
+	<style type="text/css" media="screen">
+		/* Linked Styles */
+		body { padding:0 !important; margin:0 !important; display:block !important; min-width:100% !important; width:100% !important; background:#ffffff; -webkit-text-size-adjust:none }
+		a { color:#000000; text-decoration:none }
+		p { padding:0 !important; margin:0 !important }
+		img { -ms-interpolation-mode: bicubic; /* Allow smoother rendering of resized image in Internet Explorer */ }
+		.mcnPreviewText { display: none !important; }
 
-  <style type="text/css">
+		.cke_editable,
+		.cke_editable a,
+		.cke_editable span,
+		.cke_editable a span { color: #000001 !important; }
+		/* Mobile styles */
+		@media only screen and (max-device-width: 480px), only screen and (max-width: 480px) {
+			.mobile-shell { width: 100% !important; min-width: 100% !important; }
+			.bg { background-size: 100% auto !important; -webkit-background-size: 100% auto !important; }
 
-        body {
-            width: 100%;
-            background-color: #ffffff;
-            font-family: arial, sans-serif!important;
-            margin: 0;
-            padding: 0;
-            -webkit-font-smoothing: antialiased;
-            mso-margin-top-alt: 0px;
-            mso-margin-bottom-alt: 0px;
-            mso-padding-alt: 0px 0px 0px 0px;
-        }
+			.text-header,
+			.m-center { text-align: center !important; }
 
-        p,
-        h1,
-        h2,
-        h3,
-        h4 {
-            margin-top: 0;
-            margin-bottom: 0;
-            padding-top: 0;
-            padding-bottom: 0;
-        }
+			.center { margin: 0 auto !important; }
+			.container { padding: 20px 10px !important }
 
-        span.preheader {
-            display: none;
-            font-size: 1px;
-        }
+			.td { width: 100% !important; min-width: 100% !important; }
 
-        html {
-            width: 100%;
-        }
+			.m-br-15 { height: 15px !important; }
+			.p30-15 { padding: 30px 15px !important; }
+			.p0-15-30 { padding: 0px 15px 30px 15px !important; }
+			.p0-15 { padding: 0px 15px !important; }
+			.mpb30 { padding-bottom: 30px !important; }
+			.mpb15 { padding-bottom: 15px !important; }
 
-        table {
-            font-size: 14px;
-            border: 0;
-        }
+			.m-td,
+			.m-hide { display: none !important; width: 0 !important; height: 0 !important; font-size: 0 !important; line-height: 0 !important; min-height: 0 !important; }
 
-        /* ----------- responsivity ----------- */
+			.m-block { display: block !important; }
 
-        @media only screen and (max-width: 640px) {
+			.fluid-img img { width: 100% !important; max-width: 100% !important; height: auto !important; }
 
-            /*------ top header ------ */
-            .main-header {
-                font-size: 20px !important;
-            }
+			.column,
+			.column-dir,
+			.column-top,
+			.column-empty,
+			.column-empty2,
+			.column-dir-top { float: left !important; width: 100% !important; display: block !important; }
 
-            .main-section-header {
-                font-size: 28px !important;
-            }
+			.column-empty { padding-bottom: 30px !important; }
+			.column-empty2 { padding-bottom: 10px !important; }
 
-            .show {
-                display: block !important;
-            }
-
-            .hide {
-                display: none !important;
-            }
-
-            .align-center {
-                text-align: center !important;
-            }
-
-            .no-bg {
-                background: none !important;
-            }
-
-            /*----- main image -------*/
-            .main-image img {
-                width: 440px !important;
-                height: auto !important;
-            }
-
-            /* ====== divider ====== */
-            .divider img {
-                width: 440px !important;
-            }
-
-            /*-------- container --------*/
-            .container590 {
-                width: 440px !important;
-            }
-
-            .container580 {
-                width: 400px !important;
-            }
-
-            .main-button {
-                width: 220px !important;
-            }
-
-            /*-------- secions ----------*/
-            .section-img img {
-                width: 320px !important;
-                height: auto !important;
-            }
-
-            .team-img img {
-                width: 100% !important;
-                height: auto !important;
-            }
-        }
-
-        @media only screen and (max-width: 479px) {
-
-            /*------ top header ------ */
-            .main-header {
-                font-size: 18px !important;
-            }
-
-            .main-section-header {
-                font-size: 26px !important;
-            }
-
-            /* ====== divider ====== */
-            .divider img {
-                width: 280px !important;
-            }
-
-            /*-------- container --------*/
-            .container590 {
-                width: 280px !important;
-            }
-
-            .container590 {
-                width: 280px !important;
-            }
-
-            .container580 {
-                width: 260px !important;
-            }
-
-            /*-------- secions ----------*/
-            .section-img img {
-                width: 280px !important;
-                height: auto !important;
-            }
-        }
-    </style>
+			.content-spacing { width: 15px !important; }
+		}
+	</style>
 </head>
+<body class="body" style="padding:0 !important; margin:0 !important; display:block !important; min-width:100% !important; width:100% !important; background:#ffffff; -webkit-text-size-adjust:none;">
+<span class="mcnPreviewText" style="display:none; font-size:0px; line-height:0px; max-height:0px; max-width:0px; opacity:0; overflow:hidden; visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#fdfefe">
+	<tr>
+		<td align="center" valign="top">
+			<table width="650" border="0" cellspacing="0" cellpadding="0" class="mobile-shell">
+				<tr>
+					<td class="td container" style="width:650px; min-width:650px; font-size:0pt; line-height:0pt; margin:0; font-weight:normal; padding:55px 0px 0px 0px;">
+						<!-- Header -->
+						<table width="100%" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td class="p30-15 tbrr" style="padding: 0px 0px 40px 0px; border-radius:12px 12px 0px 0px;">
+									<table width="100%" style="background-color: #F8F9F9; padding: 15px 10px 15px 10px" border="0" cellspacing="0" cellpadding="0">
+										<tr>
+											<th class="column-top" width="145" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top;">
+												<table width="100%" border="0" cellspacing="0" cellpadding="0">
+													<tr>
+														<td class="img m-center" style="font-size:0pt; line-height:0pt; text-align:left;"><img src="https://res.cloudinary.com/dx6ucne8o/image/upload/v1666315574/LOGO/logo_pj_iqbteh.png" width="60" height="auto" mc:edit="image_1" style="max-width:140px;" border="0" alt="Service Desk - CSJAR" /></td>
+													</tr>
+												</table>
+											</th>
+											<th class="column-empty2" width="1" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top;"></th>
+											<th class="column" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal;">
+												<table width="100%" border="0" cellspacing="0" cellpadding="0">
+													<tr>
+														<td class="text-header" style="color:#333333; font-family:'Poppins', Arial, sans-serif; font-size:15px; line-height:18px; text-align:right; text-transform:uppercase; font-weight:600;" th:text="${fecha_registro}"><div mc:edit="text_1">
+															<a style="color:#333333; text-decoration:none;"></a></div>
+														</td>
+													</tr>
+												</table>
+											</th>
+										</tr>
+									</table>
+								</td>
+							</tr>
+							<tr>
+								<td style="padding-bottom: 40px;">
+									<table width="100%" border="0" cellspacing="0" cellpadding="0">
+										<tr>
+											<td width="126" bgcolor="#c53030" height="10" class="img" style="font-size:0pt; line-height:0pt; text-align:left;">&nbsp;</td>
+											<td class="img" width="5" style="font-size:0pt; line-height:0pt; text-align:left;"></td>
+											<td width="126" bgcolor="#d69e2e" height="10" class="img" style="font-size:0pt; line-height:0pt; text-align:left;">&nbsp;</td>
+											<td class="img" width="5" style="font-size:0pt; line-height:0pt; text-align:left;"></td>
+											<td width="126" bgcolor="#38a169" height="10" class="img" style="font-size:0pt; line-height:0pt; text-align:left;">&nbsp;</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+						<!-- END Header -->
 
-<body class="respond" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
-<!-- pre-header -->
-<table style="display:none!important;">
-  <tr>
-    <td>
-      <div
-              style="overflow:hidden;display:none;font-size:1px;color:#ffffff;line-height:1px;font-family:Arial;maxheight:0px;max-width:0px;opacity:0;">
-        Pre-header Service Desk
-      </div>
-    </td>
-  </tr>
+						<!-- Hero Image -->
+						<div mc:repeatable="Select" mc:variant="Hero Image">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+								<tr>
+									<td class="h2 pb25" style="color:#a1152c; font-family:'Poppins', Arial, sans-serif; font-size:28px; line-height:32px; text-align:center; font-weight:bold; padding-bottom:35px;" th:text="${initialValue}"><div mc:edit="text_2"></div></td>
+								</tr>
+								<tr>
+									<td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:center;"><img src="https://res.cloudinary.com/dx6ucne8o/image/upload/v1666315577/LOGO/fondo_zbbiik.jpg" border="0" width="650" height="auto" mc:edit="image_2" style="max-width:650px;" alt="Service Desk - CSJAR" /></td>
+								</tr>
+							</table>
+
+						</div>
+						<!-- END Hero Image -->
+
+
+
+						<!-- Intro -->
+						<div mc:repeatable="Select" mc:variant="Intro">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+								<tr>
+									<td>
+										<table width="100%" border="0" cellspacing="0" cellpadding="0">
+											<tr>
+												<td class="p30-15" style="padding: 35px 0px 0px 0px;">
+													<table width="100%" border="0" cellspacing="0" cellpadding="0">
+														<tr>
+															<td class="h4 pb10" style="color:#a1152c; font-family:'Poppins', Arial, sans-serif; font-size:20px; line-height:28px; text-align:center; font-weight:bold; padding-bottom:10px;"><div mc:edit="text_5">FECHA REGISTRO DE INCIDENCIA</div></td>
+														</tr>
+														<tr>
+															<td class="text pb25" style="color:#000000; font-family:'Poppins', Arial,sans-serif; font-size:16px; line-height:26px; text-align:center; padding-bottom:25px;" th:text="${fecha_registro}"><div mc:edit="text_6"></div></td>
+														</tr>
+														<tr>
+															<td class="h4 pb10" style="color:#a1152c; font-family:'Poppins', Arial, sans-serif; font-size:20px; line-height:28px; text-align:center; font-weight:bold; padding-bottom:10px;"><div mc:edit="text_5">PERSONA QUIEN REGISTRÓ</div></td>
+														</tr>
+														<tr>
+															<td class="text pb25" style="color:#000000; font-family:'Poppins', Arial,sans-serif; font-size:16px; line-height:26px; text-align:center; padding-bottom:25px;" th:text="${persona_registro}"><div mc:edit="text_6"></div></td>
+														</tr>
+													</table>
+													<table width="100%" border="0" cellspacing="0" cellpadding="0">
+														<tr>
+															<td class="p0-15-30" style="padding: 0px 0px 0px 0px;">
+																<table width="100%" border="0" cellspacing="0" cellpadding="0">
+																	<tr>
+																		<th class="column-top" width="310" style="font-size:0pt; line-height:0pt; padding:0; margin:0; vertical-align:top;">
+																			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+																				<tr>
+																					<td class="h4 pb10" style="color:#a1152c; font-family:'Poppins', Arial, sans-serif; font-size:20px; line-height:28px; text-align:center; font-weight:bold; padding-bottom:10px;"><div mc:edit="text_5">ORIGEN INCIDENCIA</div></td>
+																				</tr>
+																				<tr>
+																					<td class="text pb25" style="color:#000000; font-family:'Poppins', Arial,sans-serif; font-size:16px; line-height:26px; text-align:center; font-weight:normal; padding-bottom:25px;" th:text="${origen}"><div mc:edit="text_6"></div></td>
+																				</tr>
+																			</table>
+																		</th>
+
+																		<th class="column-top" width="310" style="font-size:0pt; line-height:0pt; padding:0; margin:0; vertical-align:top;">
+																			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+																				<tr>
+																					<td class="h4 pb10" style="color:#a1152c; font-family:'Poppins', Arial, sans-serif; font-size:20px; line-height:28px; text-align:center; font-weight:bold; padding-bottom:10px;"><div mc:edit="text_8">MOTIVO INCIDENCIA</div></td>
+																				</tr>
+																				<tr>
+																					<td class="text pb25" style="color:#000000; font-family:'Poppins', Arial,sans-serif; font-size:16px; line-height:26px; text-align:center; font-weight:normal; padding-bottom:25px;" th:text="${motivo}"><div mc:edit="text_9"></div></td>
+																				</tr>
+																			</table>
+																		</th>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+														<tr>
+															<td>
+																<table width="100%" border="0" cellspacing="0" cellpadding="0">
+																	<tr>
+																		<td width="126" bgcolor="#c53030" height="10" class="img" style="font-size:0pt; line-height:0pt; text-align:left;">&nbsp;</td>
+																		<td class="img" width="5" style="font-size:0pt; line-height:0pt; text-align:left;"></td>
+																		<td width="126" bgcolor="#d69e2e" height="10" class="img" style="font-size:0pt; line-height:0pt; text-align:left;">&nbsp;</td>
+																		<td class="img" width="5" style="font-size:0pt; line-height:0pt; text-align:left;"></td>
+																		<td width="126" bgcolor="#38a169" height="10" class="img" style="font-size:0pt; line-height:0pt; text-align:left;">&nbsp;</td>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<!-- END Intro -->
+
+						<!-- CTA -->
+						<div mc:repeatable="Select" mc:variant="CTA">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+								<tr>
+									<td style="padding: 40px 30px 40px 30px;" class="p30-15">
+										<table width="100%" border="0" cellspacing="0" cellpadding="0">
+											<!-- Button -->
+											<tr mc:hideable>
+												<td align="center">
+													<table class="center" border="0" cellspacing="0" cellpadding="0" style="text-align:center;">
+														<tr>
+															<td class="text-button" style="background:#b40001; color:#ffffff; font-family:'Poppins', Arial, sans-serif; font-size:16px; font-weight: bold; line-height:18px; padding:12px 80px; text-align:center; text-transform:uppercase;"><div mc:edit="text_13"><a href="http://172.28.206.57:8080/ServiceDesk/" target="_blank" class="link" style="color:#ffffff; text-decoration:none;"><span class="link" style="color:#ffffff; text-decoration:none;">VER AHORA</span></a></div></td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+											<!-- END Button -->
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<!-- END CTA -->
+
+						<!-- Footer -->
+						<table width="100%" style="background-color: #333333;" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td class="p30-15 bbrr" style="padding: 20px 20px;">
+									<table width="100%" border="0" cellspacing="0" cellpadding="0">
+										<tr>
+											<td align="center" style="padding-bottom: 30px;">
+												<table border="0" cellspacing="0" cellpadding="0">
+													<tr>
+														<td class="img" width="55" style="font-size:0pt; line-height:0pt; text-align:center;">
+															<a href="https://www.facebook.com/cortedearequipa?_rdc=1&_rdr"
+															   style="display: block; border-style: none !important; border: 0 !important;" target="_blank">
+																<img border="0" style="display: block; max-width: 40px;"
+																	 src="https://img.icons8.com/fluency/344/facebook-new.png" mc:edit="image_15" alt="Service Desk - CSJAR" />
+															</a>
+														</td>
+														<td class="img" width="55" style="font-size:0pt; line-height:0pt; text-align:center;">
+															<a href="https://www.youtube.com/channel/UCvCLoltBg5y32b0oBG8j0EQ"
+															   style="display: block; border-style: none !important; border: 0 !important;" target="_blank">
+																<img border="0" style="display: block; max-width: 35px;"
+																	 src="https://img.icons8.com/fluency/344/youtube-play.png" mc:edit="image_15" alt="Service Desk - CSJAR" />
+															</a>
+														</td>
+														<td class="img" width="55" style="font-size:0pt; line-height:0pt; text-align:center;">
+															<a href="https://www.linkedin.com/company/poder-judicial-del-per%C3%BA/mycompany/"
+															   style="display: block; border-style: none !important; border: 0 !important;" target="_blank">
+																<img src="https://img.icons8.com/fluency/344/linkedin-circled.png" mc:edit="image_15" style="max-width: 35px;" />
+															</a>
+														</td>
+														<td class="img" width="55" style="font-size:0pt; line-height:0pt; text-align:center;">
+															<a href="https://twitter.com/Poder_Judicial_"
+															   style="display: block; border-style: none !important; border: 0 !important;" target="_blank">
+																<img src="https://img.icons8.com/fluency/344/twitter.png" mc:edit="image_15" style="max-width: 35px;" />
+															</a>
+														</td>
+													</tr>
+												</table>
+											</td>
+										</tr>
+										<tr>
+											<td class="text-footer1 pb10" style="color:#e2e2e2; font-family:'Poppins', Arial,sans-serif; font-size:14px; line-height:20px; text-align:center; padding-bottom:10px;">
+												<div mc:edit="text_14">
+													Corte Superior de Justicia de Arequipa - Plaza España S/N Arequipa
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td class="text-footer2 pb20" style="color:#e2e2e2; font-family:'Poppins', Arial,sans-serif; font-size:12px; line-height:26px; text-align:center; padding-bottom:20px;"><div mc:edit="text_15">© 2022 ServiceDesk, Inc. All rights reserved.</div></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+						<!-- END Footer -->
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
 </table>
-<!-- pre-header end -->
-<!-- header -->
-<table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="ffffff">
-
-  <tr>
-    <td align="center">
-      <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590">
-
-        <tr>
-          <td height="25" style="font-size: 25px; line-height: 25px;">&nbsp;</td>
-        </tr>
-
-        <tr>
-          <td align="center">
-
-            <table border="0" align="center" width="590" cellpadding="0" cellspacing="0"
-                   class="container590">
-
-              <tr>
-                <td align="center" height="70" style="height:70px;">
-                  <a href="" style="display: block; border-style: none !important; border: 0 !important;">
-                    <img width="100" border="0" style="display: block; width: 250px;" src="https://i.postimg.cc/SK2vq8pp/csjar.jpg" alt="Service Desk"/>
-                  </a>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-
-        <tr>
-          <td height="25" style="font-size: 25px; line-height: 25px;">&nbsp;</td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<!-- end header -->
-
-<!-- big image section -->
-<table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="ffffff" class="bg_color">
-
-  <tr>
-    <td align="center">
-      <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590">
-        <tr>
-          <td align="center" class="section-img">
-            <div class="bg-image hover-overlay">
-              <a href=""
-                 style=" border-style: none !important; display: block; border: 0 !important;">
-                <img class="img-fluid rounded z-depth-1"
-                     src="https://lh4.googleusercontent.com/-Ma9azyt6JQQ/TXP8AtSSpSI/AAAAAAAAAVw/v_tF31075GY/s1600/DSC01482.JPG"
-                     style="display: block; width: 590px; object-fit: cover; max-height: 250px;"
-                     width="590" border="0" alt="Service Desk - CSJAR" />
-              </a>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td height="20" style="font-size: 20px; line-height: 20px;">&nbsp;</td>
-        </tr>
-        <tr>
-          <td align="center"
-              style="color: #9B2C2C; font-size: 24px; font-family: Quicksand, Calibri, sans-serif; font-weight:700;letter-spacing: 3px; line-height: 35px;"
-              class="main-header" th:text="${initialValue}">
-          </td>
-        </tr>
-
-        <tr>
-          <td height="10" style="font-size: 10px; line-height: 10px;">&nbsp;</td>
-        </tr>
-
-        <tr>
-          <td align="center">
-            <table border="0" width="40" align="center" cellpadding="0" cellspacing="0"
-                   bgcolor="eeeeee">
-              <tr>
-                <td height="2" style="font-size: 2px; line-height: 2px;">&nbsp;</td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-
-        <tr>
-          <td height="20" style="font-size: 20px; line-height: 20px;">&nbsp;</td>
-        </tr>
-
-        <tr>
-          <td align="center">
-            <table border="0" width="600" align="center" cellpadding="0" cellspacing="0"
-                   class="container590">
-              <thead>
-              <tr>
-                <th style="text-align: center; font-weight: 800; color: #9B2C2C;">FECHA REGISTRO INCIDENCIA</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <td style="text-align: center; font-weight: 100;" th:text="${fecha_registro}"></td>
-              </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
-
-        <tr>
-          <td align="center">
-            <table border="0" width="600" align="center" cellpadding="0" cellspacing="0"
-                   class="container590">
-              <thead>
-              <tr>
-                <th style="text-align: center; font-weight: 800; color: #9B2C2C;">ORIGEN INCIDENCIA</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <td style="text-align: center; font-weight: 100;" th:text="${origen}"></td>
-              </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
-
-        <tr>
-          <td height="5" style="font-size: 20px; line-height: 5px;">&nbsp;</td>
-        </tr>
-
-        <tr>
-          <td align="center">
-            <table border="0" width="600" align="center" cellpadding="0" cellspacing="0"
-                   class="container590">
-              <thead>
-              <tr>
-                <th style="text-align: center; font-weight: 800; color: #9B2C2C;">MOTIVO INCIDENCIA</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <td style="text-align: center; font-weight: 100;" th:text="${motivo}"></td>
-              </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
-
-        <tr>
-          <td height="5" style="font-size: 20px; line-height: 5px;">&nbsp;</td>
-        </tr>
-
-        <tr>
-          <td align="center">
-            <table border="0" width="600" align="center" cellpadding="0" cellspacing="0"
-                   class="container590">
-              <thead>
-              <tr>
-                <th style="text-align: center; font-weight: 800; color: #9B2C2C;">PERSONA QUIEN REGISTRÓ</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <td style="text-align: center; font-weight: 100;" th:text="${persona_registro}"></td>
-              </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
-
-
-
-        <tr>
-          <td height="25" style="font-size: 25px; line-height: 25px;">&nbsp;</td>
-        </tr>
-
-        <tr>
-          <td align="center">
-            <table border="0" align="center" width="160" cellpadding="0" cellspacing="0" bgcolor="9B2C2C">
-              <tr>
-                <td height="10" style="font-size: 10px; line-height: 10px;">&nbsp;</td>
-              </tr>
-
-              <tr>
-                <td align="center" style="color: #ffffff; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 26px;">
-                  <div style="line-height: 26px;">
-                    <a href="http://localhost:3000/dashboard/" style="color: #ffffff; text-decoration: none;">VER AHORA</a>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td height="10" style="font-size: 10px; line-height: 10px;">&nbsp;</td>
-              </tr>
-
-            </table>
-          </td>
-        </tr>
-
-
-        <tr>
-          <td height="40" style="font-size: 40px; line-height: 40px;">&nbsp;</td>
-        </tr>
-
-
-      </table>
-
-    </td>
-  </tr>
-
-</table>
-<!-- end section -->
-
-<table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="#f2f2f2">
-
-  <tr>
-    <td height="25" style="font-size: 25px; line-height: 25px;">&nbsp;</td>
-  </tr>
-
-  <tr>
-    <td align="center">
-
-      <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590">
-
-        <tr>
-          <td>
-            <table border="0" align="left" cellpadding="0" cellspacing="0"
-                   style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;"
-                   class="container590">
-              <tr>
-                <td align="center"
-                    style="color: #aaaaaa; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
-              <tr>
-                <!-- logo -->
-                <td align="center">
-                  <a href=""
-                     style="display: block; border-style: none !important; border: 0 !important;">
-                    <img width="80" border="0" style="display: block; width: 50px;"
-                         src="https://i.postimg.cc/28JXxZ8J/logopj.png" alt="" />
-                  </a>
-                </td>
-              </tr>
-
-              <tr>
-                <td height="10" style="font-size: 25px; line-height: 10px;">&nbsp;</td>
-              </tr>
-
-              <tr>
-                <td align="center"
-                    style="font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 23px;"
-                    class="text_color">
-                  <div
-                          style="color: #000000; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; font-weight: 600; mso-line-height-rule: exactly; line-height: 23px;">
-
-                    CORREO: <br />
-                    <a href="mailto:" style="color: #393939; font-size: 14px; font-family: 'Hind Siliguri', Calibri, Sans-serif; font-weight: 400;">arequipacontact@pj.gob.pe</a>
-
-                  </div>
-                </td>
-              </tr>
-              </td>
-              </tr>
-            </table>
-
-            <table border="0" align="left" width="5" cellpadding="0" cellspacing="0"
-                   style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;" class="container590">
-              <tr>
-                <td height="20" width="5" style="font-size: 10px; line-height: 20px;">&nbsp;</td>
-              </tr>
-            </table>
-
-            <table border="0" align="right" cellpadding="0" cellspacing="0"
-                   style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;" class="container590">
-
-              <tr>
-                <td align="center">
-                  <table align="center" border="0" cellpadding="0" cellspacing="0px">
-                    <tr>
-                      <a href="https://www.facebook.com/mdbootstrap"
-                         style="display: block; border-style: none !important; border: 0 !important;">
-                        <img border="0" style="display: block; max-width: 40px;"
-                             src="https://img.icons8.com/glyph-neue/344/facebook-new.png" alt="" />
-                      </a>
-                    </tr>
-                    <div style="height: 5px;" />
-                    <tr>
-                      <a href="https://twitter.com/MDBootstrap"
-                         style="display: block; border-style: none !important; border: 0 !important;">
-                        <img border="0" style="display: block; max-width: 35px;"
-                             src="https://img.icons8.com/ios-filled/344/linkedin-2--v1.png" alt="" />
-                      </a>
-                    </tr>
-                    <div style="height: 5px;" />
-                    <tr>
-                      <a href="https://plus.google.com/u/0/b/107863090883699620484/107863090883699620484/posts"
-                         style="display: block; border-style: none !important; border: 0 !important;">
-                        <img src="https://img.icons8.com/ios-filled/344/twitter-circled--v2.png" style="max-width: 35px;" />
-                      </a>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-
-            </table>
-          </td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-
-  <tr>
-    <td height="25" style="font-size: 25px; line-height: 25px;">&nbsp;</td>
-  </tr>
-
-</table>
-
-<!-- footer ====== -->
-
-<table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="#9B2C2C">
-
-  <tr>
-    <td height="25" style="font-size: 25px; line-height: 25px;">&nbsp;</td>
-  </tr>
-
-  <tr>
-    <td align="center">
-
-      <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590">
-
-        <tr>
-          <td>
-            <table border="0" align="left" cellpadding="0" cellspacing="0"
-                   style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;"
-                   class="container590">
-              <tr>
-                <td align="center"
-                    style="color: #aaaaaa; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
-                  <div style="line-height: 24px;">
-
-                    <span style="color: #ffffff; font-weight: 700;">Service Desk - CSJAR</span>
-
-                  </div>
-                </td>
-              </tr>
-            </table>
-
-            <table border="0" align="left" width="5" cellpadding="0" cellspacing="0"
-                   style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;"
-                   class="container590">
-              <tr>
-                <td height="20" width="5" style="font-size: 20px; line-height: 20px;">&nbsp;</td>
-              </tr>
-            </table>
-
-            <table border="0" align="right" cellpadding="0" cellspacing="0"
-                   style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;"
-                   class="container590">
-
-              <tr>
-                <td align="center">
-                  <table align="center" border="0" cellpadding="0" cellspacing="0">
-                    <tr>
-                      <td align="center">
-                        <a style="font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;color: #ffffff; text-decoration: none;font-weight:bold;"
-                           href="{{UnsubscribeURL}}">SUSCRIBIRSE</a>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-
-            </table>
-          </td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-
-  <tr>
-    <td height="25" style="font-size: 25px; line-height: 25px;">&nbsp;</td>
-  </tr>
-
-</table>
-
-<!-- end footer ====== -->
 </body>
 </html>

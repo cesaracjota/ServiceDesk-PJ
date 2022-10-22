@@ -16,9 +16,9 @@ export const createMotivo = (data) => {
 
     if (response.status === 200 || response.status === 201) {
       dispatch(getMotivo(await loadMotivo()));
-      notification('Motivo registrado', 'El Motivo ha sido registrado correctamente.', 'success');
+      notification('MOTIVO CREADO', 'EL MOTIVO HA SIDO CREADO CORRECTAMENTE', 'success');
     } else {
-      notification('Error de registro', 'No se pudo registrar el Motivo', 'error');
+      notification('ERROR DE CREACIÓN', 'NO SE LOGRÓ CREAR EL MOTIVO', 'error');
     }
   };
 };
@@ -32,13 +32,6 @@ export const createMotivo1 = (data) => {
       },
       'POST'
     );
-
-    if (response.status === 200 || response.status === 201) {
-      // dispatch(getMotivo(await loadMotivo()));
-      // notification('Motivo registrado', 'El Motivo ha sido registrado correctamente.', 'success');
-    } else {
-      notification('Error de registro', 'No se pudo registrar el Motivo', 'error');
-    }
   };
 };
 
@@ -71,9 +64,9 @@ export const updateMotivo = data => {
 
     if (response.status === 200) {
       dispatch(getMotivo(await loadMotivo()));
-      notification('Motivo modificado', 'El motivo ha sido modificado correctamente.', 'success');
+      notification('MOTIVO MODIFICADO', 'EL MOTIVO HA SIDO MODIFICADO CORRECTAMENTE', 'success');
     } else {
-      notification('Error de modificación', 'No se pudo actualizar el motivo', 'error');
+      notification('ERROR DE MOFICICACIÓN', 'NO SE PUDO MODIFICAR EL MOTIVO', 'error');
     }
   };
 };
@@ -86,9 +79,9 @@ export const deleteMotivo = (id) => {
 
     if (response.status === 200) {
       dispatch(getMotivo(await loadMotivo()));
-      notification('Motivo eliminado correctamente', "Se ha eliminado correctame el motivo", 'success');
+      notification('MOTIVO ELIMINADO', "EL MOTIVO HA SIDO ELIMINADO CORRECTAMENTE", 'success');
     } else {
-      notification('No se pudo eliminar el Motivo', "No se ha logrado eliminar el motivo", 'error');
+      notification('ERROR AL ELIMINAR', "NO SE LOGRÓ ELIMINAR EL MOTIVO", 'error');
     }
   };
 };

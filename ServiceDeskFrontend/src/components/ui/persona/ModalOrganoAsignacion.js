@@ -45,10 +45,14 @@ export default function ModalOrganoAsignacion(props) {
 
   //State select organo
   const [organoSelect, setorganoSelect] = useState([
-    { value: 0, label: 'Seleccione una Sede' },
+    { value: 0, label: 'SELECCIONE UNA SEDE' },
   ]);
 
-  const [selectOrgano, setselectOrgano] = useState([{ value: 0, label: 'Seleccione una Sede' }]);
+  const selectOrgano = [{
+    value: 0,
+    label: 'SELECCIONE UNA SEDE',
+  }]
+
 
   const selectInputRef = useRef();
   const selectInputRefSede = useRef();
@@ -70,12 +74,12 @@ export default function ModalOrganoAsignacion(props) {
         organoData.filter(indice => indice.sede.idSede === value.value).map(organo => ({
           value: organo.idOrgano,
           label: organo.organo,
-        }))
-      );
+        })));
+      selectInputRef.current.setValue([{ value: 0, label: 'SELECCIONE UN ORGANO' }]);
     } else {
       selectInputRef.current.clearValue();
-      setorganoSelect([{ value: 0, label: 'Seleccione una Sede' }]);
-      selectInputRef.current.setValue([{ value: 0, label: 'Seleccione una Sede' }]);
+      setorganoSelect([{ value: 0, label: 'SELECCIONE UNA SEDE' }]);
+      selectInputRef.current.setValue([{ value: 0, label: 'SELECCIONE UNA SEDE' }]);
     }
   };
   //setear organo
@@ -83,7 +87,7 @@ export default function ModalOrganoAsignacion(props) {
     if (value !== null) {
       setorganoNombre(value.value);
     } else {
-      setorganoSelect([{ idOrgano: 0, organo: 'Seleccione una Sede' }]);
+      setorganoSelect([{ value: 0, label: 'SELECCIONE UNA SEDE' }]);
     }
   };
 
@@ -91,7 +95,7 @@ export default function ModalOrganoAsignacion(props) {
   const closeModal = () => {
     fetchDataPersonaOrgano(props.usuario.idpersona);
     setorganoNombre(null);
-    setorganoSelect([{ idOrgano: 0, organo: 'Seleccione una Sede' }]);
+    setorganoSelect([{ value: 0, label: 'SELECCIONE UNA SEDE' }]);
     props.cerrar();
 
   };
@@ -113,7 +117,7 @@ export default function ModalOrganoAsignacion(props) {
 
   const closeModalCreate = () => {
     setorganoNombre(null);
-    setorganoSelect([{ idOrgano: 0, organo: 'Seleccione una Sede' }]);
+    setorganoSelect([{ value: 0, label: 'SELECCIONE UNA SEDE' }]);
     fetchDataPersonaOrgano(props.usuario.idpersona);
     setOpenModalCreate(false);
   };
@@ -136,20 +140,20 @@ export default function ModalOrganoAsignacion(props) {
       .then(() => {
         setorganoNombre(null);
         selectInputRef.current.clearValue();
-        setorganoSelect([{ idOrgano: 0, organo: 'Seleccione una Sede' }]);
-        selectInputRef.current.setValue([{ value: 0, label: 'Seleccione una Sede' }]);
+        setorganoSelect([{ value: 0, label: 'SELECCIONE UNA SEDE' }]);
+        selectInputRef.current.setValue([{ value: 0, label: 'SELECCIONE UNA SEDE' }]);
         fetchDataPersonaOrgano(props.usuario.idpersona);
         selectInputRefSede.current.clearValue();
-        selectInputRefSede.current.setValue([{ value: 0, label: 'Seleccione una Sede' }]);
+        selectInputRefSede.current.setValue([{ value: 0, label: 'SELECCIONE UNA SEDE' }]);
 
       })
       .catch(err => {
         setorganoNombre(null);
         selectInputRef.current.clearValue();
-        setorganoSelect([{ idOrgano: 0, organo: 'Seleccione una Sede' }]);
-        selectInputRef.current.setValue([{ value: 0, label: 'Seleccione una Sede' }]);
+        setorganoSelect([{ value: 0, label: 'SELECCIONE UNA SEDE' }]);
+        selectInputRef.current.setValue([{ value: 0, label: 'SELECCIONE UNA SEDE' }]);
         selectInputRefSede.current.clearValue();
-        selectInputRefSede.current.setValue([{ value: 0, label: 'Seleccione una Sede' }]);
+        selectInputRefSede.current.setValue([{ value: 0, label: 'SELECCIONE UNA SEDE' }]);
       });
     closeModalCreate();
   };
@@ -173,16 +177,15 @@ export default function ModalOrganoAsignacion(props) {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>
+          <ModalHeader textAlign="center">
             ASIGNACION DE ORGANOS JURIDICCIONALES A SOPORTES TÉCNICOS
           </ModalHeader>
           <ModalCloseButton _focus={{ boxShadow: "none" }} />
           <ModalBody pb={6}>
             <HStack spacing={'10px'} mt={'10px'}>
               <FormControl>
-                <FormLabel>SEDE</FormLabel>
+                <FormLabel fontWeight="semibold">SEDE</FormLabel>
                 <Select
-                  placeholder="SELECCIONE UNA SEDE"
                   required
                   onChange={handleChangeSede}
                   isRequired
@@ -193,16 +196,18 @@ export default function ModalOrganoAsignacion(props) {
                     label: sede.sede,
                   }))}
                   ref={selectInputRefSede}
+                  placeholder="SELECCIONE UNA SEDE"
                 />
               </FormControl>
               <FormControl>
-                <FormLabel>ORGANO</FormLabel>
+                <FormLabel fontWeight="semibold">ORGANO</FormLabel>
                 <Select
                   onChange={handleChangeOrgano}
                   isClearable
                   options={organoSelect}
                   defaultValue={selectOrgano[0]}
                   ref={selectInputRef}
+                  placeholder="SELECCIONE UN ORGANO"
                 />
               </FormControl>
             </HStack>

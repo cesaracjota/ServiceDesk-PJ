@@ -112,6 +112,7 @@ const LinkItemsSoporteTecnico = [
   { name: 'OFICINAS', icon: FaBuilding, ruta: '/dashboard/oficinas' },
   { name: 'MOTIVO INCIDENCIA', icon: FaQuestionCircle, ruta: '/dashboard/motivos' },
   { name: 'ORIGEN INCIDENCIA', icon: FaExclamationCircle, ruta: '/dashboard/origen-incidencia' },
+  { name: 'USUARIOS', icon: FaUsers, ruta: '/dashboard/personas' },
   { name: 'CARGOS', icon: FaBox, ruta: '/dashboard/cargos' },
   { name: 'TABLA DE CONOCIMIENTO', icon: FaBrain, ruta: '/dashboard/tabla-conocimiento' },
 ];
@@ -169,8 +170,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
         {...rest}
       >
         <Flex mt={4} mb={3} alignItems="center" justifyContent="center" mr={2}>
-          <Text fontSize="2xl" color={'#999999'} fontWeight="bold">
-            <span style={{ 'color': '#B40001' }}>SERVICE</span> DESk
+          <Text fontSize="22px" color={'#999999'} fontWeight="extrabold">
+            <span style={{ 'color': '#B40001' }}>SERVICE</span> DESK
           </Text>
           <CloseButton ml={2} display={{ base: 'flex', md: 'flex', lg: 'none' }} onClick={onClose} _focus={{ boxShadow: "none" }} />
         </Flex>
@@ -273,11 +274,11 @@ const MobileNav = ({ onOpen, ...rest }) => {
 
       <Text
         display={{ base: 'flex', md: 'flex', lg: 'none' }}
-        fontSize="2xl"
-        fontWeight="bold"
-        color={useColorModeValue('red.600', 'white')}
+        fontSize="22px"
+        fontWeight="extrabold"
+        color={'#999999'}
       >
-        SERVICE DESk
+        <span style={{ 'color': '#B40001', 'marginRight': '8px' }}>SERVICE</span> DESK
       </Text>
 
       <HStack spacing={{ base: '2', md: '2', lg: '2' }}>

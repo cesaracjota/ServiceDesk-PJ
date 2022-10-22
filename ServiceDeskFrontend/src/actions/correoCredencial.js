@@ -17,9 +17,9 @@ export const createCorreoCredencial = (data) => {
 
         if (response.status === 200 || response.status === 201) {
             dispatch(getCorreoCredencial(await loadCorreoCredencial()));
-            notification('Correo Credencial registrado', 'Correo Credencial se ha registrado correctamente.', 'success');
+            notification('CORREO CREDENCIAL CREADO', 'EL CORREO CREDENCIAL SE HA CREADO CORRECTAMENTE', 'success');
         } else {
-            notification('Error de registro', 'No se pudo registrar el Correo Credencial', 'error');
+            notification('ERROR DE CREACIÓN', 'NO SE LOGRÓ CREAR EL CORREO CREDENCIAL', 'error');
         }
     };
 };
@@ -76,9 +76,9 @@ export const updateCorreoCredencial = (data) => {
 
         if (response.status === 200) {
             dispatch(getCorreoCredencial(await loadCorreoCredencial()));
-            notification('Correo Credencial actualizado', 'Correo Credencial se ha actualizado correctamente', 'success');
+            notification('CORREO CREDENCIAL MODIFICADO', 'EL CORREO CREDENCIAL SE HA MODIFICADO CORRECTAMENTE', 'success');
         } else {
-            notification('Error de actualización', 'No se pudo actualizar el Correo Credencial', 'error');
+            notification('ERROR DE MODIFICACIÓN', 'NO SE LOGRÓ MODIFICAR EL CORREO CREDENCIAL', 'error');
         }
     };
 };
@@ -90,9 +90,9 @@ export const deleteCorreoCredencial = (id) => {
         const response = await fetchToken(`correo_credenciales/${id}`, '', 'DELETE');
         if (response.status === 200) {
             dispatch(getCorreoCredencial(await loadCorreoCredencial()));
-            notification('Correo Credencial Eliminado', 'Correo Credencial se ha eliminado correctamente', 'success');
+            notification('CORREO CREDENCIAL ELIMINADO', 'CORREO CREDENCIAL SE HA ELIMINADO CORRECTAMENTE', 'success');
         } else {
-            notification('Error al Eliminar', 'No se pudo eliminar el Correo Credencial', 'error');
+            notification('ERROR AL ELIMINAR', 'NO SE LOGRÓ ELIMINAR EL CORREO CREDENCIAL', 'error');
         }
     };
 };

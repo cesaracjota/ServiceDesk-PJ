@@ -67,16 +67,16 @@ const FtpAgregar = () => {
                 isOpen={openCreate}
                 onClose={handleCloseModal}
                 closeOnOverlayClick={true}
-                size='2xl'
+                size='3xl'
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>AGREGAR NUEVA CONFIGURACIÓN FTP</ModalHeader>
+                    <ModalHeader textAlign="center">AGREGAR NUEVA CONFIGURACIÓN FTP</ModalHeader>
                     <ModalCloseButton _focus={{ boxShadow: "none" }} />
                     <ModalBody>
                         <Stack direction={['column', 'column', 'row']}>
                             <FormControl>
-                                <FormLabel>USUARIO</FormLabel>
+                                <FormLabel fontWeight="semibold">USUARIO</FormLabel>
                                 <Input
                                     type="text"
                                     placeholder="@_USUARIO"
@@ -86,7 +86,7 @@ const FtpAgregar = () => {
                                 />
                             </FormControl>
                             <FormControl>
-                                <FormLabel>CLAVE</FormLabel>
+                                <FormLabel fontWeight="semibold">CLAVE</FormLabel>
                                 <Input
                                     type="password"
                                     placeholder="@_CLAVE ****"
@@ -97,7 +97,7 @@ const FtpAgregar = () => {
                             </FormControl>
                         </Stack>
                         <FormControl isRequired mt={2}>
-                            <FormLabel>DESCRIPCIÓN</FormLabel>
+                            <FormLabel fontWeight="semibold">DESCRIPCIÓN</FormLabel>
                             <Textarea
                                 onChange={(e) => { setIndice({ ...indice, descripcion: (e.target.value).toUpperCase() }) }}
                                 textTransform={'uppercase'}
@@ -107,7 +107,7 @@ const FtpAgregar = () => {
                         </FormControl>
                         <Stack direction={['column', 'column', 'row']} mt={2}>
                             <FormControl>
-                                <FormLabel>IP</FormLabel>
+                                <FormLabel fontWeight="semibold">IP</FormLabel>
                                 <Input
                                     type="text"
                                     placeholder="IP RED"
@@ -117,7 +117,7 @@ const FtpAgregar = () => {
                                 />
                             </FormControl>
                             <FormControl isRequired>
-                                <FormLabel>ESTADO</FormLabel>
+                                <FormLabel fontWeight="semibold">ESTADO</FormLabel>
                                 <Select
                                     defaultValue={indice.estado = 'S'}
                                     onChange={(e) => { setIndice({ ...indice, estado: (e.target.value) }) }}
@@ -129,7 +129,13 @@ const FtpAgregar = () => {
                         </Stack>
                     </ModalBody>
                     <ModalFooter>
-                        <Button onClick={() => saveCargo()} colorScheme={'facebook'} autoFocus mr={3} _focus={{ boxShadow: "none" }}>
+                        <Button 
+                            onClick={() => saveCargo()} 
+                            colorScheme={'facebook'} 
+                            autoFocus mr={3} 
+                            _focus={{ boxShadow: "none" }}
+                            disabled={indice.usuario === '' || indice.clave === '' || indice.descripcion === '' || indice.ip === '' ? true : false}
+                            >
                             GUARDAR
                         </Button>
                         <Button onClick={handleCloseModal} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>

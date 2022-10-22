@@ -47,7 +47,7 @@ export const Incidencia = () => {
     if(store.getState().origenIncidencia.checking){
       fetchDataOrigenes();
     }
-  }, []);
+  });
 
   return (
     <>

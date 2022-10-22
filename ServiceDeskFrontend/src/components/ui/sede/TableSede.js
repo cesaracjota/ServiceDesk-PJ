@@ -205,7 +205,7 @@ const ModalSedeEditar = ({ row }) => {
         size={'sm'}
         _focus={{ boxShadow: "none" }}
       />
-      <Modal isOpen={openedit} onClose={handleCloseEdit} size={'2xl'}>
+      <Modal isOpen={openedit} onClose={handleCloseEdit} size={'3xl'}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader display={'flex'} justifyContent={'center'}>
@@ -222,7 +222,7 @@ const ModalSedeEditar = ({ row }) => {
               />
             </FormControl>
             <FormControl>
-              <FormLabel>SEDE</FormLabel>
+              <FormLabel fontWeight="semibold">SEDE</FormLabel>
               <Input
                 defaultValue={indice ? indice.sede : ''}
                 type="text"
@@ -233,7 +233,7 @@ const ModalSedeEditar = ({ row }) => {
               />
             </FormControl>
             <FormControl mt={4}>
-              <FormLabel>DIRECCIÓN</FormLabel>
+              <FormLabel fontWeight="semibold">DIRECCIÓN</FormLabel>
               <Input
                 defaultValue={indice ? indice.direccion : ''}
                 onChange={e =>
@@ -245,7 +245,7 @@ const ModalSedeEditar = ({ row }) => {
               />
             </FormControl>
             <FormControl mt={4}>
-              <FormLabel>ESTADO</FormLabel>
+              <FormLabel fontWeight="semibold">ESTADO</FormLabel>
               <Select
                 defaultValue={indice ? indice.activo : ''}
                 onChange={e =>

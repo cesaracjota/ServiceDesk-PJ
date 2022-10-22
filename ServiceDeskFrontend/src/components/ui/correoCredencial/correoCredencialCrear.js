@@ -64,7 +64,7 @@ const CorreoCredencialAgregar = () => {
                 isOpen={openCreate}
                 onClose={handleCloseModal}
                 closeOnOverlayClick={true}
-                size='2xl'
+                size='3xl'
             >
                 <ModalOverlay />
                 <ModalContent>
@@ -79,7 +79,7 @@ const CorreoCredencialAgregar = () => {
                         </HStack>
                         <Stack direction={['column']}>
                             <FormControl>
-                                <FormLabel>CORREO</FormLabel>
+                                <FormLabel fontWeight="semibold">CORREO</FormLabel>
                                 <Input
                                     type="email"
                                     placeholder="CORREO ELECTRÓNICO"
@@ -89,7 +89,7 @@ const CorreoCredencialAgregar = () => {
                                 />
                             </FormControl>
                             <FormControl>
-                                <FormLabel>CONTRASEÑA DEL CORREO</FormLabel>
+                                <FormLabel fontWeight="semibold">CONTRASEÑA DEL CORREO</FormLabel>
                                 <Input
                                     type="password"
                                     placeholder="PASSWORD ****"
@@ -101,7 +101,13 @@ const CorreoCredencialAgregar = () => {
                         </Stack>
                     </ModalBody>
                     <ModalFooter>
-                        <Button onClick={() => saveCorreoCredencial()} colorScheme={'facebook'} autoFocus mr={3} _focus={{ boxShadow: "none" }}>
+                        <Button 
+                            onClick={() => saveCorreoCredencial()} 
+                            colorScheme={'facebook'} 
+                            autoFocus mr={3} 
+                            _focus={{ boxShadow: "none" }}
+                            disabled={indice.correo === "" || indice.password === "" ? true : false}
+                            >
                             GUARDAR
                         </Button>
                         <Button onClick={handleCloseModal} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>

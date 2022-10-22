@@ -59,10 +59,10 @@ export const CargoEditar = ({ row }) => {
                 size={'sm'}
                 _focus={{ boxShadow: "none" }}
             />
-            <Modal isOpen={openedit} onClose={handleCloseEdit} size={'xl'}>
+            <Modal isOpen={openedit} onClose={handleCloseEdit} size={'3xl'}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader display={'flex'} justifyContent={'center'}>
+                    <ModalHeader textAlign="center">
                         EDITAR CARGO
                     </ModalHeader>
                     <ModalCloseButton _focus={{ boxShadow: "none" }} />
@@ -76,7 +76,7 @@ export const CargoEditar = ({ row }) => {
                             />
                         </FormControl>
                         <FormControl>
-                            <FormLabel>CARGO</FormLabel>
+                            <FormLabel fontWeight="bold">CARGO</FormLabel>
                             <Input
                                 defaultValue={indice ? indice.cargo : ''}
                                 type="text"
@@ -87,7 +87,7 @@ export const CargoEditar = ({ row }) => {
                             />
                         </FormControl>
                         <FormControl mt={4}>
-                            <FormLabel>ESTADO</FormLabel>
+                            <FormLabel fontWeight="bold">ESTADO</FormLabel>
                             <Select
                                 defaultValue={indice ? indice.activo : ''}
                                 onChange={e =>

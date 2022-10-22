@@ -79,7 +79,7 @@ const PersonaEditar = ({ row }) => {
         _focus={{ boxShadow: "none" }}
       />
 
-      <Modal isOpen={openedit} onClose={handleCloseEdit} size={'5xl'}>
+      <Modal isOpen={openedit} onClose={handleCloseEdit} size={'6xl'}>
         <ModalOverlay />
         <form onSubmit={handleUpdatePersona}>
           <ModalContent>
@@ -96,7 +96,7 @@ const PersonaEditar = ({ row }) => {
               </FormControl>
               <HStack spacing={'10px'}>
                 <FormControl>
-                  <FormLabel>DNI</FormLabel>
+                  <FormLabel fontWeight="semibold">DNI</FormLabel>
                   <Input
                     defaultValue={indice ? indice.dni : ''}
                     onChange={e =>
@@ -107,7 +107,7 @@ const PersonaEditar = ({ row }) => {
                   />
                 </FormControl>
                 <FormControl>
-                  <FormLabel>NOMBRE</FormLabel>
+                  <FormLabel fontWeight="semibold">NOMBRE</FormLabel>
                   <Input
                     defaultValue={indice ? indice.nombre : ''}
                     onChange={e =>
@@ -119,7 +119,7 @@ const PersonaEditar = ({ row }) => {
                   />
                 </FormControl>
                 <FormControl>
-                  <FormLabel>APELLIDOS</FormLabel>
+                  <FormLabel fontWeight="semibold">APELLIDOS</FormLabel>
                   <Input
                     defaultValue={indice ? indice.apellido : ''}
                     onChange={e =>
@@ -133,7 +133,7 @@ const PersonaEditar = ({ row }) => {
               </HStack>
               <HStack spacing={'10px'} mt={'10px'}>
                 <FormControl>
-                  <FormLabel>USUARIO</FormLabel>
+                  <FormLabel fontWeight="semibold">USUARIO</FormLabel>
                   <Input
                     defaultValue={indice ? indice.usuario : ''}
                     onChange={e =>
@@ -145,7 +145,7 @@ const PersonaEditar = ({ row }) => {
                   />
                 </FormControl>
                 <FormControl isRequired={true}>
-                  <FormLabel>PASSWORD</FormLabel>
+                  <FormLabel fontWeight="semibold">PASSWORD</FormLabel>
                   <Input
                     onChange={e =>
                       setIndice({ ...indice, password: e.target.value })
@@ -159,7 +159,7 @@ const PersonaEditar = ({ row }) => {
 
               <HStack spacing={'10px'} mt={'10px'}>
                 <FormControl>
-                  <FormLabel>ANEXO</FormLabel>
+                  <FormLabel fontWeight="semibold">ANEXO</FormLabel>
                   <Input
                     defaultValue={indice ? indice.anexo : ''}
                     onChange={e =>
@@ -170,7 +170,7 @@ const PersonaEditar = ({ row }) => {
                   />
                 </FormControl>
                 <FormControl>
-                  <FormLabel>TELEFONO</FormLabel>
+                  <FormLabel fontWeight="semibold">TELÉFONO</FormLabel>
                   <Input
                     defaultValue={indice ? indice.telefono : ''}
                     onChange={e =>
@@ -183,7 +183,7 @@ const PersonaEditar = ({ row }) => {
               </HStack>
               <HStack spacing={'10px'} mt={'10px'}>
                 <FormControl>
-                  <FormLabel>CORREO</FormLabel>
+                  <FormLabel fontWeight="semibold">CORREO</FormLabel>
                   <Input
                     defaultValue={indice ? indice.correo : ''}
                     onChange={e =>
@@ -194,7 +194,7 @@ const PersonaEditar = ({ row }) => {
                   />
                 </FormControl>
                 <FormControl>
-                  <FormLabel>FECHA DE NACIMIENTO</FormLabel>
+                  <FormLabel fontWeight="semibold">FECHA DE NACIMIENTO</FormLabel>
                   <Input
                     defaultValue={indice ? indice.fecha : ''}
                     onChange={e =>
@@ -204,7 +204,7 @@ const PersonaEditar = ({ row }) => {
                   />
                 </FormControl>
                 <FormControl>
-                  <FormLabel>SEXO</FormLabel>
+                  <FormLabel fontWeight="semibold">SEXO</FormLabel>
                   <Select
                     defaultValue={indice ? indice.sexo : ''}
                     onChange={e =>
@@ -218,7 +218,7 @@ const PersonaEditar = ({ row }) => {
               </HStack>
               <HStack spacing={'10px'} mt={'10px'}>
                 <FormControl>
-                  <FormLabel>ESTADO</FormLabel>
+                  <FormLabel fontWeight="semibold">ESTADO</FormLabel>
                   <Select
                     defaultValue={indice ? indice.activo : ''}
                     onChange={e =>
@@ -230,7 +230,7 @@ const PersonaEditar = ({ row }) => {
                   </Select>
                 </FormControl>
                 <FormControl>
-                  <FormLabel>PERFIL</FormLabel>
+                  <FormLabel fontWeight="semibold">PERFIL</FormLabel>
                   <Select
                     defaultValue={
                       indice ? indice.perfilPersona.idPerfilPersona : ''

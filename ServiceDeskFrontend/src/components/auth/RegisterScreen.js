@@ -78,7 +78,7 @@ export const RegisterScreen = () => {
 
         var fechax = Moment(new Date(stringToDate(response.data[28], "dd/MM/yyyy", "/"))).format('yyyy-MM-DD');
         if ((response.data[0] === numeroDocumento) && (response.data[1] === codigoVerificacion) && (fechax === fechaNacimiento)) {
-          timerNotification('Validacion correcta');
+          timerNotification('VALIDACIÓN EXITOSA');
           dispatch(validadorUsuario({
             dni: response.data[0],
             numeroVerificacion: response.data[1],
@@ -90,16 +90,13 @@ export const RegisterScreen = () => {
           history.push('/auth/register/validate');
         }else{
           history.push('/auth/register');
-          notification('Los datos no coinciden', 'Error de validacion intente de nuevo', 'error');
+          notification('LOS DATOS NO COINCIDEN', 'ERROR DE VALIDACIÓN, INTENTE DE NUEVO', 'error');
         }
       } catch (error) {
-        // console.log(error)
-        notification('Error de validacion', 'Error de validacion intente de nuevo', 'error');
+        notification('ERROR DE VALIDACIÓN', 'ERROR DE VALIDACIÓN, INTENTE DE NUEVO', 'error');
       }
       
   }
-
-
 
   const HandleValidatorUser = () => {
     validadorUsuarioCreado(validadorDni.dni)

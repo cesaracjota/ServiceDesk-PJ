@@ -14,13 +14,11 @@ export const createPerfilPersona = (data) => {
       },
       'POST');
 
-    const body = await response.json();
-
     if (response.status === 200 || response.status === 201) {
-      notification("Perfil registrado correctamente.", body.message, 'success');
+      notification("PERFIL CREADO", 'EL PERFIL DE PERSONA HA SIDO CREADO CORRECTAMENTE', 'success');
       dispatch(getPerfilPersona(await loadPerfilPersona()));
     } else {
-      notification("No se pudo registrar el Perfil", body.error, 'error');
+      notification("ERROR DE REGISTRO", 'NO SE LOGRÓ CREAR EL PERFIL DE PERSONA', 'error');
     }
   }
 }
@@ -50,14 +48,12 @@ export const updatePerfilPersona = (data) => {
       },
       'PUT');
 
-    const body = await response.json();
-
     if (response.status === 200) {
       dispatch(getPerfilPersona(await loadPerfilPersona()));
-      notification("Perfil actualizado correctamente", body.message, 'success');
+      notification("PERFIL MODIFICADO", 'EL PERFIL DE PERSONA HA SIDO MODIFICADO CORRECTAMENTE', 'success');
     } else {
 
-      notification("No se pudo actualizar el Perfil", body.error, 'error');
+      notification("ERROR AL MODIFICAR", 'NO SE HA LOGRADO MODIFICAR EL PERFIL DE PERSONA', 'error');
 
     }
   }
@@ -71,13 +67,11 @@ export const deletePerfilPersona = (id) => {
       'DELETE'
     );
 
-    const body = await response.json();
-
     if (response.status === 200) {
       dispatch(getPerfilPersona(await loadPerfilPersona()));
-      notification("Perfil actualizado correctamente", body.message, 'success');
+      notification("ESTADO PERFIL MODIFICADO", 'EL ESTADO DEL PERFIL DE PERSONA SE HA MODIFICADO CORRECTAMENTE', 'success');
     } else {
-      notification("No se pudo eliminar el Perfil", body.error, 'error');
+      notification("ERROR AL MODIFICAR", 'EL ESTADO DEL PERFIL PERSONA, NO SE LOGRÓ MODIFICAR', 'error');
     }
   }
 }

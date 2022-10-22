@@ -31,9 +31,9 @@ export const createPersona = (data) => {
 
     if (response.status === 200 || response.status === 201) {
       dispatch(getPersona(await loadPersona()));
-      notification('Usuario registrado correctamente.', 'Se logró registrar satisfactoriamente', 'success');
+      notification('USUARIO CREADO', 'EL USUARIO SE HA CREADO CORRECTAMENTE', 'success');
     } else {
-      notification('No se pudo registrar el Usuario', 'Revisa si los datos son correctos', 'error');
+      notification('ERROR AL REGISTRAR', 'NO SE LOGRÓ CREAR EL USUARIO', 'error');
     }
   };
 };
@@ -59,9 +59,9 @@ export const createPersonaRegister = data => {
     );
     if (response.status === 200 || response.status === 201) {
       dispatch(startLogin(data.dni, data.password));
-      notification('Usuario registrado correctamente.', 'Se logró registrar satisfactoriamente', 'success');
+      notification('USUARIO REGISTRADO', 'EL USUARIO HA SIDO REGISTRADO CORRECTAMENTE', 'success');
     } else {
-      notification('No se pudo registrar el Usuario', 'Revisa si los datos son correctos', 'error');
+      notification('ERROR AL REGISTRAR', 'NO SE LOGRÓ REGISTRAR EL USUARIO, INTENTE DE NUEVO', 'error');
     }
   };
 };
@@ -116,13 +116,11 @@ export const updatePersona = (data) => {
       'PUT'
     );
 
-    // const body = await response.json();
-
     if (response.status === 200) {
       dispatch(getPersona(await loadPersona()));
-      notification('Persona actualizado', 'Persona actualizado correctamente', 'success');
+      notification('PERSONA MODIFICADO', 'LA PERSONA SE HA MODIFICADO CORRECTAMENTE', 'success');
     } else {
-      notification('Error al actualizar', 'No se pudo actualizar la persona', 'error');
+      notification('ERROR AL MODIFICAR', 'NO SE LOGRÓ MODIFICAR EL USUARIO', 'error');
     }
   };
 };
@@ -147,9 +145,9 @@ export const deletePersona = id => {
 
     if (response.status === 200) {
       dispatch(getPersona(await loadPersona()));
-      notification('Persona actualizado correctamente', 'Se logró eliminar correctamente', 'success');
+      notification('ESTADO MODIFICADO', 'EL ESTADO DEL USUARIO SE LOGRÓ MODIFICAR CORRECTAMENTE', 'success');
     } else {
-      notification('No se pudo eliminar la Persona', 'No se logró eliminar correctamente', 'error');
+      notification('ERROR AL MODIFICAR ESTADO', 'NO SE LOGRÓ MODIFICAR EL ESTADO DEL USUARIO', 'error');
     }
   };
 };

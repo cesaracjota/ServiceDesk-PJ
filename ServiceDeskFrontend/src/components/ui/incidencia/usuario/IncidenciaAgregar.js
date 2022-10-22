@@ -96,6 +96,7 @@ const IncidenciaAgregar = () => {
 
   const handleResetValues = () => {
     setRadioUserValue('mismo');
+    setRadioValue('apellido');
     setUsuarioNotificaDNI('');
     setUsuarioNotificaId(null);
     setDataNombresNotifica('');
@@ -112,18 +113,15 @@ const IncidenciaAgregar = () => {
   };
 
   const fetchDataId = async () => {
-    await fetchIncidenciasPersonas(identificador).then((res) => {
-      dispatch(getIncidenciaId(res));
-    }).catch((err) => {
-      // console.log("WARN " + err);
-    });
+    const response = await fetchIncidenciasPersonas(identificador);
+    dispatch(getIncidenciaId(response));
   }
 
   useEffect(() => {
     if (store.getState().incidenciaId.checking) {
       fetchDataId();
     }
-  }, []);
+  });
 
   const saveHistorialPersona = () => {
 
@@ -179,15 +177,13 @@ const IncidenciaAgregar = () => {
         // setUsuarioOficina(historial.oficina.oficina)
         // setUsuarioCargo(historial.cargo.cargo)
       }).catch(() => {
-        notification('Historial no encontrado', 'El usuario no pertenece a ningun sede, organo, sede', 'info', 'modalCrearIncidencia');
+        notification('HISTORIAL NO ENCONTRADO', 'EL USUARIO NO PERTENECE A NINGUNA SEDE, ORGANO U OFICINA', 'info', 'modalCrearIncidencia');
         handleResetValues();
       });
-      // setUsuarioData(res);
       setUsuarioNotificaId(res.idpersona);
-      // setUsuarioNotificaData(res);
       setDataNombresNotifica(res.nombre + ' ' + res.apellido);
     }).catch(() => {
-      notification('Usuario no encontrado', 'No se pudo encontrar el Usuario', 'error', 'modalCrearIncidencia');
+      notification('USUARIO NO ENCONTRADO', 'NO SE LOGRÓ ENCONTRAR EL USUARIO, INTENTE DE NUEVO', 'error', 'modalCrearIncidencia');
       handleResetValues();
     });
   }
@@ -198,12 +194,11 @@ const IncidenciaAgregar = () => {
         setUsuarioListData(res.data);
         setOpenSearchUsuarios(true);
       } else {
-        notification('Usuario no encontrado', 'No se pudo encontrar el usuario con ese apellido', 'error', 'modalCrearIncidencia');
+        notification('USUARIO NO ENCONTRADO', 'NO SE LOGRÓ ENCONTRAR EL USUARIO CON ESE APELLIDO, INTENTE DE NUEVO', 'error', 'modalCrearIncidencia');
         handleResetValues()
       }
     }).catch(() => {
-      notification('Usuario no encontrado', 'No se pudo encontrar el usuario', 'error', 'modalCrearIncidencia');
-      // setUsuarioData([]);
+      notification('USUARIO NO ENCONTRADO', 'NO SE LOGRÓ ENCONTRAR EL USUARIO, INTENTE DE NUEVO', 'error', 'modalCrearIncidencia');
       handleResetValues()
     })
   }
@@ -219,7 +214,7 @@ const IncidenciaAgregar = () => {
       // setUsuarioCargo(historial.cargo.cargo)
     }).catch(() => {
       setOpenSearchUsuarios(false);
-      notification('Error al Seleccionar', 'No se puede crear incidencia para este usuario, no tiene asignado a ninguna sede, organo, oficina', 'info', 'modalCrearIncidencia');
+      notification('HISTORIAL NO ENCONTRADO', 'EL USUARIO NO PERTENECE A NINGUNA SEDE, ORGANO U OFICINA', 'error', 'modalCrearIncidencia');
       handleResetValues();
     })
   }

@@ -17,7 +17,6 @@ export const startLogin = (dni, password) => {
       const body = await response.json();
 
       if (response.status === 200 || response.status === 201) {
-        // set user info
         localStorage.setItem('access_token', body.access_token);
         localStorage.setItem('refresh_token', body.refresh_token);
         localStorage.setItem('nombres', body.nombres);
@@ -37,13 +36,13 @@ export const startLogin = (dni, password) => {
         );
         timerNotification('INICICIANDO SESIÓN!!!');
       } else {
-        notification('Error al Iniciar Sesión', 'Credenciales Inválidas', 'error');
+        notification('ERROR AL INICIAR SESIÓN', 'CREDENCIALES INVALIDAS, INTENTE DE NUEVO', 'error');
       }
     } catch (error) {
       if (error.message === 'Failed to fetch') {
-        notification('Error de conexión', 'Error al intentar conectarse a la API', 'error');
+        notification('ERROR DE CONEXIÓN', 'ERROR AL INTENTAR CONECTARSE A LA API', 'error');
       } else {
-        notification('Error', 'No se pudo encontrar el error', 'error');
+        notification('ERROR', 'CONSULTE CON EL ADMINISTRADOR DEL SISTEMA', 'error');
       }
     }
   }
@@ -62,25 +61,23 @@ export const LogOut = () => {
 export const validadorUsuarioCreado = async (dni) => {
   const response = await fetchToken('personas/dni/' + dni);
   if (response.status === 200 || response.status === 201) {
-    notification('Error, este usuario ya esta registrado en el sistema', '', 'error');
+    notification('ATENCIÓN', 'ESTE USUARIO YA ESTA REGISTRADO EN EL SISTEMA', 'info');
     return false;
   }
   else if (response.status === 404 || response.status === 500 || response.status === 403) {
     return true;
   } else {
-    notification('Error, no se logró validar, intente de nuevo', '', 'error');
+    notification('ERROR', 'NO SE LOGRÓ VALIDAR, INTENTE DE NUEVO', 'error');
     return false;
   }
 }
 
 export const startChecking = () => {
-  try {
     return async dispatch => {
       const response = await fetchWithToken('refreshtoken');
       const body = await response.json();
   
       if (response.status === 200 || response.status === 201) {
-        // set user info
         localStorage.setItem('access_token', body.access_token);
         localStorage.setItem('refresh_token', body.refresh_token);
         localStorage.setItem('nombres', body.nombres);
@@ -102,23 +99,12 @@ export const startChecking = () => {
         dispatch(checkingFinish());
       }
     };
-  } catch (error) {
-    // console.log("NO SE REALIZÓ LA PETICIÓN CORRECTAMENTE");
-  }
 };
 
 const checkingFinish = () => ({ type: types.authCheckingFinish });
 
-const login = user => ({
-  type: types.login,
-  payload: user,
-});
+const login = (user) => ({ type: types.login, payload: user });
 
-const logout = () => ({
-  type: types.logout,
-});
+const logout = () => ({ type: types.logout });
 
-export const validadorUsuario = usuario => ({
-  type: types.eventLoadedUsuarioValidadorDni,
-  payload: usuario,
-});
+export const validadorUsuario = usuario => ({ type: types.eventLoadedUsuarioValidadorDni, payload: usuario });

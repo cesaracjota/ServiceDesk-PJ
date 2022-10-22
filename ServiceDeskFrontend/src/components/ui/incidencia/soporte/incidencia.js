@@ -56,7 +56,7 @@ export const IncidenciaSoporte = () => {
     if(store.getState().origenIncidencia.checking){
       fetchDataOrigenes();
     }
-  }, [dispatch]);
+  });
 
   return (
     <>

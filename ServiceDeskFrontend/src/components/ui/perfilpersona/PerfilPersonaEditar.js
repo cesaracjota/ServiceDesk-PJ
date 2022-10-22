@@ -15,6 +15,7 @@ import {
   Textarea,
   Select,
   IconButton,
+  Badge,
 } from '@chakra-ui/react';
 
 import { AiTwotoneEdit } from 'react-icons/ai';
@@ -62,14 +63,22 @@ export const PerfilPersonaEditar = ({ row }) => {
                 size={'sm'}
                 _focus={{ boxShadow: "none" }}
             />
-            <Modal isOpen={openedit} onClose={handleCloseEdit} size={'2xl'}>
+            <Modal isOpen={openedit} onClose={handleCloseEdit} size={'3xl'}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader display={'flex'} justifyContent={'center'}>
                         EDITAR PERFIL
                     </ModalHeader>
                     <ModalCloseButton _focus={{ boxShadow: "none" }} />
-                    <ModalBody pb={6}>
+                    <ModalBody pb={4}>
+
+                        <FormControl textAlign="center">
+                            <Badge colorScheme={'red'} variant="subtle" size={'lg'} mt="-10">
+                                TENGA MUCHO CUIDADO AL CAMBIAR NOMBRE DE UN PERFIL, CONSULTE ANTES CON EL ADMINISTRADOR
+                            </Badge>
+                        </FormControl>
+
+
                         <FormControl>
                             <Input
                                 value={indice ? indice.idPerfilPersona : ''}
@@ -78,7 +87,7 @@ export const PerfilPersonaEditar = ({ row }) => {
                             />
                         </FormControl>
                         <FormControl>
-                            <FormLabel>PERFIL</FormLabel>
+                            <FormLabel fontWeight="semibold">PERFIL</FormLabel>
                             <Input
                                 autoFocus
                                 defaultValue={indice ? indice.perfil : ''}
@@ -90,9 +99,8 @@ export const PerfilPersonaEditar = ({ row }) => {
                             />
                         </FormControl>
                         <FormControl mt={4}>
-                            <FormLabel>DESCRIPCIÓN</FormLabel>
+                            <FormLabel fontWeight="semibold">DESCRIPCIÓN</FormLabel>
                             <Textarea
-                                autoFocus
                                 defaultValue={indice ? indice.descripcion : ''}
                                 onChange={e =>
                                     setIndice({ ...indice, descripcion: (e.target.value).toUpperCase() })
@@ -100,11 +108,12 @@ export const PerfilPersonaEditar = ({ row }) => {
                                 placeholder="Descripcion"
                                 textTransform={'uppercase'}
                                 type="text"
-                                row={1}
+                                resize={'none'}
+                                rows={1}
                             />
                         </FormControl>
                         <FormControl mt={4}>
-                            <FormLabel>ESTADO</FormLabel>
+                            <FormLabel fontWeight="semibold">ESTADO</FormLabel>
                             <Select
                                 defaultValue={indice ? indice.activo : ''}
                                 onChange={e =>

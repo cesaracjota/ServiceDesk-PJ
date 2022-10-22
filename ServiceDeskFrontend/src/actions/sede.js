@@ -16,15 +16,13 @@ export const createSede = data => {
       'POST'
     );
 
-    const body = await response.json();
-
     if (response.status === 200 || response.status === 201) {
       
       dispatch(getSede(await loadSede()));
 
-      notification('Sede registrado correctamente.', '', 'success');
+      notification('SEDE CREADO', 'LA SEDE SE HA CREADO CORRECTAMENTE', 'success');
     } else {
-      notification('No se pudo registrar la Sede', '', 'error');
+      notification('ERROR DE REGISTRO', 'NO SE LOGRÓ CREAR LA SEDE', 'error');
     }
   };
 };
@@ -46,8 +44,6 @@ export const fetchSedes = async () => {
     });
   });
   Sede.data = data;
-  // set user info
-
   return Sede;
 };
 
@@ -66,13 +62,11 @@ export const updateSede = data => {
       'PUT'
     );
 
-    const body = await response.json();
-
     if (response.status === 200) {
       dispatch(getSede(await loadSede()));
-      notification('Sede actualizado correctamente', body.message, 'success');
+      notification('SEDE MODIFICADO', 'LA SEDE SE HA MODIFICADO CORRECTAMENTE', 'success');
     } else {
-      notification('No se pudo actualizar la Sede', body.error, 'error');
+      notification('ERROR AL MODIFICAR', 'NO SE LOGRÓ MODIFICAR LA SEDE', 'error');
     }
   };
 };
@@ -82,14 +76,11 @@ export const updateSede = data => {
 export const deleteSede = id => {
   return async dispatch => {
     const response = await fetchToken(`sedes/${id}`, '', 'DELETE');
-
-    const body = await response.json();
-
     if (response.status === 200) {
       dispatch(getSede(await loadSede()));
-      notification('Sede actualizado correctamente', body.message, 'success');
+      notification('ESTADO MODIFICADO', 'EL ESTADO DE LA SEDE SE HA MODIFICADO CORRECTAMENTE', 'success');
     } else {
-      notification('No se pudo eliminar la Sede', body.error, 'error');
+      notification('ERROR AL MODIFICAR ESTADO', 'NO SE HA LOGRADO MODIFICAR EL ESTADO DE LA SEDE', 'error');
     }
   };
 };

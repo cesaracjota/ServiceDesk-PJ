@@ -18,9 +18,9 @@ export const createOrgano = data => {
 
     if (response.status === 200 || response.status === 201) {
       dispatch(getOrganos(await loadOrgano()));
-      notification('Organo registrado', 'Organo se ha registrado correctamente.', 'success');
+      notification('ORGANO CREADO', 'EL ORGANO JURIDICCIONAL HA SIDO CREADO CORRECTAMENTE', 'success');
     } else {
-      notification('Error al registrar', 'No se pudo registrar el organo', 'error');
+      notification('ERROR DE REGISTRO', 'NO SE LOGRÓ REGISTRAR EL ORGANO JURIDICCIONAL', 'error');
     }
   };
 };
@@ -51,24 +51,14 @@ export const fetchOrgano = async (id) => {
 
 // ACTUALIZAR ORGANO
 
-export const updateOrgano = data => {
-  var idSede = {};
-  if (data.sede.idSede != null) {
-    idSede = {
-      idSede: Number(data.sede.idSede),
-    };
-  } else {
-    idSede = {
-      idSede: Number(data.sede),
-    };
-  }
+export const updateOrgano = (data) => {
   return async dispatch => {
     const response = await fetchToken(
       `organos`,
       {
         idOrgano: data.idOrgano,
         organo: data.organo,
-        sede: idSede,
+        sede: data.sede,
         activo: data.activo,
       },
       'PUT'
@@ -76,9 +66,9 @@ export const updateOrgano = data => {
 
     if (response.status === 200) {
       dispatch(getOrganos(await loadOrgano()));
-      notification('Organo actualizado', 'Organo actualizado correctamente', 'success');
+      notification('ORGANO MODIFICADO', 'EL ORGANO JURIDICCIONAL HA SIDO MODIFICADO CORRECTAMENTE', 'success');
     } else {
-      notification('Error al actualizar', 'No se pudo actualizar el Organo', 'error');
+      notification('ERROR AL MODIFICAR', 'NO SE LOGRÓ MODIFICAR EL ORGANO JURIDICCIONAL', 'error');
     }
   };
 };
@@ -91,9 +81,9 @@ export const deleteOrgano = id => {
 
     if (response.status === 200) {
       dispatch(getOrganos(await loadOrgano()));
-      notification('Organo actualizado', 'Organo se ha actualizado el estado correctamente', 'success');
+      notification('ESTADO MODIFICADO', 'SE HA MODIFICADO EL ESTADO DEL ORGANO JURIDICCIONAL CORRECTAMENTE', 'success');
     } else {
-      notification('Error al eliminar', 'No se pudo eliminar el Organo', 'error');
+      notification('ERROR AL MODIFICAR ESTADO', 'NO SE LOGRÓ MODIFICAR EL ESTADO DEL ORGANO JURIDICCIONAL', 'error');
     }
   };
 };

@@ -125,7 +125,7 @@ const PersonaAgregar = () => {
     try {
         const respuesta = await consultaReniec(persona.dni);
         if (!respuesta) {
-          notification('Persona no encontrada', 'Persona con ese DNI no existe', 'error', 'modalOrganoAsignacion');
+          notification('ERROR DE BUSQUEDA', 'PERSONA CON ESE DNI NO EXISTE', 'error', 'modalOrganoAsignacion');
         }else{
           const body = await respuesta.data;
           setPersona({
@@ -140,7 +140,7 @@ const PersonaAgregar = () => {
         }
     }
     catch {
-      notification('Error de consulta', 'No se logró realizar la consulta correctamente', 'error', 'modalOrganoAsignacion');
+      notification('ERROR DE CONSULTA', 'NO SE LOGRÓ REALIZAR LA CONSULTA, INTENTE DENTRO DE UN MOMENTO', 'error', 'modalOrganoAsignacion');
       setProgress(false);
     }
   }
@@ -155,13 +155,13 @@ const PersonaAgregar = () => {
         isOpen={openCreate}
         onClose={handleCloseModal}
         closeOnOverlayClick={true}
-        size={'5xl'}
+        size={'6xl'}
         id="modalOrganoAsignacion"
       >
         <ModalOverlay />
         <form onSubmit={savePersona}>
           <ModalContent>
-            <ModalHeader>AGREGAR NUEVO USUARIO</ModalHeader>
+            <ModalHeader textAlign="center">AGREGAR NUEVO USUARIO</ModalHeader>
             <ModalCloseButton _focus={{ boxShadow: "none" }} />
             <ModalBody pb={2}>
               <Progress size="xs" value={progress} colorScheme="messenger" hidden={ progress === false } isIndeterminate = { progress === true } mb={2} />
@@ -172,6 +172,7 @@ const PersonaAgregar = () => {
                     setPersona({ ...persona, dni: e.target.value })
                   }
                   placeholder="DNI"
+                  fontWeight="semibold"
                   type={'text'}
                   isRequired
                 />
@@ -192,7 +193,7 @@ const PersonaAgregar = () => {
               </InputGroup>
               <HStack spacing={'10px'} mt={5}>
                 <FormControl isRequired>
-                  <FormLabel>NOMBRES</FormLabel>
+                  <FormLabel fontWeight="semibold">NOMBRES</FormLabel>
                   <Input
                     defaultValue={persona.nombre}
                     onChange={e =>
@@ -205,7 +206,7 @@ const PersonaAgregar = () => {
                   />
                 </FormControl>
                 <FormControl isRequired>
-                  <FormLabel>APELLIDOS</FormLabel>
+                  <FormLabel fontWeight="semibold">APELLIDOS</FormLabel>
                   <Input
                     onChange={e =>
                       setPersona({ ...persona, apellido: (e.target.value).toUpperCase() })
@@ -220,7 +221,7 @@ const PersonaAgregar = () => {
               </HStack>
               <HStack spacing={'10px'} mt={'10px'}>
                 <FormControl>
-                  <FormLabel>USUARIO</FormLabel>
+                  <FormLabel fontWeight="semibold">USUARIO</FormLabel>
                   <Input
                     defaultValue={(persona.usuario = persona.dni)}
                     onChange={e => {
@@ -235,13 +236,12 @@ const PersonaAgregar = () => {
                 </FormControl>
 
                 <FormControl isRequired>
-                  <FormLabel>CONTRASEÑA</FormLabel>
+                  <FormLabel fontWeight="semibold">CONTRASEÑA</FormLabel>
                   <Input
                     onChange={e =>
                       setPersona({ ...persona, password: e.target.value })
                     }
                     type={'password'}
-                    // defaultValue = { persona.password = '123456' }
                     placeholder="MIN 6 CARACTERES"
                     autoComplete='off'
                   />
@@ -249,7 +249,7 @@ const PersonaAgregar = () => {
               </HStack>
               <HStack spacing={'10px'} mt={'10px'}>
                 <FormControl>
-                  <FormLabel>NRO CELULAR</FormLabel>
+                  <FormLabel fontWeight="semibold">NRO CELULAR</FormLabel>
                   <Input
                     type={'text'}
                     placeholder="NRO DE CELULAR"
@@ -259,7 +259,7 @@ const PersonaAgregar = () => {
                   />
                 </FormControl>
                 <FormControl>
-                  <FormLabel>ANEXO</FormLabel>
+                  <FormLabel fontWeight="semibold">ANEXO</FormLabel>
                   <Input
                     onChange={e =>
                       setPersona({ ...persona, anexo: e.target.value })
@@ -269,7 +269,7 @@ const PersonaAgregar = () => {
                   />
                 </FormControl>
                 <FormControl>
-                  <FormLabel>TELEFONO</FormLabel>
+                  <FormLabel fontWeight="semibold">TELÉFONO</FormLabel>
                   <Input
                     type={'text'}
                     placeholder="NRO DE TELEFONO"
@@ -282,7 +282,7 @@ const PersonaAgregar = () => {
 
               <HStack spacing={'10px'} mt={'10px'}>
               <FormControl>
-                  <FormLabel>CORREO</FormLabel>
+                  <FormLabel fontWeight="semibold">CORREO</FormLabel>
                   <Input
                     onChange={e =>
                       setPersona({ ...persona, correo: e.target.value })
@@ -292,7 +292,7 @@ const PersonaAgregar = () => {
                   />
                 </FormControl>
                 <FormControl>
-                  <FormLabel>FECHA DE NACIMIENTO</FormLabel>
+                  <FormLabel fontWeight="semibold">FECHA DE NACIMIENTO</FormLabel>
                   <Input
                     defaultValue={persona ? persona.fecha : ''}
                     onChange={e =>
@@ -303,7 +303,7 @@ const PersonaAgregar = () => {
                   />
                 </FormControl>
                 <FormControl>
-                  <FormLabel>SEXO</FormLabel>
+                  <FormLabel fontWeight="semibold">SEXO</FormLabel>
                   <Select
                     value={persona.sexo ? persona.sexo : ''}
                     onChange={e => {
@@ -318,7 +318,7 @@ const PersonaAgregar = () => {
               </HStack>
               <HStack spacing={'10px'} mt={'10px'}>
                 <FormControl>
-                  <FormLabel>ESTADO</FormLabel>
+                  <FormLabel fontWeight="semibold">ESTADO</FormLabel>
                   <Select
                     defaultValue={(persona.activo = 'S')}
                     onChange={e => {
@@ -330,7 +330,7 @@ const PersonaAgregar = () => {
                   </Select>
                 </FormControl>
                 <FormControl>
-                  <FormLabel>PERFIL PERSONA</FormLabel>
+                  <FormLabel fontWeight="semibold">PERFIL PERSONA</FormLabel>
                   <Select
                     isRequired
                     defaultValue={(persona.perfilPersona ? PerfilUsuarioDefault[0]?.idPerfilPersona : '')}

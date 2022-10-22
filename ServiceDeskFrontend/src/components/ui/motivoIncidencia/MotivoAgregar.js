@@ -66,7 +66,7 @@ const MotivoAgregar = () => {
                     <ModalCloseButton _focus={{ boxShadow: "none" }} />
                     <ModalBody pb={6}>
                         <FormControl>
-                            <FormLabel>Motivo</FormLabel>
+                            <FormLabel fontWeight="semibold">MOTIVO</FormLabel>
                             <Input
                                 textTransform={'uppercase'}
                                 onChange={(e) => { setMotivo({ ...dataMotivo, motivo: (e.target.value).toUpperCase() }) }}
@@ -85,7 +85,7 @@ const MotivoAgregar = () => {
                         >
                             GUARDAR
                         </Button>
-                        <Button onClick={handleCloseModal} _focus={{ boxShadow: "none" }}>CANCELAR</Button>
+                        <Button onClick={handleCloseModal} _focus={{ boxShadow: "none" }} colorScheme="red" variant={'outline'}>CANCELAR</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

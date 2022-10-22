@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import {
     Button,
@@ -24,82 +24,60 @@ import { store } from '../../../store/store';
 import { AiTwotoneEdit } from 'react-icons/ai';
 
 export const OficinaEditar = ({ row }) => {
+
     const [openedit, setOpenEdit] = useState(false);
     const dispatch = useDispatch();
-    const [organoSelect, setorganoSelect] = useState([
-        { idOrgano: 0, organo: 'Seleccione una Sede' },
-    ]);
-    const sedeData = store.getState().sede.rows;
+    const dataSede = store.getState().sede.rows;
     const dataOrgano = store.getState().organo.rows;
-    var sedeInfo = sedeData;
-    var organoInfo = dataOrgano;
+
+    const selectInputRefSede = useRef();
+    const selectInputRefOrgano = useRef();
 
     const [indice, setIndice] = useState({
         idOficina: null,
         oficina: '',
         organo: {
             idOrgano: null,
-            organo: '',
         },
         activo: '',
     });
 
-    const [optionsOrgano, setoptionsOrgano] = useState(
-        organoInfo.map(organo => ({
-            value: organo.idOrgano,
-            label: organo.organo,
-        }))
-    );
+    const [optionsOrgano, setoptionsOrgano] = useState([
+        { label: 'SELECCIONE UNA SEDE' },
+    ]);
 
-    const [optionsSede, setoptionsSede] = useState(
-        sedeInfo.map(sede => ({
-            value: sede.idSede,
-            label: sede.sede,
-        }))
-    );
+    const optionsSede = dataSede.map(sede => ({
+        value: sede.idSede,
+        label: sede.sede,
+    }))
 
     const [optionsOrganoindex, setoptionsOrganoindex] = useState(0);
     const [optionsSedeindex, setoptionsSedeindex] = useState(0);
 
-    const handleClickOpenEdit = index => {
-        setIndice(index);
+    const handleClickOpenEdit = (index) => {
         setOpenEdit(true);
-        var i = 0;
-        var sedeID;
-        organoInfo.filter(indice => indice.sede.idSede === sedeID);
+        setIndice(index);
+        var organoData = dataOrgano.filter(indice => indice.sede.idSede === index.organo.sede.idSede);
         setoptionsOrgano(
-            organoInfo.map(organo => {
-                if (index.organo.idOrgano === organo.idOrgano) {
-                    setoptionsOrganoindex(i);
-                    sedeID = organo.sede.idSede;
-                }
-                i++;
-                return {
-                    value: organo.idOrgano,
-                    label: organo.organo,
-                };
-            })
+            organoData.map(organo => ({
+                value: organo.idOrgano,
+                label: organo.organo,
+            }))
         );
-        i = 0;
-        setoptionsSede(
-            sedeInfo.map(sede => {
-                if (sedeID === sede.idSede) {
-                    setoptionsSedeindex(i);
-                }
-                i++;
-                return {
-                    value: sede.idSede,
-                    label: sede.sede,
-                };
-            })
-        );
+        setoptionsSedeindex(
+            dataSede.findIndex(sede => sede.idSede === index.organo.sede.idSede)
+        )
+
+        setoptionsOrganoindex(
+            organoData.findIndex(organo => organo.idOrgano === index.organo.idOrgano)
+        )
     };
 
     const handleCloseEdit = () => {
         setOpenEdit(false);
     };
 
-    const handleUpdateOrgano = e => {
+    const handleUpdateOrgano = (e) => {
         e.preventDefault();
         dispatch(updateOficina(indice))
             .then(() => {
@@ -110,28 +88,36 @@ export const OficinaEditar = ({ row }) => {
             });
     };
 
-    // Select
-    const handleChange = (value) => {
-        if (value == null) {
-        } else {
-            var organo = organoInfo.filter(indice => indice.sede.idSede === value.value);
+    // cambiar el valor del select sede
+    const handleChangeSede = (value) => {
+        if (value !== null) {
+            selectInputRefOrgano.current.clearValue();
+            var organoData = dataOrgano.filter(indice => indice.sede.idSede === value.value);
             setoptionsOrgano(
-                organo.map(organo => ({
+                organoData.map(organo => ({
                     value: organo.idOrgano,
                     label: organo.organo,
                 }))
-
             );
-            setoptionsOrganoindex(0);
+        } else {
+            selectInputRefOrgano.current.clearValue();
+            setoptionsOrgano([{ value: null, label: 'SELECCIONE UNA SEDE' }]);
+            return "SELECCIONE UNA SEDE";
         }
-    };
+    }
 
-    // edit organo
-    const handleChangeOrgano = value => {
-        setIndice({
-            ...indice,
-            organo: { idOrgano: value.value, organo: value.label },
-        });
+    // cambiar el valor del select organo
+    const handleChangeOrgano = (value) => {
+        if (value !== null) {
+            setIndice({
+                ...indice, organo: { idOrgano: value.value, organo: value.label },
+            });
+
+        } else {
+            setIndice({
+                ...indice, organo: { idOrgano: null, organo: '' },
+            });
+        }
     };
 
     return (
@@ -144,10 +130,10 @@ export const OficinaEditar = ({ row }) => {
                 size={'sm'}
                 _focus={{ boxShadow: "none" }}
             />
-            <Modal isOpen={openedit} onClose={handleCloseEdit} size={'2xl'}>
+            <Modal isOpen={openedit} onClose={handleCloseEdit} size={'3xl'}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader display={'flex'} justifyContent={'center'}>
+                    <ModalHeader textAlign="center">
                         EDITAR LA OFICINA
                     </ModalHeader>
                     <ModalCloseButton _focus={{ boxShadow: "none" }} />
@@ -161,28 +147,32 @@ export const OficinaEditar = ({ row }) => {
                             />
                         </FormControl>
                         <FormControl isRequired={true}>
-                            <FormLabel>SEDE</FormLabel>
+                            <FormLabel fontWeight="semibold">SEDE</FormLabel>
                             <Select
                                 required
-                                onChange={handleChange}
+                                onChange={handleChangeSede}
                                 defaultValue={optionsSede[optionsSedeindex]}
                                 isRequired
                                 isSearchable
                                 isClearable
                                 options={optionsSede}
+                                ref={selectInputRefSede}
+                                placeholder="SELECCIONE UNA SEDE"
                             />
                         </FormControl>
                         <FormControl mt={4}>
-                            <FormLabel>ORGANO</FormLabel>
+                            <FormLabel fontWeight="semibold">ORGANO</FormLabel>
                             <Select
                                 onChange={handleChangeOrgano}
                                 defaultValue={optionsOrgano[optionsOrganoindex]}
                                 isClearable
                                 options={optionsOrgano}
+                                ref={selectInputRefOrgano}
+                                placeholder=" SELECCIONE UN ORGANO "
                             />
                         </FormControl>
                         <FormControl mt={4}>
-                            <FormLabel>OFICINA</FormLabel>
+                            <FormLabel fontWeight="semibold">OFICINA</FormLabel>
                             <Input
                                 defaultValue={indice ? indice.oficina : ''}
                                 type="text"
@@ -193,7 +183,7 @@ export const OficinaEditar = ({ row }) => {
                             />
                         </FormControl>
                         <FormControl mt={4}>
-                            <FormLabel>ESTADO</FormLabel>
+                            <FormLabel fontWeight="semibold">ESTADO</FormLabel>
                             <SelectForm
                                 defaultValue={indice ? indice.activo : ''}
                                 onChange={e =>
@@ -211,6 +201,7 @@ export const OficinaEditar = ({ row }) => {
                             colorScheme="green"
                             mr={3}
                             _focus={{ boxShadow: "none" }}
+                            disabled={optionsOrgano[optionsOrganoindex]?.value === null || indice?.organo?.idOrgano === null ? true : false}
                         >
                             ACTUALIZAR
                         </Button>

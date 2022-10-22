@@ -2,7 +2,13 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../../../../store/store';
 import Sidebar from '../../base/Sidebar';
-import { fetchIncidenciasPersonas, fetchIncidenciasAsignadas, fetchIncidenciasNoAsignadas, fetchTecnicosDisponibles, fetchMisIncidencias } from '../../../../actions/incidencia';
+import { 
+  fetchIncidenciasPersonas, 
+  fetchIncidenciasAsignadas, 
+  fetchIncidenciasNoAsignadas, 
+  fetchTecnicosDisponibles, 
+  fetchMisIncidencias 
+} from '../../../../actions/incidencia';
 import { types } from '../../../../types/types';
 import TableIncidenciaAsignados from './TableIncidenciaAsignadas';
 import TableIncidenciaNoAsignados from './TableIncidenciaNoAsignado';
@@ -50,7 +56,7 @@ export const MisIncidencias = () => {
     if(store.getState().origenIncidencia.checking){
       fetchDataOrigenes();
     }
-  }, []);
+  });
 
   return (
     <>
@@ -90,7 +96,7 @@ export const IncidenciaAsistenteAsignados = () => {
     if (store.getState().tecnicoDisponible.checking) {
       fetchDataTecnicoDisponible();
     }
-  }, []);
+  });
 
   return (
     <>
@@ -131,7 +137,7 @@ export const IncidenciaAsistenteNoAsignados = () => {
     if (store.getState().incidenciasNoAsignadas.checking) {
       fetchDataIncidenciasNoAsignadas();
     }
-  }, []);
+  });
 
   return (
     <>

@@ -32,9 +32,9 @@ export const createIncidencia = (data) => {
       dispatch(getIncidenciaAsignadas(await fetchIncidenciasAsignadas()));
       dispatch(getIncidenciaNoAsignadas(await fetchIncidenciasNoAsignadas()));
       dispatch(getIncidencias(await fetchIncidencias()));
-      notification('Incidencia Creada', 'La incidencia ha sido creada correctamente', 'success');
+      notification('INCIDENCIA CREADA', 'LA INCIDENCIA HA SIDO CREADA CORRECTAMENTE', 'success');
     } else {
-      notification('Error de Registro', 'No se pudo registrar la Incidencia', 'error');
+      notification('ERROR DE REGISTRO', 'NO SE LOGRÓ REGISTRAR LA INCIDENCIA', 'error');
     }
   };
 };
@@ -53,9 +53,9 @@ export const createIncidenciaUsuario = (data) => {
     const response = await fetchIncidencia(`incidencias/usuariocomun`, formData, 'POST');
 
     if (response.status === 200 || response.status === 201) {
-      notification('Incidencia registrada', 'La incidencia ha sido registrada correctamente.', 'success');
+      notification('INCIDENCIA CREADA', 'LA INCIDENCIA HA SIDO CREADA CORRECTAMENTE', 'success');
     } else {
-      notification('No se pudo registrar la Incidencia', '', 'error');
+      notification('ERROR DE REGISTRO', 'NO SE LOGRÓ REGISTRAR LA INCIDENCIA', 'error');
     }
   };
 };
@@ -85,10 +85,10 @@ export const asignarIncidencia = (data) => {
     if (response.status === 200 || response.status === 201) {
       dispatch(getIncidenciaAsignadas(await fetchIncidenciasAsignadas()));
       dispatch(getIncidenciaNoAsignadas(await fetchIncidenciasNoAsignadas()));
-      notification('Incidencia Asignada', 'Incidencia ha sido asignado correctamente.', 'success');
+      notification('INCIDENCIA ASIGNADA', 'LA INCIDENCIA HA SIDO ASIGNADA CORRECTAMENTE', 'success');
     }
     else {
-      notification('No se pudo asignar la incidencia', 'No se ha logrado asignar correctamente', 'error');
+      notification('ERROR DE ASIGNACIÓN', 'NO SE LOGRÓ ASIGNAR LA INCIDENCIA', 'error');
     }
   };
 };
@@ -118,10 +118,10 @@ export const reAsignarIncidencia = (data) => {
 
     if (response.status === 200 || response.status === 201) {
       dispatch(getIncidenciaAsignadas(await fetchIncidenciasAsignadas()));
-      notification('Incidencia Re-Asignada', 'Incidencia Re-Asignada correctamente al técnico.', 'success');
+      notification('INCIDENCIA RE-ASIGNADA', 'LA INCIDENCIA HA SIDO RE-ASIGNADA CORRECTAMENTE', 'success');
     }
     else {
-      notification('Error de Re-Asignarción', 'No se pudo Re-Asignar la Incidencia', 'error');
+      notification('ERROR DE RE-ASIGNACIÓN', 'NO SE LOGRÓ RE-ASIGNAR LA INCIDENCIA', 'error');
     }
   };
 };
@@ -150,10 +150,10 @@ export const resetEstadoIncidencia = (data) => {
 
     if (response.status === 200 || response.status === 201) {
       dispatch(getIncidenciaAsignadas(await fetchIncidenciasAsignadas()));
-      notification('Estado Incidencia Actualizada', 'Estado incidencia reseteada correctamente.', 'success');
+      notification('ESTADO ACTUALIZADA', 'EL ESTADO DE LA INCIDENCIA HA SIDO RESETEADA CORRECTAMENTE', 'success');
     }
     else {
-      notification('Error al Actualizar', 'No se pudo resetear estado de la incidencia', 'error');
+      notification('ERROR AL ACTUALIZAR', 'NO SE LOGRÓ ACTUALIZAR EL ESTADO LA INCIDENCIA', 'error');
     }
   };
 }
@@ -169,10 +169,10 @@ export const incidenciaEnTramite = (data) => {
         historialIncidencia: [data.historialIncidencia[0]]
       }, 'PUT');
     if (response.status === 200 || response.status === 201) {
-      notification('Incidencia actualizada', 'Incidencia actualizada correctamente.', 'success');
+      notification('INCIDENCIA ACTUALIZADA', 'LA INCIDENCIA HA SIDO ACTUALIZADA CORRECTAMENTE', 'success');
     }
     else {
-      notification('Error al actualizar','No se pudo actualizar el estado de la Incidencia', 'error');
+      notification('ERROR AL ACTUALIZAR', 'NO SE LOGRÓ ACTUALIZAR A TRÁMITE LA INCIDENCIA', 'error');
     }
   };
 };
@@ -283,9 +283,9 @@ export const createSolucionIncidencia = (data) => {
     formData.append('incidencia', data.incidencia);
     const response = await fetchIncidencia(`incidencia/descripcion/save`, formData, 'POST');
     if (response.status === 200 || response.status === 201) {
-      notification('Atención Registrado', 'Atención de la Incidencia registrado correctamente.', 'success');
+      notification('ATENCIÓN ASIGNADA', 'LA ATENCIÓN DE LA INCIDENCIA HA SIDO REGISTRADO CORRECTAMENTE', 'success');
     } else {
-      notification('Error de Registro de la Atención', 'No se pudo registrar la Atención de la Incidencia correctamente', 'error');
+      notification('ERROR DE REGISTRO', 'NO SE LOGRÓ REGISTRAR LA ATENCIÓN DE LA INCIDENCIA', 'error');
     }
   };
 };
@@ -302,7 +302,7 @@ export const fetchDescargarArchivo = (data) => {
     if (response.status === 200 || response.status === 201) {
       return response;
     } else {
-      notification('Error de Descarga', 'No se pudo descargar el archivo correctamente', 'error');
+      notification('ERROR DE DESCARGA', 'NO SE LOGRÓ DESCARGAR EL ARCHIVO, REVICE CONEXION A FTP', 'error');
     }
   }
 }
@@ -403,12 +403,11 @@ export const fetchDetallesIncidenciaAtendida = async (id) => {
 export const deleteIncidencia = (id) => {
   return async dispatch => {
     const response = await fetchToken(`incidencias/${id}`, '', 'DELETE');
-    const body = await response.json();
     if (response.status === 200) {
       dispatch(getIncidencias(await loadIncidencias()));
-      notification('Incidencia eliminado correctamente', body.message, 'success');
+      notification('INCIDENCIA ELIMINADA', 'LA INCIDENCIA HA SIDO ELIMINADA CORRECTAMENTE', 'success');
     } else {
-      notification('No se pudo eliminar la incidencia', body.detalles, 'error');
+      notification('ERROR DE ELIMINACIÓN', 'NO SE LOGRÓ ELIMINAR LA INCIDENCIA', 'error');
     }
   };
 };
@@ -458,5 +457,3 @@ export const buscarUsuarioDni = async (dni) => {
   return PersonasDni;
 
 }
-
-// 

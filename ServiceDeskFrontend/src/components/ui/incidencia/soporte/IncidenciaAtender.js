@@ -138,12 +138,12 @@ const IncidenciaAtender = (props) => {
         <ModalOverlay />
         <form onSubmit={handleClickOpenAlert}>
           <ModalContent>
-            <ModalHeader>DETALLES DE LA ATENCIÓN A LA INCIDENCIA</ModalHeader>
+            <ModalHeader textAlign="center">DETALLES DE LA ATENCIÓN A LA INCIDENCIA</ModalHeader>
             <ModalCloseButton _focus={{ boxShadow: "none" }} />
 
             <ModalBody pb={6}>
               <FormControl mt={4} isRequired>
-                <FormLabel>DESCRIPCIÓN DE LA ATENCIÓN</FormLabel>
+                <FormLabel fontWeight="semibold">DESCRIPCIÓN DE LA ATENCIÓN</FormLabel>
                 <ReactQuill
                   theme="snow"
                   style={{
@@ -156,7 +156,7 @@ const IncidenciaAtender = (props) => {
                 />
               </FormControl>
               <FormControl mt={4}>
-                <FormLabel>SUBIR ARCHIVO(opcional)</FormLabel>
+                <FormLabel fontWeight="semibold">SUBIR ARCHIVO(opcional)</FormLabel>
                 <InputGroup size='md'>
                   <Input
                     type='file'

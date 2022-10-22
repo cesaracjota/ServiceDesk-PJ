@@ -54,39 +54,13 @@ export const AlertChackra = (icon, title, message) => {
   );
 }
 
-// export const AlertChackra = (icon, title, message) => {
-//   <AlertDialog motionPreset="slideInBottom" isCentered>
-//     <Alert
-//       status={icon}
-//       variant="subtle"
-//       flexDirection="column"
-//       alignItems="center"
-//       justifyContent="center"
-//       textAlign="center"
-//       height="400px"
-//     >
-//       <AlertIcon boxSize="80px" mr={0} />
-//       <AlertTitle mt={4} fontSize="lg">
-//         {title}
-//       </AlertTitle>
-//       <AlertDescription maxWidth="sm" mt={4}>
-//         {message}
-//       </AlertDescription>
-//       <Button colorScheme={'purple'} mt={4}>
-//         OK
-//       </Button>
-//     </Alert>
-//   </AlertDialog>;
-// };
-
 export const notification = (title, message, type, id) => {
   Swal.fire({
     title: title,
     text: message,
     icon: type,
-    confirmButtonText: 'Aceptar',
+    confirmButtonText: 'ACEPTAR',
     target: document.getElementById(`chakra-modal-${id}`)
-    // target: document.getElementById('chakra-modal-modalOrganoAsignacion')
   });
 };
 
@@ -95,7 +69,7 @@ export const notify = (title, message, type) => {
     title: title,
     text: message,
     icon: type,
-    confirmButtonText: 'Aceptar',
+    confirmButtonText: 'ACEPTAR',
     target: document.getElementById('chakra-modal-modalHistorialUsuario')
   });
 };
@@ -105,7 +79,7 @@ export const timerNotification = title => {
 
   Swal.fire({
     title: title,
-    html: 'Serás redireccionado en <b></b> segundos.',
+    html: 'SERÁS REDIRECCIONADO EN <b></b> SEGUNDOS.',
     timer: 1500,
     timerProgressBar: true,
     didOpen: () => {
