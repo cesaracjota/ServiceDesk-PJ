@@ -149,7 +149,8 @@ const HomeUsuario = () => {
                                             <Avatar
                                                 size="sm"
                                                 name={autorFrase}
-                                                src={fraseDia?.author_photo}
+                                                fontWeight="semibold"
+                                                color={'white'}
                                             />
                                         </SkeletonCircle>
                                         <SkeletonText noOfLines={1} spacing='4' isLoaded={isLoaded}>

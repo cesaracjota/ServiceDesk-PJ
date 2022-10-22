@@ -17,7 +17,7 @@ const HomeSoporte = () => {
             setAutorFrase(data?.frase?.autor);
             setIsLoaded(true);
         } catch (error) {
-            setFraseDia('No se pudo cargar la frase del día');
+            setFraseDia('No se pudo cargar la frase del día, actualiza la página.');
             setAutorFrase('Autor Anonimo');
             setIsLoaded(true);
             console.log(error);
@@ -102,7 +102,7 @@ const HomeSoporte = () => {
                                     w="full"
                                     h={"100px"}
                                     fit="cover"
-                                    visibility={['unset', 'unset', 'unset', 'hidden']}
+                                    visibility={['hidden', 'unset', 'unset', 'hidden']}
                                     src="https://images.unsplash.com/photo-1550439062-609e1531270e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
                                     alt="Article"
                                 />
@@ -150,7 +150,8 @@ const HomeSoporte = () => {
                                             <Avatar
                                                 size="sm"
                                                 name={autorFrase}
-                                                src={fraseDia?.author_photo}
+                                                fontWeight="semibold"
+                                                color={'white'}
                                             />
                                         </SkeletonCircle>
                                         <SkeletonText noOfLines={1} spacing='4' isLoaded={isLoaded}>
