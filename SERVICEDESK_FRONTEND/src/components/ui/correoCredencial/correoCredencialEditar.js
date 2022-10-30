@@ -67,7 +67,7 @@ export const CorreoCredencialEditar = ({ row }) => {
                 colorScheme="facebook"
                 icon={<AiTwotoneEdit size={24} />}
                 size={'sm'}
-                _focus={{ boxShadow: "none" }}
+                
                 mr={2}
             />
             <Modal isOpen={openedit} onClose={handleCloseEdit} size={'3xl'}>
@@ -76,7 +76,7 @@ export const CorreoCredencialEditar = ({ row }) => {
                     <ModalHeader textAlign="center">
                         EDITAR CREDENCIALES DEL CORREO
                     </ModalHeader>
-                    <ModalCloseButton _focus={{ boxShadow: "none" }} />
+                    <ModalCloseButton  />
                     <ModalBody pb={6}>
                         <FormControl>
                             <Input
@@ -134,11 +134,11 @@ export const CorreoCredencialEditar = ({ row }) => {
                             onClick={e => actualizarCorreoCredencial(e)}
                             colorScheme="green"
                             mr={3}
-                            _focus={{ boxShadow: "none" }}
+                            
                         >
                             ACTUALIZAR
                         </Button>
-                        <Button onClick={handleCloseEdit} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+                        <Button onClick={handleCloseEdit}  colorScheme="red" variant="outline">CANCELAR</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

@@ -24,6 +24,8 @@ import { correoRecibidoReducer, correoEnviadoReducer } from "../reducers/correoR
 import { origenIncidenciaReducer } from "../reducers/origenIncidenciaReducer";
 import { ftpReducer } from "../reducers/ftpReducer";
 import { correoCredencialReducer } from "../reducers/correoCredencialReducer";
+import { configuracionBotonesReducer } from "../reducers/configuracionesReducer";
+import { mensajeReducer } from "../reducers/mensajeReducer";
 
 const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
@@ -51,6 +53,8 @@ const reducers = combineReducers({
     ftp: ftpReducer,
     correoCredencial: correoCredencialReducer,
     misIncidencias: misIncidenciasReducer,
+    configuracionBotones: configuracionBotonesReducer,
+    mensaje: mensajeReducer,
 });
 
 export const store = createStore( 

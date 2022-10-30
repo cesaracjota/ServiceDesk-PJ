@@ -13,6 +13,7 @@ import {
     Stack,
     Box,
     Button,
+    Tooltip,
 } from '@chakra-ui/react'
 import { useDispatch } from 'react-redux';
 import { FaFileAlt, FaFileImage, FaFilePdf } from 'react-icons/fa';
@@ -95,7 +96,7 @@ const AtencionViewFile = ({ rowData, typeFile, setProgressTrue, setProgressFalse
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader textAlign={'center'} fontWeight="bold">VISUALIZANDO EL ARCHIVO</ModalHeader>
-                    <ModalCloseButton _focus={{ boxShadow: "none" }} />
+                    <ModalCloseButton  />
                     <ModalBody maxH={'80vh'}>
                         {
                             fileData?.filename?.includes(".pdf") ? (
@@ -125,63 +126,62 @@ const AtencionViewFile = ({ rowData, typeFile, setProgressTrue, setProgressFalse
 
                         {fileData?.filename?.includes(".pdf") ? (
                             <>
-                                <IconButton
-                                    icon={<DownloadIcon fontSize={'xl'} />}
-                                    variant={'outline'}
-                                    colorScheme={'green'}
-                                    onClick={FetchDownloadFile}
-                                    rounded={'full'}
-                                    size={'lg'}
-                                    mr={3}
-                                    _focus={{ boxShadow: "none" }}
-                                />
-
-                                <IconButton
-                                    icon={<MdOpenInNew fontSize={'xl'} />}
-                                    variant={'outline'}
-                                    colorScheme={'blue'}
-                                    onClick={handleOpenFilePdf}
-                                    rounded={'full'}
-                                    size={'lg'}
-                                    mr={3}
-                                    _focus={{ boxShadow: "none" }}
-                                />
-
-                                <IconButton
-                                    icon={<CloseIcon fontSize={'xl'} />}
-                                    variant={'outline'}
-                                    colorScheme={'red'}
-                                    onClick={handleCloseModalFile}
-                                    rounded={'full'}
-                                    size={'lg'}
-                                    _focus={{ boxShadow: "none" }}
-                                />
-
+                                <Tooltip placement="top" label="Descargar Archivo">
+                                    <IconButton
+                                        icon={<DownloadIcon fontSize={'xl'} />}
+                                        variant={'outline'}
+                                        colorScheme={'green'}
+                                        onClick={FetchDownloadFile}
+                                        rounded={'full'}
+                                        size={'lg'}
+                                        mr={3}
+                                    />
+                                </Tooltip>
+                                <Tooltip placement="top" label="Abrir Archivo en una Pestaña">
+                                    <IconButton
+                                        icon={<MdOpenInNew fontSize={'xl'} />}
+                                        variant={'outline'}
+                                        colorScheme={'blue'}
+                                        onClick={handleOpenFilePdf}
+                                        rounded={'full'}
+                                        size={'lg'}
+                                        mr={3}
+                                    />
+                                </Tooltip>
+                                <Tooltip placement="top" label="Cerrar Modal">
+                                    <IconButton
+                                        icon={<CloseIcon fontSize={'xl'} />}
+                                        variant={'outline'}
+                                        colorScheme={'red'}
+                                        onClick={handleCloseModalFile}
+                                        rounded={'full'}
+                                        size={'lg'}
+                                    />
+                                </Tooltip>
                             </>
                         ) : (
                             <>
-                                <IconButton
-                                    icon={<DownloadIcon fontSize={'xl'} />}
-                                    variant={'outline'}
-                                    colorScheme={'green'}
-                                    onClick={FetchDownloadFile}
-                                    rounded={'full'}
-                                    size={'lg'}
-                                    mr={3}
-                                    _focus={{ boxShadow: "none" }}
-
-                                />
-
-                                <IconButton
-                                    icon={<CloseIcon fontSize={'xl'} />}
-                                    variant={'outline'}
-                                    colorScheme={'red'}
-                                    onClick={handleCloseModalFile}
-                                    rounded={'full'}
-                                    size={'lg'}
-                                    _focus={{ boxShadow: "none" }}
-                                />
-
+                                <Tooltip placement="top" label="Descargar Archivo">
+                                    <IconButton
+                                        icon={<DownloadIcon fontSize={'xl'} />}
+                                        variant={'outline'}
+                                        colorScheme={'green'}
+                                        onClick={FetchDownloadFile}
+                                        rounded={'full'}
+                                        size={'lg'}
+                                        mr={3}
+                                    />
+                                </Tooltip>
+                                <Tooltip placement="top" label="Cerrar Modal">
+                                    <IconButton
+                                        icon={<CloseIcon fontSize={'xl'} />}
+                                        variant={'outline'}
+                                        colorScheme={'red'}
+                                        onClick={handleCloseModalFile}
+                                        rounded={'full'}
+                                        size={'lg'}
+                                    />
+                                </Tooltip>
                             </>
                         )}
                     </ModalFooter>

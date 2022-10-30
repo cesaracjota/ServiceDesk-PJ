@@ -65,7 +65,7 @@ const SedeAgregar = () => {
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader textAlign="center">AGREGAR NUEVA SEDE</ModalHeader>
-                    <ModalCloseButton _focus={{ boxShadow: "none" }} />
+                    <ModalCloseButton  />
                     <ModalBody pb={6}>
                         <FormControl>
                             <FormLabel fontWeight="semibold">SEDE</FormLabel>
@@ -97,10 +97,10 @@ const SedeAgregar = () => {
                         </FormControl>
                     </ModalBody>
                     <ModalFooter>
-                        <Button onClick={() => saveSede()} colorScheme={'facebook'} autoFocus mr={3} _focus={{ boxShadow: "none" }}>
+                        <Button onClick={() => saveSede()} colorScheme={'facebook'} autoFocus mr={3} >
                             GUARDAR
                         </Button>
-                        <Button onClick={handleCloseModal} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+                        <Button onClick={handleCloseModal}  colorScheme="red" variant="outline">CANCELAR</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

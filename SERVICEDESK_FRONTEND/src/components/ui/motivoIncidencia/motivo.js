@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { store } from '../../../store/store';
-import Sidebar from '../base/Sidebar';
 import { fetchMotivos } from '../../../actions/motivo';
 import { types } from '../../../types/types';
 import TableMotivo from './TableMotivo';
+import Dashboard from '../base/layout/Dashboard';
 
 export const Motivo = () => {
   
@@ -21,11 +21,8 @@ export const Motivo = () => {
     }
   });
 
-  return (
-    <>
-      <Sidebar componente={TableMotivo} />
-    </>
-  );
+  return (<Dashboard componente={<TableMotivo />} />)
+
 };
 
 export const getMotivo = motivo =>({

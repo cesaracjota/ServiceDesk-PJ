@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../../../../store/store';
-import Sidebar from '../../base/Sidebar';
 import { fetchIncidencias, fetchIncidenciasPersonas } from '../../../../actions/incidencia'; 
 import { types } from '../../../../types/types';
 import TableConocimiento from './TableConocimiento';
+import Dashboard from '../../base/layout/Dashboard';
 
 export const IncidenciaConocimiento = () => {
   
@@ -12,41 +12,27 @@ export const IncidenciaConocimiento = () => {
 
   const { identificador } = useSelector(state => state.auth);
 
-  const fetchData = async ()=> {
-    await fetchIncidencias().then((res)=>{
-      dispatch(getIncidencias(res));
-    }).catch((err)=>{
-      // console.log("WARN " + err);
-    });
+  const fetchDataIncidencias = async () => {
+    const response = await fetchIncidencias();
+    dispatch(getIncidencias(response));
   }
-  
+
+  const fetchDataMisIncidencias = async () => {
+    const response = await fetchIncidenciasPersonas(identificador);
+    dispatch(getIncidenciaId(response));    
+  }
+
   useEffect(() => {
     if(store.getState().incidencia.checking){
-      fetchData();
+      fetchDataIncidencias();
     }
-  });
-
-  const fetchDataId = async ()=> {
-    await fetchIncidenciasPersonas(identificador).then((res)=>{
-      dispatch(getIncidenciaId(res));
-    }).catch((err)=>{
-      // console.log("WARN " + err);
-    });
-    
-  }
-
-  useEffect(() => {
     if(store.getState().incidenciaId.checking){
-      fetchDataId();
+      fetchDataMisIncidencias();
     }
   });
 
-  //
-  return (
-    <>
-      <Sidebar componente={TableConocimiento} />
-    </>
-  );
+  return (<Dashboard componente={<TableConocimiento />} />)
+
 };
 
 export const getIncidencias = incidencia =>({

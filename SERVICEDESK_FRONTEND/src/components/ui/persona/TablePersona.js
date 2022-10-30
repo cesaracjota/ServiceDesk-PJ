@@ -206,13 +206,15 @@ export default function TablePersona() {
       cell: row => (
         <div>
           {row.perfilPersona.perfil === 'SOPORTE TECNICO' && row.activo === 'S' ? (
-            <IconButton
-              onClick={() => handleClickOpenModal(row)}
-              colorScheme="telegram"
-              size={'sm'}
-              icon={<FaUserSecret fontSize="20px"/>}
-              _focus={{ boxShadow: "none" }}
-            />
+            <Tooltip hasArrow label="Permisos para Soportes Técnicos">
+              <IconButton
+                onClick={() => handleClickOpenModal(row)}
+                colorScheme="telegram"
+                size={'sm'}
+                icon={<FaUserSecret fontSize="20px"/>}
+                
+              />
+            </Tooltip>
           ) : null}
         </div>
       ),
@@ -253,12 +255,12 @@ export default function TablePersona() {
                 <AlertDialogBody>CONFIRMO LA ACCIÓN</AlertDialogBody>
 
                 <AlertDialogFooter>
-                  <Button onClick={handleCloseDelete} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+                  <Button onClick={handleCloseDelete}  colorScheme="red" variant="outline">CANCELAR</Button>
                   <Button
                     onClick={() => handleDeletePersona(personaid)}
                     colorScheme="red"
                     ml={3}
-                    _focus={{ boxShadow: "none" }}
+                    
                   >
                     SI
                   </Button>

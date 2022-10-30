@@ -59,7 +59,7 @@ export default function Inicio() {
                     variant="solid"
                     size="md"
                     w="full"
-                    _focus={{ boxShadow: "none" }}
+                    
                     mt={2}>
                     IR A MIS INCIDENCIAS
                   </Button>
@@ -99,7 +99,7 @@ export default function Inicio() {
                 </chakra.span>
                 <Link to='/dashboard/reportes/incidencias-por-tecnico'>
                   <Button
-                    _focus={{ boxShadow: "none" }}
+                    
                     rightIcon={<CgChevronDoubleRight fontSize={"22px"} />}
                     size="sm"
                     _dark={{ color: "gray.200" }}
@@ -137,7 +137,7 @@ export default function Inicio() {
                 </chakra.span>
                 <Link to='/dashboard/reportes/incidencias-por-usuario'>
                   <Button
-                    _focus={{ boxShadow: "none" }}
+                    
                     rightIcon={<CgChevronDoubleRight fontSize={"22px"} />}
                     size={'sm'}
                     _dark={{ color: "gray.200" }}
@@ -175,7 +175,7 @@ export default function Inicio() {
                 </chakra.span>
                 <Link to='/dashboard/reportes/incidencias-por-tiempos'>
                   <Button
-                    _focus={{ boxShadow: "none" }}
+                    
                     rightIcon={<CgChevronDoubleRight fontSize={"22px"} />}
                     size={'sm'}
                     _dark={{ color: "gray.200" }}

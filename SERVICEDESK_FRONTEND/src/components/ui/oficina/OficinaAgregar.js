@@ -102,7 +102,7 @@ const OficinaAgregar = () => {
 
   return (
     <>
-      <Button leftIcon={<AddIcon/>} size="sm" onClick={handleClickOpenCreate} colorScheme={'facebook'} _focus={{ boxShadow: "none" }}>
+      <Button leftIcon={<AddIcon/>} size="sm" onClick={handleClickOpenCreate} colorScheme={'facebook'} >
         AGREGAR
       </Button>
 
@@ -115,7 +115,7 @@ const OficinaAgregar = () => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader textAlign="center">AGREGAR NUEVA OFICINA</ModalHeader>
-          <ModalCloseButton _focus={{ boxShadow: "none" }} />
+          <ModalCloseButton  />
           <ModalBody pb={6}>
             <FormControl isRequired={true}>
               <FormLabel fontWeight="semibold">SEDE</FormLabel>
@@ -184,12 +184,12 @@ const OficinaAgregar = () => {
               colorScheme={'facebook'}
               autoFocus
               mr={3}
-              _focus={{ boxShadow: "none" }}
+              
               disabled = {organoValue === null || dataOficina.oficina === '' ? true : false}
             >
               GUARDAR
             </Button>
-            <Button onClick={handleCloseModal} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+            <Button onClick={handleCloseModal}  colorScheme="red" variant="outline">CANCELAR</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

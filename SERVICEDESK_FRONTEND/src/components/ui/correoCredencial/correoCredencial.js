@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { store } from '../../../store/store';
-import Sidebar from '../base/Sidebar';
 import { fetchListCorreoCredencial } from '../../../actions/correoCredencial'; 
 import { types } from '../../../types/types';
 import TableCorreoCredencial from './TableCorreoCredencial';
+import Dashboard from '../base/layout/Dashboard';
 
 export const CorreoCredencial = () => {
   const dispatch = useDispatch();
@@ -20,11 +20,8 @@ export const CorreoCredencial = () => {
     }
   });
 
-  return (
-    <>
-      <Sidebar componente={TableCorreoCredencial} />
-    </>
-  );
+  return (<Dashboard componente={<TableCorreoCredencial />} />)
+
 };
 
 export const getCorreoCredencial = (correoCredencial) =>({

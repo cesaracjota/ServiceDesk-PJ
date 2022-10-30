@@ -32,6 +32,7 @@ import {
   PopoverBody,
   Portal,
   Progress,
+  Tooltip,
 } from '@chakra-ui/react';
 
 import { store } from '../../../store/store';
@@ -240,16 +241,20 @@ export default function TableIncidencia() {
               identificador={identificador}
             />
             {archivoTecnico === null && archivoUsuario === null ? null : (
-              <Popover placement='left'>
+              <Popover placement="auto">
                 <PopoverTrigger>
-                  <IconButton
-                    size="sm"
-                    colorScheme="purple"
-                    icon={<AiFillFileText />}
-                    ml={1}
-                    fontSize={'20px'}
-                    _focus={{ boxShadow: 'none' }}
-                  />
+                  <Box as="a" cursor={'pointer'}>
+                    <Tooltip hasArrow placement="auto" label="Visualizar Archivos de la Incidencia" aria-label="A tooltip">
+                      <IconButton
+                        size="sm"
+                        colorScheme="purple"
+                        icon={<AiFillFileText />}
+                        ml={1}
+                        fontSize={'20px'}
+                        _focus={{ boxShadow: 'none' }}
+                      />
+                    </Tooltip>
+                  </Box>
                 </PopoverTrigger>
                 <Portal>
                   <PopoverContent _focus={{ boxShadow: 'none' }}>
@@ -283,15 +288,17 @@ export default function TableIncidencia() {
             )}
 
             {historial[0]?.estadoIncidencia === 'A' ? (
-              <IconButton
-                icon={<MdSettingsBackupRestore size={20} />}
-                colorScheme={'red'}
-                ml={1}
-                onClick={() => handleClickOpenAlert(row)}
-                size={'sm'}
-                fontSize={'20px'}
-                _focus={{ boxShadow: 'none' }}
-              />
+              <Tooltip placement="auto" hasArrow label="Resetear el estado de incidencia">
+                <IconButton
+                  icon={<MdSettingsBackupRestore size={20} />}
+                  colorScheme={'red'}
+                  ml={1}
+                  onClick={() => handleClickOpenAlert(row)}
+                  size={'sm'}
+                  fontSize={'20px'}
+                  _focus={{ boxShadow: 'none' }}
+                />
+              </Tooltip>
             ) : null}
 
             <AlertDialog isOpen={openAlert} onClose={handleClickCloseAlert} size={'5xl'}>
@@ -300,16 +307,16 @@ export default function TableIncidencia() {
                   <AlertDialogHeader fontSize="xl" fontWeight="bold">
                     ¿ESTÁ SEGURO DE ACTUALIZAR AL ESTADO INICIAL DE LA INCIDENCIA?
                   </AlertDialogHeader>
-                  <AlertDialogCloseButton _focus={{ boxShadow: "none" }} />
+                  <AlertDialogCloseButton  />
                   <AlertDialogBody>
                     ¿CONFIRMAR LA ACCIÓN?
                   </AlertDialogBody>
                   <AlertDialogFooter>
-                    <Button onClick={handleClickCloseAlert} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+                    <Button onClick={handleClickCloseAlert}  colorScheme="red" variant="outline">CANCELAR</Button>
                     <Button
                       colorScheme="facebook"
                       ml={3}
-                      _focus={{ boxShadow: "none" }}
+                      
                       onClick={() => ResetAsignacionIncidencia()}
                     >
                       CONFIRMAR
@@ -529,7 +536,7 @@ export default function TableIncidencia() {
                 size={'sm'}
                 icon={<RepeatIcon boxSize={4} />}
                 colorScheme={'facebook'}
-                _focus={{ boxShadow: "none" }}
+                
                 onClick={refreshTable} />
               <Menu size={'xs'}>
                 <MenuButton as={'menu'} style={{ cursor: 'pointer' }}>

@@ -1,11 +1,8 @@
 import React from 'react';
-import Sidebar from '../../base/Sidebar';
+import Dashboard from '../../base/layout/Dashboard';
 import Inicio from './HomeUsuario';
 export const HomeUsuarioComun = () => {
 
-    return (
-      <>
-        <Sidebar componente={Inicio}/>
-      </>
-    );
-  };
+  return (<Dashboard componente={<Inicio/>} />);
+
+};

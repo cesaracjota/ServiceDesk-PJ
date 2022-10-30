@@ -49,21 +49,21 @@ import {
   FaUserAlt,
   FaUsers,
   FaBrain,
-  FaUserCircle
+  FaUserCircle,
 } from 'react-icons/fa';
 
 import { ImCheckboxChecked, ImCheckboxUnchecked } from 'react-icons/im';
 import { HiViewBoards } from 'react-icons/hi';
+import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import { AiFillMessage, AiFillSetting } from 'react-icons/ai';
+import { RiLogoutBoxRFill } from 'react-icons/ri';
 
 import { NavLink } from 'react-router-dom';
 
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 
 import { store } from '../../../store/store';
 import { LogOut } from '../../../actions/auth';
 import { useDispatch } from 'react-redux';
-import { RiLogoutBoxRFill } from 'react-icons/ri';
-import { AiFillSetting } from 'react-icons/ai';
 
 const LinkItemsCoordinadorInformatico = [
   { name: 'INICIO', icon: FaTachometerAlt, ruta: '/dashboard/home' },
@@ -153,9 +153,7 @@ export default function SidebarWithHeader({ componente: Component }) {
 }
 
 const SidebarContent = ({ onClose, ...rest }) => {
-
   const usuario = store.getState().auth;
-
   return (
     <>
       <Box
@@ -173,7 +171,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
           <Text fontSize="22px" color={'#999999'} fontWeight="extrabold">
             <span style={{ 'color': '#B40001' }}>SERVICE</span> DESK
           </Text>
-          <CloseButton ml={2} display={{ base: 'flex', md: 'flex', lg: 'none' }} onClick={onClose} _focus={{ boxShadow: "none" }} />
+          <CloseButton ml={2} display={{ base: 'flex', md: 'flex', lg: 'none' }} onClick={onClose}  />
         </Flex>
 
         {usuario?.rol === '[COORDINADOR INFORMATICO]' ? (
@@ -269,7 +267,6 @@ const MobileNav = ({ onOpen, ...rest }) => {
         variant="outline"
         aria-label="open menu"
         icon={<FiMenu />}
-        _focus={{ boxShadow: "none" }}
       />
 
       <Text
@@ -288,7 +285,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
             variant="ghost"
             aria-label="open menu"
             icon={<FiMail />}
-            _focus={{ boxShadow: "none" }}
+            
           />
         </Link>
         <IconButton
@@ -296,13 +293,11 @@ const MobileNav = ({ onOpen, ...rest }) => {
           variant="ghost"
           aria-label="open menu"
           icon={<FiBell />}
-          _focus={{ boxShadow: "none" }}
         />
         <IconButton
           size="lg"
           variant="ghost"
           icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-          _focus={{ boxShadow: "none" }}
           onClick={toggleColorMode}
         />
         <Flex alignItems={'center'}>
@@ -369,8 +364,17 @@ const MobileNav = ({ onOpen, ...rest }) => {
               <MenuDivider />
               <Link as={NavLink} to="/dashboard/mi-perfil" _hover={{ textDecoration: 'none' }}>
                 <MenuItem icon={<FaUserCircle size={20}/>}>Mi Perfil</MenuItem>
-                <MenuItem icon={<AiFillSetting size={20}/>} mr={10}>Configuraciones</MenuItem>
               </Link>
+              { (usuario?.rol === '[COORDINADOR INFORMATICO]' || usuario?.rol === '[ASISTENTE INFORMATICO]') ? (
+                <>
+                  <Link as={NavLink} to="/dashboard/configuraciones" _hover={{ textDecoration: 'none' }}>
+                    <MenuItem icon={<AiFillSetting size={20}/>} mr={10}>Configuraciones</MenuItem>
+                  </Link>
+                  <Link as={NavLink} to="/dashboard/mensajes" _hover={{ textDecoration: 'none' }}>
+                    <MenuItem icon={<AiFillMessage size={20}/>} mr={10}>Crear Mensaje para Soportes T.</MenuItem>
+                  </Link>
+                </>
+              ) : null}
               <MenuDivider />
               <ModalCerrarSesion />
             </MenuList>
@@ -416,10 +420,10 @@ const ModalCerrarSesion = () => {
             ¿ESTÁS SEGURO DE CERRAR SESIÓN?
           </AlertDialogBody>
           <AlertDialogFooter>
-            <Button onClick={handleCloseModal} _focus={{ boxShadow: "none" }}>
+            <Button onClick={handleCloseModal} >
               NO
             </Button>
-            <Button colorScheme='red' ml={3} onClick={handleLogout} _focus={{ boxShadow: "none" }}>
+            <Button colorScheme='red' ml={3} onClick={handleLogout} >
               SI
             </Button>
           </AlertDialogFooter>

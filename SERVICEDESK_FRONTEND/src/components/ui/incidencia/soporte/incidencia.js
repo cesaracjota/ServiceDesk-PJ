@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../../../../store/store';
-import Sidebar from '../../base/Sidebar';
 import { fetchIncidenciasPersonas, fetchIncidenciaSoporte, fetchTecnicosDisponibles } from '../../../../actions/incidencia'; 
 import { types } from '../../../../types/types';
 import TableIncidenciaSoporte from './TableIncidencia';
 import { fetchMotivos } from '../../../../actions/motivo';
 import { fetchOrigen } from '../../../../actions/origenIncidencia';
 import { getMotivos, getOrigenes } from '../incidencia';
+import { loadConfiguracionBotones } from '../../../../actions/configurarBotones';
+import { getConfiguracionBotones } from '../asistente/incidencia';
+import Dashboard from '../../base/layout/Dashboard';
 
 export const IncidenciaSoporte = () => {
 
@@ -40,6 +42,11 @@ export const IncidenciaSoporte = () => {
     dispatch(getOrigenes(response));
   }
 
+  const fetchConfiguracionBotones = async () => {
+    const response = await loadConfiguracionBotones();
+    dispatch(getConfiguracionBotones(response));
+  }
+
   useEffect(() => {    
     if(store.getState().tecnicoDisponible.checking){
       fetchDataTecnicoDisponible();
@@ -56,13 +63,13 @@ export const IncidenciaSoporte = () => {
     if(store.getState().origenIncidencia.checking){
       fetchDataOrigenes();
     }
+    if (store.getState().configuracionBotones.checking) {
+      fetchConfiguracionBotones();
+    }
   });
 
-  return (
-    <>
-      <Sidebar componente={TableIncidenciaSoporte} />
-    </>
-  );
+  return (<Dashboard componente={<TableIncidenciaSoporte />} />)
+
 };
 
 export const getIncidenciasAsignadasSoporte = incidenciasSoporte =>({

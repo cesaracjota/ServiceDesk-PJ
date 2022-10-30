@@ -104,7 +104,7 @@ const UserProfile = () => {
             >
                 <Accordion defaultIndex={[0]} allowMultiple>
                     <AccordionItem>
-                        <AccordionButton _expanded={{ bg: 'gray.600', color: 'white' }} _focus={{ boxShadow: "none" }}>
+                        <AccordionButton _expanded={{ bg: 'gray.600', color: 'white' }} >
                             <Box flex='1' textAlign='left'>
                                 <HStack spacing={2}>
                                     <Icon as={RiFileInfoFill} />
@@ -186,7 +186,7 @@ const UserProfile = () => {
                     </AccordionItem>
 
                     <AccordionItem>
-                        <AccordionButton _expanded={{ bg: 'gray.600', color: 'white' }} _focus={{ boxShadow: "none" }}>
+                        <AccordionButton _expanded={{ bg: 'gray.600', color: 'white' }} >
                             <Box flex='1' textAlign='left'>
                                 <HStack spacing={2}>
                                     <Icon as={RiFileEditFill} />
@@ -252,7 +252,7 @@ const UserProfile = () => {
                                                             fontWeight="extrabold"
                                                             disabled={newPassword.length < 6}
                                                             type="submit"
-                                                            _focus={{ boxShadow: "none" }}
+                                                            
                                                         >ACTUALIZAR</Button>
                                                     </Box>
                                                 </form>

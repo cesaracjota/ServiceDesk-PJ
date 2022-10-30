@@ -1,12 +1,9 @@
 import React from 'react';
-import Sidebar from '../../base/Sidebar';
+import Dashboard from '../../base/layout/Dashboard';
 import ListaReportes from './ListaReportes';
 
 export const Reportes = () => {
 
-    return (
-      <>
-        <Sidebar componente={ListaReportes}/>
-      </>
-    );
+  return (<Dashboard componente={<ListaReportes />} />)
+
   };

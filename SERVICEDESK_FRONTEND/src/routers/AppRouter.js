@@ -210,6 +210,16 @@ export const AppRouter = () => {
             component={DasboardScreen}
             isAuthenticated={!!access_token}
           />
+          <PrivateRoute
+            path="/dashboard/configuraciones"
+            component={DasboardScreen}
+            isAuthenticated={!!access_token}
+          />
+          <PrivateRoute
+            path="/dashboard/mensajes"
+            component={DasboardScreen}
+            isAuthenticated={!!access_token}
+          />
           {
               rol === '[COORDINADOR INFORMATICO]' || rol === '[ASISTENTE INFORMATICO]'
               ?

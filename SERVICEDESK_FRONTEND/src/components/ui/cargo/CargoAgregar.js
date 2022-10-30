@@ -52,7 +52,7 @@ const CargoAgregar = () => {
 
     return (
         <>
-            <Button leftIcon={<AddIcon />} size='sm' onClick={handleClickOpenCreate} colorScheme={'facebook'} _focus={{ boxShadow: "none" }}>AGREGAR</Button>
+            <Button leftIcon={<AddIcon />} size='sm' onClick={handleClickOpenCreate} colorScheme={'facebook'} >AGREGAR</Button>
 
             <Modal
                 isOpen={openCreate}
@@ -63,7 +63,7 @@ const CargoAgregar = () => {
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader textAlign="center">AGREGAR NUEVO CARGO</ModalHeader>
-                    <ModalCloseButton _focus={{ boxShadow: "none" }} />
+                    <ModalCloseButton  />
                     <ModalBody pb={6}>
                         <FormControl>
                             <FormLabel fontWeight={'bold'}>CARGO</FormLabel>
@@ -91,12 +91,12 @@ const CargoAgregar = () => {
                             colorScheme={'facebook'} 
                             autoFocus 
                             mr={3} 
-                            _focus={{ boxShadow: "none" }}
+                            
                             disabled={cargo === '' ? true : false}
                             >
                             GUARDAR
                         </Button>
-                        <Button onClick={handleCloseModal} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+                        <Button onClick={handleCloseModal}  colorScheme="red" variant="outline">CANCELAR</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

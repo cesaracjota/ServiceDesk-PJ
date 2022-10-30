@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Sidebar from '../base/Sidebar';
 import CorreoIndex from './CorreoIndex';
 import { store } from '../../../store/store';
 import { fetchCorreoEnviado, fetchCorreoRecibido } from '../../../actions/correo';
 import { types } from '../../../types/types';
+import Dashboard from '../base/layout/Dashboard';
 
 export const Correo = () => {
   //
@@ -32,11 +32,8 @@ export const Correo = () => {
     }
   });
 
-  return (
-    <>
-      <Sidebar componente={CorreoIndex} />
-    </>
-  );
+  return (<Dashboard componente={<CorreoIndex />} />)
+
 };
 
 export const getCorreosRecibidos = correoRecibido => ({

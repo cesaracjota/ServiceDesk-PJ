@@ -276,7 +276,7 @@ const ModalHistorialUsuario = (props) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader textAlign="center" fontWeight={'bold'} mt={2}>DATOS DE INFORMACIÓN</ModalHeader>
-          <ModalCloseButton _focus={{ boxShadow: "none" }}/>
+          <ModalCloseButton />
           <ModalBody pb={5} mt={5}>
             <FormControl>
               <Input
@@ -335,12 +335,12 @@ const ModalHistorialUsuario = (props) => {
               colorScheme={'facebook'}
               autoFocus
               mr={3}
-              _focus={{ boxShadow: "none" }}
+              
               disabled = {indiceHistorial.oficina.idOficina === null && indiceHistorial.cargo.idCargo === null}
             >
               GUARDAR
             </Button>
-            <Button onClick={cerrarModal} colorScheme="red" _focus={{ boxShadow: "none" }} variant="outline">CANCELAR</Button>
+            <Button onClick={cerrarModal} colorScheme="red"  variant="outline">CANCELAR</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

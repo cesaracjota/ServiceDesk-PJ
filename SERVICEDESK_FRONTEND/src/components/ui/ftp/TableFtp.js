@@ -202,12 +202,12 @@ const ModalEliminarFtp = ({ row }) => {
             <AlertDialogBody>CONFIRMO LA ACCIÓN</AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button onClick={handleCloseDelete} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+              <Button onClick={handleCloseDelete}  colorScheme="red" variant="outline">CANCELAR</Button>
               <Button
                 onClick={() => handleDeleteFtp(row.id)}
                 colorScheme="red"
                 ml={3}
-                _focus={{ boxShadow: "none" }}
+                
               >
                 SI
               </Button>

@@ -5,7 +5,6 @@ import {
   Text,
   Input,
   Button,
-  useColorModeValue,
   FormLabel,
   HStack,
   Select,
@@ -199,9 +198,9 @@ export default function HistorialUsuario() {
         justify='space-between'
         spacing={4}
         align={'center'}
-        bg={'white'}
+        bg={'gray.50'}
       >
-        <VStack spacing={4} w={'100%'} h={'full'} color="white" bg="gray.700" pb={4} py={5} boxShadow="base" borderRadius={'lg'}>
+        <VStack spacing={4} w={'100%'} h={'full'} color="white" bg="gray.700" _dark={{bg: "gray.800"}} pb={4} py={5} boxShadow="base" borderRadius={'lg'}>
           <Box flex="1" w="100%" textAlign="center" justify="center" alignItems="center" py={2}>
             <Text fontWeight={'bold'} mb="2">{historialpersona === null
               ? 'ERES USUARIO NUEVO, TIENES QUE AGREGAR NUEVO REGISTRO'
@@ -245,7 +244,7 @@ export default function HistorialUsuario() {
             <Heading
               textTransform={'uppercase'}
               fontSize={'2xl'}
-              color={useColorModeValue('gray.100', 'gray.800')}
+              color="white"
               mt={2}
             >
               {historialpersona === null ? nombres + ' ' + apellidos : persona?.nombre + ' ' + persona?.apellido}
@@ -273,7 +272,7 @@ export default function HistorialUsuario() {
             </SimpleGrid>
           </Box>
         </VStack>
-        <Stack spacing={2} direction={'column'} w={'full'} h={'full'} boxShadow="base" borderColor="gray.100" borderWidth="1px" bg="gray.50" borderRadius="lg" p={4} py={6}>
+        <Stack spacing={2} direction={'column'} w={'full'} h={'full'} _dark={{ bg: "gray.800"}} boxShadow="base" borderColor="gray.100" borderWidth="1px" bg="gray.50" borderRadius="lg" p={4} py={6}>
           {historialpersona !== null ? (
             <>
               <Box flex="1" w="100%" textAlign="center" justifyItems="center" alignItems="center" alignContent="center">
@@ -348,7 +347,7 @@ export default function HistorialUsuario() {
                     colorScheme={'facebook'}
                     hidden={openSelect === false}
                     disabled={indice.password.length < 6 ? true : false}
-                    _focus={{ boxShadow: "none" }}
+                    
                     onClick={handleUpdatePersona}
                   >
                     ACTUALIZAR
@@ -374,7 +373,7 @@ export default function HistorialUsuario() {
             color="white"
             fontSize="sm"
             _hover={{ bg: 'gray.700' }}
-            _focus={{ boxShadow: "none" }}
+            
             onClick={() => handleLogout()}
           />
           <IconButton
@@ -385,7 +384,7 @@ export default function HistorialUsuario() {
             color="white"
             fontSize="sm"
             _hover={{ bg: 'gray.700' }}
-            _focus={{ boxShadow: "none" }}
+            
             onClick={() => handleChangeSelect()}
           />
         </HStack>

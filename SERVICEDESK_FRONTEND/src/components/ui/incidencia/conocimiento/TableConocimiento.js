@@ -24,6 +24,7 @@ import {
     PopoverBody,
     Portal,
     Progress,
+    Tooltip,
 } from '@chakra-ui/react';
 
 import { store } from '../../../../store/store';
@@ -160,14 +161,18 @@ export default function TableConocimiento() {
                         {(row.descripcionIncidencia !== null && row.descripcionIncidencia?.incidenciaArchivos !== null) || row.incidenciaArchivos !== null ? (
                             <Popover placement='left'>
                                 <PopoverTrigger>
-                                    <IconButton
-                                        size="sm"
-                                        colorScheme="purple"
-                                        icon={<AiFillFileText />}
-                                        ml={2}
-                                        fontSize={'20px'}
-                                        _focus={{ boxShadow: 'none' }}
-                                    />
+                                    <Box as="a" cursor={'pointer'}>
+                                        <Tooltip  placement="auto" hasArrow label="Visualizar Archivos de la Incidencia" aria-label="A tooltip">
+                                            <IconButton
+                                                size="sm"
+                                                colorScheme="purple"
+                                                icon={<AiFillFileText />}
+                                                ml={2}
+                                                fontSize={'20px'}
+                                                _focus={{ boxShadow: 'none' }}
+                                            />
+                                        </Tooltip>
+                                    </Box>
                                 </PopoverTrigger>
                                 <Portal>
                                     <PopoverContent _focus={{ boxShadow: 'none' }}>
@@ -199,6 +204,7 @@ export default function TableConocimiento() {
                                 </Portal>
                             </Popover>
                         ) : null}
+                        
                         <IncidenciaHistorial
                             rowData={row}
                         />
@@ -412,7 +418,7 @@ export default function TableConocimiento() {
                                 size={'sm'}
                                 icon={<RepeatIcon boxSize={4} />}
                                 colorScheme={'facebook'}
-                                _focus={{ boxShadow: "none" }}
+                                
                                 onClick={refreshTable}
                             />
                             <Menu size={'xs'}>

@@ -274,7 +274,7 @@ const IncidenciaAgregar = () => {
 
   return (
     <>
-      <Button leftIcon={<AddIcon />} size="sm" onClick={handleClickOpenCreate} colorScheme={'facebook'} _focus={{ boxShadow: "none" }}>
+      <Button leftIcon={<AddIcon />} size="sm" onClick={handleClickOpenCreate} colorScheme={'facebook'} >
         NUEVA INCIDENCIA
       </Button>
 
@@ -288,7 +288,7 @@ const IncidenciaAgregar = () => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader textAlign={'center'}>CREAR NUEVA INCIDENCIA</ModalHeader>
-          <ModalCloseButton _focus={{ boxShadow: "none" }} />
+          <ModalCloseButton  />
           <ModalBody pb={2}>
             <FormControl isRequired mt="-5">
               <FormLabel fontWeight="bold">MOTIVO</FormLabel>
@@ -306,8 +306,8 @@ const IncidenciaAgregar = () => {
               <Text fontWeight={'semibold'}>USUARIO CON PROBLEMA</Text>
               <RadioGroup onChange={handleChangeUserRadio} value={radioUserValue}>
                 <Stack direction='row' fontWeight="bold">
-                  <Radio size='md' value='mismo' _focus={{ boxShadow: "none" }} defaultChecked={true}>MI PERSONA</Radio>
-                  <Radio size='md' value='otro' _focus={{ boxShadow: "none" }}>OTRO USUARIO</Radio>
+                  <Radio size='md' value='mismo'  defaultChecked={true}>MI PERSONA</Radio>
+                  <Radio size='md' value='otro' >OTRO USUARIO</Radio>
                 </Stack>
               </RadioGroup>
             </Stack>
@@ -315,8 +315,8 @@ const IncidenciaAgregar = () => {
             <Stack direction={'column'} spacing={2} mt={2} hidden={radioUserValue === 'mismo'} >
               <Tabs variant="enclosed-colored" w="full" size={'sm'}>
                 <TabList textAlign="center" justifyContent="center" onClick={handleTabChange} >
-                  <Tab _focus={{ boxShadow: "none" }} value="apellidos" defaultChecked fontWeight="bold">BUSQUEDA POR APELLIDOS</Tab>
-                  <Tab _focus={{ boxShadow: "none" }} value="dni" fontWeight="bold">BUSQUEDA POR DNI</Tab>
+                  <Tab  value="apellidos" defaultChecked fontWeight="bold">BUSQUEDA POR APELLIDOS</Tab>
+                  <Tab  value="dni" fontWeight="bold">BUSQUEDA POR DNI</Tab>
                 </TabList>
                 <TabPanels>
                   <TabPanel>
@@ -333,7 +333,7 @@ const IncidenciaAgregar = () => {
                                 borderRadius="none"
                                 onClick={handleSearchApellido}
                                 icon={<SearchIcon />}
-                                _focus={{ boxShadow: "none" }}
+                                
                                 disabled={usuarioApellido === null || usuarioApellido.length < 3}
                               />
                             }
@@ -350,7 +350,7 @@ const IncidenciaAgregar = () => {
                         <ModalOverlay />
                         <ModalContent>
                           <ModalHeader>LISTA DE USUARIOS CON EL APELLIDO BUSCADO</ModalHeader>
-                          <ModalCloseButton _focus={{ boxShadow: "none" }} onClick={handleCloseModalSearch} />
+                          <ModalCloseButton  onClick={handleCloseModalSearch} />
                           <ModalBody pb={6}>
                             <FormControl>
                               <FormLabel fontWeight="bold">LISTA DE USUARIOS</FormLabel>
@@ -392,7 +392,7 @@ const IncidenciaAgregar = () => {
                                 borderRadius="none"
                                 onClick={handleSearchDNI1}
                                 icon={<SearchIcon />}
-                                _focus={{ boxShadow: "none" }}
+                                
                                 disabled={usuarioNotificaDNI === '' || usuarioNotificaDNI.length < 8 || usuarioNotificaDNI.length > 8}
                               />
                             }
@@ -493,12 +493,12 @@ const IncidenciaAgregar = () => {
               }
               colorScheme={'facebook'}
               autoFocus mr={3}
-              _focus={{ boxShadow: "none" }}
+              
               onClick={() => saveHistorialPersona()}
             >
               GUARDAR
             </Button>
-            <Button onClick={handleCloseModal} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+            <Button onClick={handleCloseModal}  colorScheme="red" variant="outline">CANCELAR</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -526,7 +526,7 @@ const ModalPreviewFile = ({ open, onClose, file }) => {
       <ModalOverlay />
       <ModalContent>
         <ModalHeader textAlign={'center'} fontWeight='extrabold'>PREVISUALIZACIÓN DEL ARCHIVO</ModalHeader>
-        <ModalCloseButton _focus={{ boxShadow: "none" }} />
+        <ModalCloseButton  />
         <ModalBody pb={2} maxH={'80%'}>
           <Stack direction={'row'} justifyContent="space-around" spacing={2} mb={6} textAlign="center" alignItems="center" w={'full'}>
             <HStack spacing={2} align="baseline">

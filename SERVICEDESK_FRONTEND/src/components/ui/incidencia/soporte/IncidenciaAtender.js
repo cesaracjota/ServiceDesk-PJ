@@ -26,13 +26,14 @@ import {
   Image,
   InputGroup,
   InputRightElement,
+  Tooltip,
 } from '@chakra-ui/react';
 
 import { CheckIcon } from '@chakra-ui/icons';
 import moment from 'moment';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { createSolucionIncidencia, fetchIncidenciaSoporte, fetchMisIncidencias } from '../../../../actions/incidencia';
+import { createDescripcionAtendido, fetchIncidenciaSoporte, fetchMisIncidencias, updateDescripcionAtendido } from '../../../../actions/incidencia';
 import { getIncidenciasAsignadasSoporte } from './incidencia';
 
 import ReactQuill from 'react-quill';
@@ -41,7 +42,7 @@ import { formats, modules } from '../../../../helpers/quillConfig';
 import { AiOutlineFileSearch } from 'react-icons/ai';
 import { getMisIncidencias } from '../asistente/incidencia';
 
-const IncidenciaAtender = (props) => {
+const IncidenciaAtender = ({rowId, descripcionIncidencia}) => {
   const [openCreate, setOpenCreate] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -51,9 +52,9 @@ const IncidenciaAtender = (props) => {
   const [indice, setIndice] = useState({
     descripcion: '',
     incidencia: {
-      idIncidencia: props.rowId
+      idIncidencia: rowId
     }
-  })
+  });
 
   const [incidenciaArchivos, setIncidenciaArchivos] = useState(null);
 
@@ -88,20 +89,42 @@ const IncidenciaAtender = (props) => {
   }
 
   const saveDetallesIncidenciaAtendida = () => {
+
     var detallesSolucion = {
       descripcion: indice.descripcion,
       incidencia: indice.incidencia.idIncidencia,
       archivo: incidenciaArchivos
     }
-    dispatch(createSolucionIncidencia(detallesSolucion)).then(() => {
-      handleCloseModal(true);
-      handleClickCloseAlert(true);
-      fetchDataIncidencias();
-      fetchDataMisIncidencias();
-    }).catch(() => {
-      handleCloseModal(true);
-      handleClickCloseAlert(true);
-    });
+
+    var detallesDescripcion = {
+      idDescripcionIncidencia: descripcionIncidencia?.idDescripcionIncidencia,
+      descripcionTramite: descripcionIncidencia?.descripcionTramite,
+      descripcion: indice.descripcion,
+      incidencia: indice.incidencia.idIncidencia,
+      archivo: incidenciaArchivos
+    }
+
+    descripcionIncidencia === undefined || descripcionIncidencia === null ? (
+      dispatch(createDescripcionAtendido(detallesSolucion)).then(() => {
+        handleCloseModal(true);
+        handleClickCloseAlert(true);
+        fetchDataIncidencias();
+        fetchDataMisIncidencias();
+      }).catch(() => {
+        handleCloseModal(true);
+        handleClickCloseAlert(true);
+      })
+    ) : (
+      dispatch(updateDescripcionAtendido(detallesDescripcion)).then(() => {
+        handleCloseModal(true);
+        handleClickCloseAlert(true);
+        fetchDataIncidencias();
+        fetchDataMisIncidencias();
+      }).catch(() => {
+        handleCloseModal(true);
+        handleClickCloseAlert(true);
+      })
+    )
   };
 
   const handleSubmitFile = (e) => {
@@ -118,16 +141,18 @@ const IncidenciaAtender = (props) => {
 
   return (
     <>
+    <Tooltip hasArrow placement="auto" label="Atender Incidencia">
       <IconButton
         icon={<CheckIcon />}
         variant={'solid'}
         colorScheme={'green'}
-        onClick={() => handleClickOpenModal(props.rowId)}
+        onClick={() => handleClickOpenModal(rowId)}
         size={'sm'}
         fontSize={'20px'}
         ml={1}
-        _focus={{ boxShadow: "none" }}
+        
       />
+    </Tooltip>
 
       <Modal
         isOpen={openCreate}
@@ -139,7 +164,7 @@ const IncidenciaAtender = (props) => {
         <form onSubmit={handleClickOpenAlert}>
           <ModalContent>
             <ModalHeader textAlign="center">DETALLES DE LA ATENCIÓN A LA INCIDENCIA</ModalHeader>
-            <ModalCloseButton _focus={{ boxShadow: "none" }} />
+            <ModalCloseButton  />
 
             <ModalBody pb={6}>
               <FormControl mt={4} isRequired>
@@ -183,10 +208,10 @@ const IncidenciaAtender = (props) => {
               </FormControl>
             </ModalBody>
             <ModalFooter>
-              <Button disabled={indice.descripcion.length < 5 || indice.descripcion === ''} type={'submit'} colorScheme={'green'} autoFocus mr={3} _focus={{ boxShadow: "none" }}>
+              <Button disabled={indice.descripcion.length < 5 || indice.descripcion === ''} type={'submit'} colorScheme={'green'} autoFocus mr={3} >
                 GUARDAR
               </Button>
-              <Button onClick={handleCloseModal} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+              <Button onClick={handleCloseModal}  colorScheme="red" variant="outline">CANCELAR</Button>
             </ModalFooter>
           </ModalContent>
         </form>
@@ -200,16 +225,16 @@ const IncidenciaAtender = (props) => {
             <AlertDialogHeader fontSize="xl" fontWeight="bold">
               ¿ESTÁ SEGURO DE GUARDAR DETALLES DE LA ATENCIÓN?
             </AlertDialogHeader>
-            <AlertDialogCloseButton _focus={{ boxShadow: "none" }} />
+            <AlertDialogCloseButton  />
             <AlertDialogBody>
               ¿CONFIRMAR LA ACCIÓN?
             </AlertDialogBody>
             <AlertDialogFooter>
-              <Button onClick={handleClickCloseAlert} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+              <Button onClick={handleClickCloseAlert}  colorScheme="red" variant="outline">CANCELAR</Button>
               <Button
                 colorScheme="green"
                 ml={3}
-                _focus={{ boxShadow: "none" }}
+                
                 onClick={() => saveDetallesIncidenciaAtendida()}
               >
                 CONFIRMAR
@@ -242,7 +267,7 @@ const ModalPreviewFile = ({ open, onClose, file }) => {
       <ModalOverlay />
       <ModalContent>
         <ModalHeader textAlign={'center'} fontWeight='extrabold'>PREVISUALIZACIÓN DEL ARCHIVO</ModalHeader>
-        <ModalCloseButton _focus={{ boxShadow: "none" }} />
+        <ModalCloseButton  />
         <ModalBody pb={2} maxH={'80%'}>
           <Stack direction={'row'} justifyContent="space-around" spacing={2} mb={6} textAlign="center" alignItems="center" w={'full'}>
             <HStack spacing={2} align="baseline">

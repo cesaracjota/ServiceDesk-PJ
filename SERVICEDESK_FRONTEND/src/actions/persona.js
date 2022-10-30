@@ -192,15 +192,3 @@ export const loadPersona = async () => {
     return Persona;
   }
 };
-
-export const fetchFraseDia = async () => {
-  const response = await fetchToken('frasedia');
-  if (!response.ok) {
-    throw new Error(response.status);
-  } else {
-    const data = await response.json();
-    const Frase = {};
-    Frase.data = data;
-    return Frase;
-  }
-}

@@ -56,7 +56,7 @@ export const OrigenIncidenciaEditar = ({ row }) => {
                 onClick={() => handleClickOpenEdit(row)}
                 fontSize={'22px'}
                 size={'sm'}
-                _focus={{ boxShadow: "none" }}
+                
             />
             <Modal isOpen={openedit} onClose={handleCloseEdit} size={'2xl'}>
                 <ModalOverlay />
@@ -64,7 +64,7 @@ export const OrigenIncidenciaEditar = ({ row }) => {
                     <ModalHeader>
                         EDITAR EL ORIGEN DE LA INCIDENCIA
                     </ModalHeader>
-                    <ModalCloseButton _focus={{ boxShadow: "none" }} />
+                    <ModalCloseButton  />
                     <ModalBody pb={6}>
                         <FormControl>
                             <Input
@@ -91,11 +91,11 @@ export const OrigenIncidenciaEditar = ({ row }) => {
                             onClick={e => handleClickUpdate(e)}
                             colorScheme="green"
                             mr={3}
-                            _focus={{ boxShadow: "none" }}
+                            
                         >
                             ACTUALIZAR
                         </Button>
-                        <Button onClick={handleCloseEdit} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+                        <Button onClick={handleCloseEdit}  colorScheme="red" variant="outline">CANCELAR</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

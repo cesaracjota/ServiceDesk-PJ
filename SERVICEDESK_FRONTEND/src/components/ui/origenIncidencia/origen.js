@@ -1,34 +1,28 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { store } from '../../../store/store';
-import Sidebar from '../base/Sidebar';
 import { fetchOrigen } from '../../../actions/origenIncidencia';
 import { types } from '../../../types/types';
 import TableOrigen from './TableOrigenIncidencia';
+import Dashboard from '../base/layout/Dashboard';
 
 export const OrigenIncidencia = () => {
 
   const dispatch = useDispatch();
 
-  const fetchData= async ()=> {
-    await fetchOrigen().then((res)=>{
-      dispatch(getOrigen(res));
-    }).catch((err)=>{
-      // console.log("WARN " + err);
-    });
+  const fetchDataOrigen = async () => {
+    const response = await fetchOrigen();
+    dispatch(getOrigen(response));
   }
 
   useEffect(() => {    
     if(store.getState().origenIncidencia.checking){
-      fetchData();
+      fetchDataOrigen();
     }
   });
 
-  return (
-    <>
-      <Sidebar componente={TableOrigen} />
-    </>
-  );
+  return (<Dashboard componente={<TableOrigen />} />)
+
 };
 
 export const getOrigen = origen =>({

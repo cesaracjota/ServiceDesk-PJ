@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../../../../store/store';
-import Sidebar from '../../base/Sidebar';
 import { 
   fetchIncidenciasPersonas, 
   fetchIncidenciasAsignadas, 
@@ -16,6 +15,9 @@ import TableMisIncidencias from './TableMisIncidencias';
 import { getMotivos, getOrigenes } from '../incidencia';
 import { fetchMotivos } from '../../../../actions/motivo';
 import { fetchOrigen } from '../../../../actions/origenIncidencia';
+import Configuraciones from './Configuraciones';
+import { loadConfiguracionBotones } from '../../../../actions/configurarBotones';
+import Dashboard from '../../base/layout/Dashboard';
 
 export const MisIncidencias = () => {
 
@@ -58,11 +60,8 @@ export const MisIncidencias = () => {
     }
   });
 
-  return (
-    <>
-      <Sidebar componente={TableMisIncidencias} />
-    </>
-  )
+  return (<Dashboard componente={<TableMisIncidencias />} />)
+
 }
 
 export const IncidenciaAsistenteAsignados = () => {
@@ -98,11 +97,8 @@ export const IncidenciaAsistenteAsignados = () => {
     }
   });
 
-  return (
-    <>
-      <Sidebar componente={TableIncidenciaAsignados} />
-    </>
-  );
+  return (<Dashboard componente={<TableIncidenciaAsignados />} />)
+
 };
 
 
@@ -139,12 +135,28 @@ export const IncidenciaAsistenteNoAsignados = () => {
     }
   });
 
-  return (
-    <>
-      <Sidebar componente={TableIncidenciaNoAsignados} />
-    </>
-  );
+  return (<Dashboard componente={<TableIncidenciaNoAsignados />} />)
+  
 };
+
+export const Configuracion = () => {
+
+  const dispatch = useDispatch();
+
+  const fetchConfiguracionBotones = async () => {
+    const response = await loadConfiguracionBotones();
+    dispatch(getConfiguracionBotones(response));
+  }
+
+  useEffect(() => {
+    if (store.getState().configuracionBotones.checking) {
+      fetchConfiguracionBotones();
+    }
+  });
+
+  return (<Dashboard componente={<Configuraciones />} />)
+
+}
 
 
 export const getIncidenciaAsignadas = incidenciasAsignadas => ({
@@ -170,4 +182,9 @@ export const getTecnicosDisponibles = tecnicoDisponibles => ({
 export const getMisIncidencias = misIncidencias => ({
   type: types.eventLoadedMisIncidencias,
   payload: misIncidencias
+});
+
+export const getConfiguracionBotones = configuracionBotones => ({
+  type: types.eventLoadedConfigurarBotones,
+  payload: configuracionBotones
 });

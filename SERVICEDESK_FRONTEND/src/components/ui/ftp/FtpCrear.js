@@ -42,7 +42,7 @@ const FtpAgregar = () => {
 
     const [indice, setIndice] = useState(initialValues);
 
-    const saveCargo = () => {
+    const saveFtp = () => {
         var data = {
             usuario: indice.usuario,
             clave: indice.clave,
@@ -61,7 +61,7 @@ const FtpAgregar = () => {
 
     return (
         <>
-            <Button leftIcon={<AddIcon />} size='sm' onClick={handleClickOpenCreate} colorScheme={'facebook'} _focus={{ boxShadow: "none" }}>AGREGAR</Button>
+            <Button leftIcon={<AddIcon />} size='sm' onClick={handleClickOpenCreate} colorScheme={'facebook'} >AGREGAR</Button>
 
             <Modal
                 isOpen={openCreate}
@@ -72,7 +72,7 @@ const FtpAgregar = () => {
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader textAlign="center">AGREGAR NUEVA CONFIGURACIÓN FTP</ModalHeader>
-                    <ModalCloseButton _focus={{ boxShadow: "none" }} />
+                    <ModalCloseButton  />
                     <ModalBody>
                         <Stack direction={['column', 'column', 'row']}>
                             <FormControl>
@@ -130,15 +130,15 @@ const FtpAgregar = () => {
                     </ModalBody>
                     <ModalFooter>
                         <Button 
-                            onClick={() => saveCargo()} 
+                            onClick={() => saveFtp()} 
                             colorScheme={'facebook'} 
                             autoFocus mr={3} 
-                            _focus={{ boxShadow: "none" }}
+                            
                             disabled={indice.usuario === '' || indice.clave === '' || indice.descripcion === '' || indice.ip === '' ? true : false}
                             >
                             GUARDAR
                         </Button>
-                        <Button onClick={handleCloseModal} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+                        <Button onClick={handleCloseModal}  colorScheme="red" variant="outline">CANCELAR</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

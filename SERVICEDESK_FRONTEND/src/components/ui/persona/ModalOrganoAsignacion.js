@@ -180,7 +180,7 @@ export default function ModalOrganoAsignacion(props) {
           <ModalHeader textAlign="center">
             ASIGNACION DE ORGANOS JURIDICCIONALES A SOPORTES TÉCNICOS
           </ModalHeader>
-          <ModalCloseButton _focus={{ boxShadow: "none" }} />
+          <ModalCloseButton  />
           <ModalBody pb={6}>
             <HStack spacing={'10px'} mt={'10px'}>
               <FormControl>
@@ -260,7 +260,7 @@ export default function ModalOrganoAsignacion(props) {
                           size="sm"
                           fontSize="14px"
                           icon={<CloseIcon />}
-                          _focus={{ boxShadow: "none" }}
+                          
                         />
                       </Td>
                     </Tr>
@@ -271,7 +271,7 @@ export default function ModalOrganoAsignacion(props) {
           </ModalBody>
 
           <ModalFooter>
-            <Button onClick={closeModal} colorScheme="red" _focus={{ boxShadow: "none" }} variant="outline">
+            <Button onClick={closeModal} colorScheme="red"  variant="outline">
               CANCELAR
             </Button>
           </ModalFooter>

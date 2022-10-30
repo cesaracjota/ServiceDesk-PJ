@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { store } from '../../../store/store';
-import Sidebar from '../base/Sidebar';
 import { fetchCargos } from '../../../actions/cargo'; 
 import { types } from '../../../types/types';
 import TableCargo from './TableCargo';
+import Dashboard from '../base/layout/Dashboard';
 
 export const Cargo = () => {
   const dispatch = useDispatch();
@@ -20,11 +20,8 @@ export const Cargo = () => {
     }
   });
 
-  return (
-    <>
-      <Sidebar componente={TableCargo} />
-    </>
-  );
+  return (<Dashboard componente={<TableCargo />} />)
+
 };
 
 export const getCargos = cargo =>({

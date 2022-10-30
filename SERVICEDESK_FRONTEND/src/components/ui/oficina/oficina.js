@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { store } from '../../../store/store';
-import Sidebar from '../base/Sidebar';
 import { fetchOficinas } from '../../../actions/oficina'; 
 import { types } from '../../../types/types';
 import TableOficina from './TableOficina';
 import { fetchSedes } from '../../../actions/sede';
 import { fetchOrganos } from '../../../actions/organo';
+import Dashboard from '../base/layout/Dashboard';
 
 export const Oficina = () => {
   const dispatch = useDispatch();
@@ -38,11 +38,8 @@ export const Oficina = () => {
     }
   });
 
-  return (
-    <>
-      <Sidebar componente={TableOficina} />
-    </>
-  );
+  return (<Dashboard componente={<TableOficina />} />)
+
 };
 
 export const getSedes = sede =>({

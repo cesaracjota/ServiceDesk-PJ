@@ -9,6 +9,7 @@ import {
     AlertDialogFooter,
     AlertDialog,
     AlertDialogCloseButton,
+    Tooltip,
 } from '@chakra-ui/react';
 
 import { VscAdd } from 'react-icons/vsc'
@@ -68,16 +69,18 @@ const IncidenciaAsignarme = ({rowData}) => {
 
     return (
         <>
-            <IconButton
-                icon={<VscAdd />}
-                variant={'solid'}
-                colorScheme={'facebook'}
-                onClick={() => handleClickOpenAlert(rowData)}
-                fontSize='20px'
-                size={'sm'}
-                ml={1}
-                _focus={{ boxShadow: "none" }}
-            />
+            <Tooltip placement="auto" hasArrow label="Asignarme la Incidencia">
+                <IconButton
+                    icon={<VscAdd />}
+                    variant={'solid'}
+                    colorScheme={'facebook'}
+                    onClick={() => handleClickOpenAlert(rowData)}
+                    fontSize='20px'
+                    size={'sm'}
+                    ml={1}
+                    
+                />
+            </Tooltip>
 
             {/* CONFIRMAR PARA ASIGNARSE A EL MISMO LA INCIDENCIA */}
 
@@ -87,16 +90,16 @@ const IncidenciaAsignarme = ({rowData}) => {
                         <AlertDialogHeader fontSize="xl" fontWeight="bold">
                             ¿ASIGNARME LA INCIDENCIA A MI PERSONA?
                         </AlertDialogHeader>
-                        <AlertDialogCloseButton _focus={{ boxShadow: "none" }} />
+                        <AlertDialogCloseButton  />
                         <AlertDialogBody>
                                 ¿CONFIRMAR LA ACCIÓN?
                         </AlertDialogBody>
                         <AlertDialogFooter>
-                            <Button onClick={handleClickCloseAlert} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+                            <Button onClick={handleClickCloseAlert}  colorScheme="red" variant="outline">CANCELAR</Button>
                             <Button
                                 colorScheme="facebook"
                                 ml={3}
-                                _focus={{ boxShadow: "none" }}
+                                
                                 onClick={() => AsignarmeIncidencia()}
                             >
                                 CONFIRMAR

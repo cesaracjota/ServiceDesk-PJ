@@ -51,7 +51,7 @@ import {
                         POR TÉCNICOS
                       </chakra.span>
                       <NavLink to='/dashboard/reportes/incidencias-por-tecnico'>
-                        <Button _focus={{ boxShadow: "none" }} rightIcon={<ArrowForwardIcon />} size={'xs'} _dark={{ color: "gray.200" }} colorScheme='red' variant='solid'>
+                        <Button  rightIcon={<ArrowForwardIcon />} size={'xs'} _dark={{ color: "gray.200" }} colorScheme='red' variant='solid'>
                           INGRESAR
                         </Button>
                       </NavLink>
@@ -85,7 +85,7 @@ import {
                         POR USUARIOS
                       </chakra.span>
                       <NavLink to='/dashboard/reportes/incidencias-por-usuario'>
-                        <Button _focus={{ boxShadow: "none" }} rightIcon={<ArrowForwardIcon />} size={'xs'} _dark={{ color: "gray.200" }} colorScheme='green' variant='solid'>
+                        <Button  rightIcon={<ArrowForwardIcon />} size={'xs'} _dark={{ color: "gray.200" }} colorScheme='green' variant='solid'>
                           INGRESAR
                         </Button>
                       </NavLink>
@@ -119,7 +119,7 @@ import {
                         TIEMPO
                       </chakra.span>
                       <NavLink to='/dashboard/reportes/incidencias-por-tiempos'>
-                        <Button _focus={{ boxShadow: "none" }} textAlign={'left'} rightIcon={<ArrowForwardIcon />} size={'xs'} _dark={{ color: "gray.200" }} colorScheme='blue' variant='solid'>
+                        <Button  textAlign={'left'} rightIcon={<ArrowForwardIcon />} size={'xs'} _dark={{ color: "gray.200" }} colorScheme='blue' variant='solid'>
                           INGRESAR
                         </Button>
                       </NavLink>

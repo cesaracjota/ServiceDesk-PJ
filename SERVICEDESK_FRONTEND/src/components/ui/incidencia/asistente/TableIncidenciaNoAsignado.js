@@ -25,6 +25,7 @@ import {
   MenuList,
   MenuItem,
   Stack,
+  Tooltip,
 } from '@chakra-ui/react';
 import { AiFillFilter, AiOutlineUserAdd } from 'react-icons/ai'
 import { store } from '../../../../store/store';
@@ -380,7 +381,7 @@ export default function TableIncidenciaNoAsignados() {
                 size={'sm'} mr={2}
                 icon={<RepeatIcon boxSize={4} />}
                 colorScheme={'facebook'}
-                _focus={{ boxShadow: "none" }}
+                
                 onClick={refreshTable} />
               <Menu size={'xs'}>
                 <MenuButton as={'menu'} style={{ cursor: 'pointer' }}>
@@ -492,16 +493,17 @@ const ModalAsignarTecnico = ({ row, refreshTable }) => {
 
   return (
     <>
-      <IconButton
-        icon={<AiOutlineUserAdd />}
-        variant={'solid'}
-        colorScheme={'facebook'}
-        onClick={() => handleClickOpenModal(row)}
-        fontSize='20px'
-        size={'sm'}
-        ml={1}
-        _focus={{ boxShadow: "none" }}
-      />
+      <Tooltip hasArrow placement="auto" label="Asignar La Incidencia" aria-label="Asignar La Incidencia">
+        <IconButton
+          icon={<AiOutlineUserAdd />}
+          variant={'solid'}
+          colorScheme={'facebook'}
+          onClick={() => handleClickOpenModal(row)}
+          fontSize='20px'
+          size={'sm'}
+          ml={1}
+        />
+      </Tooltip>
 
       <Modal
         isOpen={openModal}
@@ -511,7 +513,7 @@ const ModalAsignarTecnico = ({ row, refreshTable }) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>ASIGNAR A UN SOPORTE UN USUARIO O SOPORTE TÉCNICO</ModalHeader>
-          <ModalCloseButton _focus={{ boxShadow: "none" }} />
+          <ModalCloseButton  />
           <ModalBody pb={6}>
             <FormControl isRequired>
               <FormLabel fontWeight="semibold">USUARIOS DISPONIBLES PARA ASIGNAR</FormLabel>
@@ -530,13 +532,13 @@ const ModalAsignarTecnico = ({ row, refreshTable }) => {
             <Button
               disabled={indiceTecnico === null ? true : false}
               colorScheme="facebook"
-              _focus={{ boxShadow: "none" }}
+              
               mr={3}
               onClick={() => AsignacionIncidencia()}
             >
               ASIGNAR
             </Button>
-            <Button onClick={handleCloseModal} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+            <Button onClick={handleCloseModal}  colorScheme="red" variant="outline">CANCELAR</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

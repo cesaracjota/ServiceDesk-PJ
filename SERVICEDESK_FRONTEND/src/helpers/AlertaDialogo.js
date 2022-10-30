@@ -30,10 +30,10 @@ export default function AlertaDialogo(props) {
             <AlertDialogBody>CONFIRMO LA ACCIÓN</AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={props.onClose} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">
+              <Button ref={cancelRef} onClick={props.onClose}  colorScheme="red" variant="outline">
                 CANCELAR
               </Button>
-              <Button colorScheme="red" onClick={props.metodo} ml={3} _focus={{ boxShadow: "none" }}>
+              <Button colorScheme="red" onClick={props.metodo} ml={3} >
                 CONFIRMAR
               </Button>
             </AlertDialogFooter>

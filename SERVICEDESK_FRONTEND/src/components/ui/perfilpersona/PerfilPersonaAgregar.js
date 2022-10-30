@@ -53,7 +53,7 @@ const PerfilPersonaAgregar = () => {
     }
     return (
         <>
-            <Button leftIcon={<AddIcon />} size='sm' onClick={handleClickOpenCreate} colorScheme={'facebook'} _focus={{ boxShadow: "none" }}>AGREGAR</Button>
+            <Button leftIcon={<AddIcon />} size='sm' onClick={handleClickOpenCreate} colorScheme={'facebook'} >AGREGAR</Button>
 
             <Modal
                 isOpen={openCreate}
@@ -64,7 +64,7 @@ const PerfilPersonaAgregar = () => {
                 <form>
                     <ModalContent>
                         <ModalHeader>AGREGAR NUEVO PERFIL</ModalHeader>
-                        <ModalCloseButton _focus={{ boxShadow: "none" }} />
+                        <ModalCloseButton  />
                         <ModalBody pb={6}>
                             <FormControl>
                                 <FormLabel fontWeight="semibold">PERFIL</FormLabel>
@@ -96,10 +96,10 @@ const PerfilPersonaAgregar = () => {
                             </FormControl>
                         </ModalBody>
                         <ModalFooter>
-                            <Button type={'submit'} onClick={() => savePerfil()} colorScheme={'facebook'} mr={3} _focus={{ boxShadow: "none" }}>
+                            <Button type={'submit'} onClick={() => savePerfil()} colorScheme={'facebook'} mr={3} >
                                 GUARDAR
                             </Button>
-                            <Button onClick={handleCloseModal} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+                            <Button onClick={handleCloseModal}  colorScheme="red" variant="outline">CANCELAR</Button>
                         </ModalFooter>
                     </ModalContent>
                 </form>

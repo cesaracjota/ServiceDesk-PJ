@@ -32,6 +32,9 @@ import {
     PopoverBody,
     Portal,
     Progress,
+    FormLabel,
+    FormControl,
+    Tooltip,
 } from '@chakra-ui/react';
 import { CalendarIcon, RepeatIcon } from '@chakra-ui/icons';
 
@@ -44,7 +47,7 @@ import 'react-data-table-component-extensions/dist/index.css';
 import IncidenciaAgregar from '../IncidenciaAgregar';
 import IncidenciaDetalles from '../IncidenciaDetalles';
 import IncidenciaAtender from '../soporte/IncidenciaAtender';
-import { incidenciaEnTramite, fetchMisIncidencias } from '../../../../actions/incidencia';
+import { createDescripcionTramite, fetchMisIncidencias } from '../../../../actions/incidencia';
 import Moment from 'moment';
 import { getMisIncidencias } from './incidencia';
 import { FaFilter } from 'react-icons/fa';
@@ -53,6 +56,8 @@ import AtencionViewFile from '../conocimiento/AtencionViewFile';
 import IncidenciaViewFile from '../conocimiento/IncidenciaViewFile';
 import IncidenciaViewFileSoporte from '../soporte/IncidenciaViewFile';
 import { ModalReAsignarTecnico } from './TableIncidenciaAsignadas';
+import { formats, modules } from '../../../../helpers/quillConfig';
+import ReactQuill from 'react-quill';
 
 export default function TableMisIncidencias() {
     const [openAlert, setOpenAlert] = useState(false);
@@ -65,6 +70,7 @@ export default function TableMisIncidencias() {
     const data = store.getState().misIncidencias.rows;
 
     const [tableRowsData, setTableRowsData] = useState(data);
+    const [descripcion, setDescripcion] = useState('');
 
     const ContadorPendientes = data.filter(row => row.historialIncidencia.filter(pendiente => pendiente.estadoIncidencia === "P" && pendiente.estado === "A").length > 0);
     const ContadorTramite = data.filter(row => row.historialIncidencia.filter(tramite => tramite.estadoIncidencia === "T" && tramite.estado === "A").length > 0);
@@ -99,11 +105,12 @@ export default function TableMisIncidencias() {
     });
 
     const ActualizarIncidenciaEnTramite = () => {
-        var incidencia = {
-            idIncidencia: indice.idIncidencia,
-            historialIncidencia: [indice.historialIncidencia]
+        var detallesObservacion = {
+            incidencia: indice.idIncidencia,
+            descripcion: descripcion,
+            archivo: null
         }
-        dispatch(incidenciaEnTramite(incidencia))
+        dispatch(createDescripcionTramite(detallesObservacion))
             .then(() => {
                 fetchDataMisIncidencias();
                 setOpenAlert(false);
@@ -119,6 +126,7 @@ export default function TableMisIncidencias() {
     };
 
     const handleCloseAlert = () => {
+        setDescripcion('');
         setOpenAlert(false);
     };
 
@@ -234,18 +242,23 @@ export default function TableMisIncidencias() {
                                         setProgressFalse={() => changeSetProgressFalse()}
                                     />
                                 ) : (null)}
-                                <IconButton
-                                    icon={<CalendarIcon />}
-                                    variant={'outline'}
-                                    colorScheme={'yellow'}
-                                    onClick={() => handleClickOpenAlert(row)}
-                                    size={'sm'}
-                                    fontSize={'20px'}
-                                    ml={1}
-                                    _focus={{ boxShadow: "none" }}
-                                />
+                                <Tooltip hasArrow placement="auto" label="Cambiar a Trámite el Estado" aria-label="A tooltip">
+                                    <IconButton
+                                        icon={<CalendarIcon />}
+                                        variant={'outline'}
+                                        colorScheme={'yellow'}
+                                        onClick={() => handleClickOpenAlert(row)}
+                                        size={'sm'}
+                                        fontSize={'20px'}
+                                        ml={1}
+                                        
+                                    />
+                                </Tooltip>
                                 <ModalReAsignarTecnico row={row} refreshData={() => refreshTable()} />
-                                <IncidenciaAtender rowId={row.idIncidencia} />
+                                <IncidenciaAtender
+                                    rowId={row.idIncidencia}
+                                    descripcionIncidencia = {row.descripcionIncidencia}
+                                />
                             </div>
                         ) : (
                             historial[0].estadoIncidencia === 'T' ? (
@@ -262,7 +275,10 @@ export default function TableMisIncidencias() {
                                             setProgressFalse={() => changeSetProgressFalse()}
                                         />
                                     ) : (null)}
-                                    <IncidenciaAtender rowId={row.idIncidencia} />
+                                    <IncidenciaAtender
+                                        rowId={row.idIncidencia}
+                                        descripcionIncidencia = {row.descripcionIncidencia}
+                                    />
                                 </>
                             ) : (
                                 <>
@@ -273,14 +289,18 @@ export default function TableMisIncidencias() {
                                     {archivoTecnico === null && archivoUsuario === null ? null : (
                                         <Popover placement='left'>
                                             <PopoverTrigger>
-                                                <IconButton
-                                                    size="sm"
-                                                    colorScheme="purple"
-                                                    icon={<AiFillFileText />}
-                                                    ml={1}
-                                                    fontSize={'20px'}
-                                                    _focus={{ boxShadow: 'none' }}
-                                                />
+                                                <Box as="a" cursor={'pointer'}>
+                                                    <Tooltip hasArrow placement="auto" label="Visualizar Archivos de la Incidencia" aria-label="A tooltip">
+                                                        <IconButton
+                                                            size="sm"
+                                                            colorScheme="purple"
+                                                            icon={<AiFillFileText />}
+                                                            ml={1}
+                                                            fontSize={'20px'}
+                                                            _focus={{ boxShadow: 'none' }}
+                                                        />
+                                                    </Tooltip>
+                                                </Box>
                                             </PopoverTrigger>
                                             <Portal>
                                                 <PopoverContent _focus={{ boxShadow: 'none' }}>
@@ -315,26 +335,36 @@ export default function TableMisIncidencias() {
                                 </>
                             )
                         )}
-                        <AlertDialog isOpen={openAlert} onClose={handleCloseAlert} size={'3xl'}>
+                        <AlertDialog isOpen={openAlert} onClose={handleCloseAlert} size={'4xl'}>
                             <AlertDialogOverlay>
                                 <AlertDialogContent>
                                     <AlertDialogHeader fontSize="xl" fontWeight="bold">
                                         ¿DESEA CAMBIAR EL ESTADO, EN TRÁMITE?
                                     </AlertDialogHeader>
-                                    <AlertDialogCloseButton _focus={{ boxShadow: "none" }} />
+                                    <AlertDialogCloseButton  />
                                     <AlertDialogBody>
-                                        <Box px={2}>
-                                            <Text>¿CONFIRMAR LA ACCIÓN?</Text>
-                                        </Box>
+                                    <FormControl isRequired>
+                                        <FormLabel fontWeight="semibold">AGREGAR UNA OBSERVACIÓN</FormLabel>
+                                        <ReactQuill
+                                            theme="snow"
+                                            style={{
+                                                textTransform: 'uppercase',
+                                            }}
+                                            placeholder="Ingrese una observación"
+                                            modules={modules}
+                                            formats={formats}
+                                            onChange={(e) => setDescripcion(e.valueOf().toUpperCase())}
+                                        />
+                                    </FormControl>
                                     </AlertDialogBody>
                                     <AlertDialogFooter>
-                                        <Button onClick={handleCloseAlert} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+                                        <Button onClick={handleCloseAlert}  colorScheme="red" variant="outline">CANCELAR</Button>
                                         <Button
                                             bg={'yellow.500'}
                                             _hover={{ bg: 'yellow.600' }}
                                             color={'white'}
                                             ml={3}
-                                            _focus={{ boxShadow: "none" }}
+                                            disabled={(descripcion.length < 5 || descripcion === '') ? true : false}
                                             onClick={() => ActualizarIncidenciaEnTramite()}
                                         >
                                             CONFIRMAR
@@ -556,7 +586,7 @@ export default function TableMisIncidencias() {
                                 size={'sm'}
                                 icon={<RepeatIcon boxSize={4} />}
                                 colorScheme={'facebook'}
-                                _focus={{ boxShadow: "none" }}
+                                
                                 onClick={refreshTable}
                             />
                             <Menu size={'xs'}>

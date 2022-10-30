@@ -4,7 +4,7 @@ import { AppRouter } from './routers/AppRouter';
 import { store } from './store/store';
 // 1. import `ChakraProvider` component
 import { ChakraProvider } from '@chakra-ui/react';
-import theme from './helpers/theme';
+import theme from './theme/theme';
 
 function App() {
   return (

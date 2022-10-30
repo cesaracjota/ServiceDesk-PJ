@@ -109,9 +109,9 @@ export default function SegundoReporte() {
     };
 
     doc.text(title, doc.internal.pageSize.getWidth() / 2, 35, null, 'center');
-    var img = new Image();
-    img.src = 'https://res.cloudinary.com/dx6ucne8o/image/upload/v1665597382/LOGO/csjar_buzabu.jpg';
-    doc.addImage(img, 'JPEG', 40, 15, 90, 35);
+    // var img = new Image();
+    // img.src = 'https://res.cloudinary.com/dx6ucne8o/image/upload/v1665597382/LOGO/csjar_buzabu.jpg';
+    // doc.addImage(img, 'JPEG', 40, 15, 90, 35);
     doc.autoTable(content);
     doc.save("ReporteUsuario.pdf")
   }
@@ -137,12 +137,12 @@ export default function SegundoReporte() {
             <Breadcrumb spacing='8px' separator={<ChevronRightIcon color='gray.500' />}>
               <BreadcrumbItem>
                 <BreadcrumbLink as={NavLink} to="/dashboard/home" _hover={{ textDecoration: 'none' }}>
-                  <Button size="xs" variant="unstyled" fontWeight={'bold'} color="black">INICIO</Button>
+                  <Button size="xs" variant="unstyled" fontWeight={'bold'} color="black" _dark={{color: 'white'}}>INICIO</Button>
                 </BreadcrumbLink>
               </BreadcrumbItem>
 
               <BreadcrumbLink as={NavLink} to="/dashboard/reportes/incidencias-por-usuario" _hover={{ textDecoration: 'none' }}>
-                  <Button size="xs" variant="unstyled" color="black">REPORTES DE INCIDENCIAS POR USUARIO</Button>
+                  <Button size="xs" variant="unstyled" color="black" _dark={{color: 'white'}}>REPORTES DE INCIDENCIAS POR USUARIO</Button>
               </BreadcrumbLink>
             </Breadcrumb>
           </Box>
@@ -201,7 +201,7 @@ export default function SegundoReporte() {
               leftIcon={<SearchIcon fontSize={'20px'} />}
               onClick={() => BuscarFiltros()}
               disabled={selectedSedeId === null}
-              _focus={{ boxShadow: "none" }}
+              
               >
                 BUSCAR REGISTROS
           </Button>
@@ -215,7 +215,7 @@ export default function SegundoReporte() {
               disabled={reportes.length === 0}
               onClick={() => handleExportPDF()}
               px="5"
-              _focus={{ boxShadow: "none" }}>
+              >
               EXPORTAR PDF
             </Button>
 
@@ -229,7 +229,7 @@ export default function SegundoReporte() {
                 disabled={reportes.length === 0}
                 px="5"
                 onClick={() => timerNotification('EXPORTANDO CSV...', 'info', 2000)}
-                _focus={{ boxShadow: "none" }}>
+                >
                 EXPORTAR CSV
               </Button>
             </CSVLink>
@@ -244,10 +244,10 @@ export default function SegundoReporte() {
         >
           <Tabs isFitted variant='enclosed' colorScheme='green' w={'100%'}>
             <TabList mb='1em'>
-              <Tab _focus={{ boxShadow: "none" }} borderRadius="none">
+              <Tab  borderRadius="none">
                 DATOS 📅
               </Tab>
-              <Tab _focus={{ boxShadow: "none" }} borderRadius="none">
+              <Tab  borderRadius="none">
                 GRAFICOS 📊
               </Tab>
             </TabList>

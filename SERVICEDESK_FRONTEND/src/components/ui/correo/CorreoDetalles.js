@@ -89,7 +89,7 @@ const CorreoDetalles = props => {
         onClick={obtenerCorreodetalle}
         fontSize={'22px'}
         size={'sm'}
-        _focus={{ boxShadow: "none" }}
+        
       />
 
       <Drawer
@@ -129,7 +129,7 @@ const CorreoDetalles = props => {
             <Accordion defaultIndex={[0]} mt={4} allowToggle>
               <AccordionItem>
                 <h2>
-                  <AccordionButton _focus={{ boxShadow: "none" }}>
+                  <AccordionButton >
                     <Box flex="1" ml={0}  textAlign="left" fontWeight={'bold'}>
                       DETALLES DEL USUARIO REMITENTE
                     </Box>
@@ -160,7 +160,7 @@ const CorreoDetalles = props => {
 
               <AccordionItem>
                 <h2>
-                  <AccordionButton _focus={{ boxShadow: "none" }}>
+                  <AccordionButton >
                     <Box flex="1" ml={0}  textAlign="left" fontWeight={'bold'}>
                       DETALLES DEL USUARIO DESTINATARIO
                     </Box>
@@ -192,7 +192,7 @@ const CorreoDetalles = props => {
             </Accordion>
           </DrawerBody>
           <DrawerFooter>
-            <Button colorScheme={'blue'} onClick={handleCloseModal} _focus={{ boxShadow: "none" }}>OK</Button>
+            <Button colorScheme={'blue'} onClick={handleCloseModal} >OK</Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>

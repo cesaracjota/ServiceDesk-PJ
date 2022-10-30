@@ -34,6 +34,7 @@ import {
   PopoverBody,
   Stack,
   Avatar,
+  Tooltip,
 } from '@chakra-ui/react';
 
 import { store } from '../../../../store/store';
@@ -150,17 +151,17 @@ export default function TableIncidenciaAsignados() {
       cell: row => {
         var historial = row.historialIncidencia.filter(p => p.estado === 'A');
         return (
-            <Badge
-              bg={historial[0].estadoIncidencia === 'P' ? 'red.500' : historial[0].estadoIncidencia === 'T' ? 'yellow.500' : 'green.500'}
-              color={'white'}
-              py="4px"
-              w={"100px"}
-              textAlign={'center'}
-              borderRadius={'md'}
-              fontSize={'12px'}
-            >
-              {historial[0].estadoIncidencia === 'P' ? 'PENDIENTE' : historial[0].estadoIncidencia === 'T' ? 'EN TRÁMITE' : 'ATENDIDO'}
-            </Badge>
+          <Badge
+            bg={historial[0].estadoIncidencia === 'P' ? 'red.500' : historial[0].estadoIncidencia === 'T' ? 'yellow.500' : 'green.500'}
+            color={'white'}
+            py="4px"
+            w={"100px"}
+            textAlign={'center'}
+            borderRadius={'md'}
+            fontSize={'12px'}
+          >
+            {historial[0].estadoIncidencia === 'P' ? 'PENDIENTE' : historial[0].estadoIncidencia === 'T' ? 'EN TRÁMITE' : 'ATENDIDO'}
+          </Badge>
         )
       },
       cellExport: row => {
@@ -196,16 +197,15 @@ export default function TableIncidenciaAsignados() {
                     colorScheme={'orange'}
                     ml={1}
                     size={'sm'}
-                    _focus={{ boxShadow: "none" }}
                   />
                 </PopoverTrigger>
                 <Portal>
-                  <PopoverContent _focus={{ boxShadow: "none" }}>
+                  <PopoverContent >
                     <PopoverArrow />
                     <PopoverHeader bg="gray.700" color="white" borderTopRadius="md">
                       <Text fontSize={'12px'} textAlign='center' fontWeight={'semibold'}>ÚLTIMOS DE TÉCNICOS ASIGNADOS</Text>
                     </PopoverHeader>
-                    <PopoverCloseButton _focus={{ boxShadow: "none" }} color="white" />
+                    <PopoverCloseButton color="white" />
                     <PopoverBody>
                       <Stack direction={'column'} spacing={2}>
                         {historialTecnico.map((row, index) => (
@@ -213,7 +213,7 @@ export default function TableIncidenciaAsignados() {
                             <Avatar size={'xs'} name={row.persona_asignado?.nombre + ' ' + row.persona_asignado?.apellido} />
                             <HStack justifyContent='space-between' w={'full'}>
                               <Text fontSize={'9px'}>{row.persona_asignado?.nombre + ' ' + row.persona_asignado?.apellido}</Text>
-                              <Text fontSize={'9px'}>{Moment(row.fecha).format("DD/MM/DD - HH:mm:ss").trimEnd()}</Text>
+                              <Text fontSize={'9px'}>{Moment(row.fecha).format("DD/MM/YY - HH:mm:ss").trimEnd()}</Text>
                             </HStack>
                           </Stack>
                         ))}
@@ -434,7 +434,7 @@ export default function TableIncidenciaAsignados() {
                 size={'sm'} mr={2}
                 icon={<RepeatIcon boxSize={4} />}
                 colorScheme={'facebook'}
-                _focus={{ boxShadow: "none" }}
+
                 onClick={refreshTable} />
               <Menu size={'xs'}>
                 <MenuButton as={'menu'} style={{ cursor: 'pointer' }}>
@@ -465,7 +465,7 @@ export default function TableIncidenciaAsignados() {
             paginationPerPage={10}
             noDataComponent={
               <Text fontSize="sm" textAlign="center" color="gray.600">
-                  NO HAY DATOS PARA MOSTRAR, REFRESCAR LA TABLA
+                NO HAY DATOS PARA MOSTRAR, REFRESCAR LA TABLA
               </Text>
             }
             paginationRowsPerPageOptions={[10, 15, 20, 30]}
@@ -546,6 +546,7 @@ export const ModalReAsignarTecnico = ({ row, refreshData }) => {
 
   return (
     <>
+    <Tooltip hasArrow placement="auto" label="Reasignar La Incidencia" aria-label="Reasignar">
       <IconButton
         icon={<RiUserShared2Line />}
         colorScheme={'teal'}
@@ -553,19 +554,19 @@ export const ModalReAsignarTecnico = ({ row, refreshData }) => {
         fontSize='20px'
         size={'sm'}
         ml={1}
-        _focus={{ boxShadow: "none" }}
       />
+    </Tooltip>
 
       <Modal
         isOpen={openModal}
         onClose={handleCloseModal}
-        size={'2xl'}
+        size={'4xl'}
       >
         <ModalOverlay />
         <form onSubmit={ReAsignacionIncidencia}>
           <ModalContent>
             <ModalHeader>RE-ASIGNAR A OTRO USUARIO LA INCIDENCIA</ModalHeader>
-            <ModalCloseButton _focus={{ boxShadow: "none" }} />
+            <ModalCloseButton />
             <ModalBody pb={6}>
               <FormControl isRequired>
                 <FormLabel fontWeight="semibold">LISTA DE USUARIOS PARA RE-ASIGNAR</FormLabel>
@@ -581,10 +582,10 @@ export const ModalReAsignarTecnico = ({ row, refreshData }) => {
               </FormControl>
             </ModalBody>
             <ModalFooter>
-              <Button disabled={indiceTecnico === null ? true : false} colorScheme="facebook" _focus={{ boxShadow: "none" }} mr={3} type={'submit'}>
+              <Button disabled={indiceTecnico === null ? true : false} colorScheme="facebook" mr={3} type={'submit'}>
                 RE-ASIGNAR
               </Button>
-              <Button onClick={handleCloseModal} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+              <Button onClick={handleCloseModal} colorScheme="red" variant="outline">CANCELAR</Button>
             </ModalFooter>
           </ModalContent>
         </form>

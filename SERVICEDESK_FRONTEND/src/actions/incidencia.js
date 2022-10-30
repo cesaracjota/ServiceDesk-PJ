@@ -9,7 +9,7 @@ export const createIncidencia = (data) => {
   return async dispatch => {
     var formData = new FormData();
 
-    if (data.historialIncidencia[0].persona_asignado !== undefined){
+    if (data.historialIncidencia[0].persona_asignado !== undefined) {
       formData.append('archivo', data.archivo);
       formData.append('descripcion', data.descripcion);
       formData.append('persona', data.persona.idpersona);
@@ -28,12 +28,18 @@ export const createIncidencia = (data) => {
       formData.append('historialIncidencia[0].persona_notifica.idpersona', data.historialIncidencia[0].persona_notifica.idpersona);
     }
     const response = await fetchIncidencia(`incidencias/usuariocomun`, formData, 'POST');
-    if (response.status === 200 || response.status === 201) {
+    if (response.status === 200) {
+      dispatch(getIncidenciaAsignadas(await fetchIncidenciasAsignadas()));
+      dispatch(getIncidenciaNoAsignadas(await fetchIncidenciasNoAsignadas()));
+      dispatch(getIncidencias(await fetchIncidencias()));
+      const body = await response.json();
+      notification('INCIDENCIA CREADA', `LA INCIDENCIA HA SIDO CREADA CORRECTAMENTE \n \n NUMERO DE COLA EN ESPERA = ${body}`, 'success');
+    } else if (response.status === 201) {
       dispatch(getIncidenciaAsignadas(await fetchIncidenciasAsignadas()));
       dispatch(getIncidenciaNoAsignadas(await fetchIncidenciasNoAsignadas()));
       dispatch(getIncidencias(await fetchIncidencias()));
       notification('INCIDENCIA CREADA', 'LA INCIDENCIA HA SIDO CREADA CORRECTAMENTE', 'success');
-    } else {
+    }else {
       notification('ERROR DE REGISTRO', 'NO SE LOGRÓ REGISTRAR LA INCIDENCIA', 'error');
     }
   };
@@ -49,12 +55,13 @@ export const createIncidenciaUsuario = (data) => {
     formData.append("origen", data.origen.idOrigen);
     formData.append("historialIncidencia[0].persona_registro.idpersona", data.historialIncidencia[0].persona_registro.idpersona);
     formData.append("historialIncidencia[0].persona_notifica.idpersona", data.historialIncidencia[0].persona_notifica.idpersona);
-    
     const response = await fetchIncidencia(`incidencias/usuariocomun`, formData, 'POST');
-
-    if (response.status === 200 || response.status === 201) {
+    if (response.status === 200) {
+      const body = await response.json();
+      notification('INCIDENCIA CREADA', `LA INCIDENCIA HA SIDO CREADA CORRECTAMENTE \n \n NUMERO DE COLA EN ESPERA = ${body}`, 'success');
+    } else if (response.status === 201) {
       notification('INCIDENCIA CREADA', 'LA INCIDENCIA HA SIDO CREADA CORRECTAMENTE', 'success');
-    } else {
+    }else {
       notification('ERROR DE REGISTRO', 'NO SE LOGRÓ REGISTRAR LA INCIDENCIA', 'error');
     }
   };
@@ -158,21 +165,55 @@ export const resetEstadoIncidencia = (data) => {
   };
 }
 
+// ACTUALIZAR EL ESTADO DE LA INCIDENCIA EN TRAMITE
 
-// ACTUALIZAR EL ESTADO DE LA INCIDENCIA EN TRÁMITE
-
-export const incidenciaEnTramite = (data) => {
+export const createDescripcionTramite = (data) => {
   return async dispatch => {
-    const response = await fetchToken(`incidencias/tramite/`,
-      {
-        idIncidencia: data.idIncidencia,
-        historialIncidencia: [data.historialIncidencia[0]]
-      }, 'PUT');
+    var formData = new FormData();
+    formData.append('archivo', data.archivo);
+    formData.append('descripcionTramite', data.descripcion);
+    formData.append('incidencia', data.incidencia);
+    const response = await fetchIncidencia(`incidencia/descripcion/tramite`, formData, 'POST');
     if (response.status === 200 || response.status === 201) {
-      notification('INCIDENCIA ACTUALIZADA', 'LA INCIDENCIA HA SIDO ACTUALIZADA CORRECTAMENTE', 'success');
+      notification('INCIDENCIA ACTUALIZADA', 'ESTADO DE LA INCIDENCIA HA SIDO MODIFICADO CORRECTAMENTE', 'success');
+    } else {
+      notification('ERROR DE MODIFICACIÓN', 'NO SE LOGRÓ MODIFICAR ESTADO DE LA INCIDENCIA', 'error');
     }
-    else {
-      notification('ERROR AL ACTUALIZAR', 'NO SE LOGRÓ ACTUALIZAR A TRÁMITE LA INCIDENCIA', 'error');
+  };
+}
+
+
+// ACTUALIZAR EL ESTADO DE LA INCIDENCIA EN TRAMITE
+export const updateDescripcionAtendido = (data) => {
+  return async dispatch => {
+    var formData = new FormData();
+    formData.append('idDescripcionIncidencia', data.idDescripcionIncidencia);
+    formData.append('descripcionTramite', data.descripcionTramite);
+    formData.append('archivo', data.archivo);
+    formData.append('descripcionAtencion', data.descripcion);
+    formData.append('incidencia', data.incidencia);
+    const response = await fetchIncidencia(`incidencia/descripcion/update`, formData, 'PUT');
+    if (response.status === 200 || response.status === 201) {
+      notification('ATENCIÓN REGISTRADA', 'LA ATENCIÓN DE LA INCIDENCIA HA SIDO REGISTRADO CORRECTAMENTE', 'success');
+    } else {
+      notification('ERROR DE REGISTRO', 'NO SE LOGRÓ REGISTRAR LA ATENCIÓN DE LA INCIDENCIA', 'error');
+    }
+  };
+}
+
+// SOLUCION DE LA INCIDENCIA
+
+export const createDescripcionAtendido = (data) => {
+  return async dispatch => {
+    var formData = new FormData();
+    formData.append('archivo', data.archivo);
+    formData.append('descripcionAtencion', data.descripcion);
+    formData.append('incidencia', data.incidencia);
+    const response = await fetchIncidencia(`incidencia/descripcion/atendido`, formData, 'POST');
+    if (response.status === 200 || response.status === 201) {
+      notification('ATENCIÓN REGISTRADA', 'LA ATENCIÓN DE LA INCIDENCIA HA SIDO REGISTRADO CORRECTAMENTE', 'success');
+    } else {
+      notification('ERROR DE REGISTRO', 'NO SE LOGRÓ REGISTRAR LA ATENCIÓN DE LA INCIDENCIA', 'error');
     }
   };
 };
@@ -221,7 +262,7 @@ export const fetchIncidenciasAsignadas = async () => {
   const response = await fetchToken('incidencias/persona/asignados');
   if (!response.ok) {
     throw new Error(response.status);
-  }else{
+  } else {
     const data = await response.json();
     const IncidenciaAsignados = {};
     IncidenciaAsignados.data = data;
@@ -233,7 +274,7 @@ export const fetchIncidenciasAsignadas = async () => {
 
 export const fetchIncidenciasNoAsignadas = async () => {
   const response = await fetchToken('incidencias/persona/noasignados');
-  if(response.status === 404){
+  if (response.status === 404) {
     const IncidenciaNoAsignados = {};
     IncidenciaNoAsignados.data = [];
     return IncidenciaNoAsignados;
@@ -251,7 +292,7 @@ export const fetchIncidenciaSoporte = async (id) => {
   const response = await fetchToken(`incidencias/persona/asignado/${id}`);
   if (!response.ok) {
     throw new Error(response.status);
-  }else{
+  } else {
     const data = await response.json();
     const Incidencia = {};
     Incidencia.data = data;
@@ -265,7 +306,7 @@ export const fetchMisIncidencias = async (id) => {
   const response = await fetchToken(`incidencias/persona/asignado/${id}`);
   if (!response.ok) {
     throw new Error(response.status);
-  }else{
+  } else {
     const data = await response.json();
     const MisIncidencias = {};
     MisIncidencias.data = data;
@@ -273,22 +314,6 @@ export const fetchMisIncidencias = async (id) => {
   }
 };
 
-// SOLUCION DE LA INCIDENCIA
-
-export const createSolucionIncidencia = (data) => {
-  return async dispatch => {
-    var formData = new FormData();
-    formData.append('archivo', data.archivo);
-    formData.append('descripcion', data.descripcion);
-    formData.append('incidencia', data.incidencia);
-    const response = await fetchIncidencia(`incidencia/descripcion/save`, formData, 'POST');
-    if (response.status === 200 || response.status === 201) {
-      notification('ATENCIÓN ASIGNADA', 'LA ATENCIÓN DE LA INCIDENCIA HA SIDO REGISTRADO CORRECTAMENTE', 'success');
-    } else {
-      notification('ERROR DE REGISTRO', 'NO SE LOGRÓ REGISTRAR LA ATENCIÓN DE LA INCIDENCIA', 'error');
-    }
-  };
-};
 
 // DESCARGAR O VISUALIZAR ARCHIVOS FTP
 export const fetchDescargarArchivo = (data) => {
@@ -301,8 +326,6 @@ export const fetchDescargarArchivo = (data) => {
     const response = await fetchIncidencia(`incidencias/downloadFile`, formdata, 'POST');
     if (response.status === 200 || response.status === 201) {
       return response;
-    } else {
-      notification('ERROR DE DESCARGA', 'NO SE LOGRÓ DESCARGAR EL ARCHIVO, REVICE CONEXION A FTP', 'error');
     }
   }
 }
@@ -312,13 +335,13 @@ export const fetchViewArchivo = async (filename) => {
   if (response.status === 200 || response.status === 201) {
     const extensionType = await response.url;
     var datos = [];
-    if(extensionType.includes(".pdf")){
-      
+    if (extensionType.includes(".pdf")) {
+
       const blob = await response.blob();
       const blobURL = new Blob([blob], { type: 'application/pdf' });
       const fileURL = URL.createObjectURL(blobURL);
       datos.push({
-        blob : blob,
+        blob: blob,
         url: blobURL,
         filename: filename,
         link: fileURL,
@@ -326,12 +349,12 @@ export const fetchViewArchivo = async (filename) => {
 
       return datos;
 
-    }else if(extensionType.includes(".png")){
+    } else if (extensionType.includes(".png")) {
       const blob = await response.blob();
       const blobURL = new Blob([blob], { type: 'application/png' });
       const fileURL = URL.createObjectURL(blobURL);
       datos.push({
-        blob : blob,
+        blob: blob,
         url: blobURL,
         filename: filename,
         link: fileURL,
@@ -343,7 +366,7 @@ export const fetchViewArchivo = async (filename) => {
       const blobURL = new Blob([blob], { type: 'application/jpg' });
       const fileURL = URL.createObjectURL(blobURL);
       datos.push({
-        blob : blob,
+        blob: blob,
         url: blobURL,
         filename: filename,
         link: fileURL,
@@ -355,19 +378,19 @@ export const fetchViewArchivo = async (filename) => {
       const blobURL = new Blob([blob], { type: 'application/jpeg' });
       const fileURL = URL.createObjectURL(blobURL);
       datos.push({
-        blob : blob,
+        blob: blob,
         url: blobURL,
         filename: filename,
         link: fileURL,
       })
 
       return datos
-    } else if(extensionType.includes(".docx")){
+    } else if (extensionType.includes(".docx")) {
       const blob = await response.blob();
       const blobURL = new Blob([blob], { type: 'application/docx' });
       const fileURL = URL.createObjectURL(blobURL);
       datos.push({
-        blob : blob,
+        blob: blob,
         url: blobURL,
         filename: filename,
         link: fileURL,
@@ -379,7 +402,7 @@ export const fetchViewArchivo = async (filename) => {
     return datos;
 
   } else {
-        return null;
+    return null;
   }
 }
 
@@ -390,7 +413,9 @@ export const fetchDetallesIncidenciaAtendida = async (id) => {
   const body = await response.json();
   const SolucionIncidencia = {
     idDescripcionIncidencia: body.idDescripcionIncidencia,
-    descripcion: body.descripcion,
+    descripcionAtencion: body.descripcionAtencion,
+    descripcionTramite: body.descripcionTramite,
+    estado: body.estado,
     incidenciaArchivos: body.incidenciaArchivos,
   };
   // set user info
@@ -418,7 +443,7 @@ export const loadIncidencias = async (id) => {
   const response = await fetchToken('incidencias/personas/' + id);
   if (!response.ok) {
     throw new Error(response.status);
-  }else{
+  } else {
     const data = await response.json();
     const Incidencias = {};
     Incidencias.data = data;
@@ -433,7 +458,7 @@ export const fetchTecnicosDisponibles = async () => {
   const response = await fetchToken('tecnico/');
   if (!response.ok) {
     throw new Error(response.status);
-  }else{
+  } else {
     const data = await response.json();
     const Tecnicos = {};
     Tecnicos.data = data;

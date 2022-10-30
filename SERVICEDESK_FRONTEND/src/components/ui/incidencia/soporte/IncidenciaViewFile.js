@@ -12,6 +12,7 @@ import {
     Text,
     Stack,
     Box,
+    Tooltip,
 } from '@chakra-ui/react'
 import { useDispatch } from 'react-redux';
 import { FaFileAlt, FaFileImage, FaFilePdf } from 'react-icons/fa';
@@ -74,27 +75,29 @@ const IncidenciaViewFileSoporte = ({ rowData, typeFile, setProgressTrue, setProg
 
     return (
         <>
-            <IconButton
-                icon={
-                    typeFile.includes(".pdf") 
-                    ? <FaFilePdf /> 
-                    : typeFile.includes(".png") || typeFile.includes(".jpg") || typeFile.includes(".jpeg")
-                    ? <FaFileImage />
-                    : <FaFileAlt />
-                }
-                colorScheme={'purple'}
-                onClick={FetchViewFile}
-                fontSize={'20px'}
-                size={'sm'}
-                ml={1}
-                _focus={{ boxShadow: "none" }}
-            />
+            <Tooltip hasArrow placement="auto" label="Visualizar Archivos de la Incidencia" aria-label="A tooltip">
+                <IconButton
+                    icon={
+                        typeFile.includes(".pdf") 
+                        ? <FaFilePdf /> 
+                        : typeFile.includes(".png") || typeFile.includes(".jpg") || typeFile.includes(".jpeg")
+                        ? <FaFileImage />
+                        : <FaFileAlt />
+                    }
+                    colorScheme={'purple'}
+                    onClick={FetchViewFile}
+                    fontSize={'20px'}
+                    size={'sm'}
+                    ml={1}
+                    
+                />
+            </Tooltip>
             <Modal isOpen={open} onClose={handleCloseModalFile} size="6xl">
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader textAlign={'center'} fontWeight="bold">VISUALIZANDO EL ARCHIVO</ModalHeader>
-                    <ModalCloseButton _focus={{ boxShadow: "none" }} />
-                    <ModalBody maxH="60vh">
+                    <ModalCloseButton  />
+                    <ModalBody maxH="70vh">
                         {
                             fileData?.filename?.includes(".pdf") ? (
                                 <iframe title={fileData?.filename} src={fileData?.link} width="100%" height="500vh" />
@@ -131,7 +134,7 @@ const IncidenciaViewFileSoporte = ({ rowData, typeFile, setProgressTrue, setProg
                                     rounded={'full'}
                                     size={'lg'}
                                     mr={3}
-                                    _focus={{ boxShadow: "none" }}
+                                    
                                 />
 
                                 <IconButton
@@ -142,7 +145,7 @@ const IncidenciaViewFileSoporte = ({ rowData, typeFile, setProgressTrue, setProg
                                     rounded={'full'}
                                     size={'lg'}
                                     mr={3}
-                                    _focus={{ boxShadow: "none" }}
+                                    
                                 />
 
                                 <IconButton
@@ -152,7 +155,7 @@ const IncidenciaViewFileSoporte = ({ rowData, typeFile, setProgressTrue, setProg
                                     onClick={handleCloseModalFile}
                                     rounded={'full'}
                                     size={'lg'}
-                                    _focus={{ boxShadow: "none" }}
+                                    
                                 />
 
                             </>
@@ -166,7 +169,7 @@ const IncidenciaViewFileSoporte = ({ rowData, typeFile, setProgressTrue, setProg
                                     rounded={'full'}
                                     size={'lg'}
                                     mr={3}
-                                    _focus={{ boxShadow: "none" }}
+                                    
 
                                 />
 
@@ -177,7 +180,7 @@ const IncidenciaViewFileSoporte = ({ rowData, typeFile, setProgressTrue, setProg
                                     onClick={handleCloseModalFile}
                                     rounded={'full'}
                                     size={'lg'}
-                                    _focus={{ boxShadow: "none" }}
+                                    
                                 />
 
                             </>

@@ -1,33 +1,28 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { store } from '../../../store/store';
-import Sidebar from '../base/Sidebar';
 import { fetchListFtp } from '../../../actions/ftp'; 
 import { types } from '../../../types/types';
 import TableFtp from './TableFtp';
+import Dashboard from '../base/layout/Dashboard';
 
 export const Ftp = () => {
+  
   const dispatch = useDispatch();
 
-  const fetchData= async ()=> {
-    await fetchListFtp().then((res)=>{
-      dispatch(getFtp(res));
-    }).catch((err)=>{
-      // console.log(err);
-    });
+  const fetchDataFtp = async () => {
+    const response = await fetchListFtp();
+    dispatch(getFtp(response));
   }
 
   useEffect(() => {
     if(store.getState().ftp.checking){
-      fetchData();
+      fetchDataFtp();
     }
   });
 
-  return (
-    <>
-      <Sidebar componente={TableFtp} />
-    </>
-  );
+  return (<Dashboard componente={<TableFtp />} />)
+
 };
 
 export const getFtp = ftp =>({

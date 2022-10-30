@@ -464,7 +464,7 @@ const saveOrigen = () => {
 
   return (
     <>
-      <Button leftIcon={<AddIcon />} size="sm" onClick={handleClickOpenCreate} colorScheme={'facebook'} _focus={{ boxShadow: "none" }}>
+      <Button leftIcon={<AddIcon />} size="sm" onClick={handleClickOpenCreate} colorScheme={'facebook'} >
         NUEVA INCIDENCIA
       </Button>
 
@@ -477,14 +477,14 @@ const saveOrigen = () => {
         <ModalOverlay />
           <ModalContent borderRadius={'none'}>
             <ModalHeader textAlign={'center'}>CREAR NUEVA INCIDENCIA PARA UN USUARIO</ModalHeader>
-            <ModalCloseButton _focus={{ boxShadow: "none" }} />
+            <ModalCloseButton  />
             <ModalBody borderRadius={'none'}>
               <Stack direction={['column', 'column', 'row', 'row']} spacing={2} mb={2} mt="-5" justify="space-between" >
                 <Text fontWeight={'semibold'}>USUARIO QUIEN REPORTÓ</Text>
                 <RadioGroup onChange={handleChangeUserRadio} value={radioUserValue}>
                   <Stack direction='row'>
-                    <Radio size='md' value='mismo' _focus={{ boxShadow: "none" }} defaultChecked={true}>EL MISMO USUARIO QUIEN REPORTÓ</Radio>
-                    <Radio size='md' value='otro' _focus={{ boxShadow: "none" }}>OTRO USUARIO</Radio>
+                    <Radio size='md' value='mismo'  defaultChecked={true}>EL MISMO USUARIO QUIEN REPORTÓ</Radio>
+                    <Radio size='md' value='otro' >OTRO USUARIO</Radio>
                   </Stack>
                 </RadioGroup>
               </Stack>
@@ -492,8 +492,8 @@ const saveOrigen = () => {
               <Stack direction={'column'} spacing={2} mt={2} hidden={radioUserValue === 'mismo'} >
                 <Tabs variant="enclosed-colored" w="full" size={'sm'}>
                   <TabList textAlign="center" justifyContent="center">
-                    <Tab _focus={{ boxShadow: "none" }} defaultChecked={true} fontWeight="semibold" fontSize="sm">BUSQUEDA POR APELLIDOS</Tab>
-                    <Tab _focus={{ boxShadow: "none" }} fontWeight="semibold" fontSize="sm">BUSQUEDA POR DNI</Tab>
+                    <Tab  defaultChecked={true} fontWeight="semibold" fontSize="sm">BUSQUEDA POR APELLIDOS</Tab>
+                    <Tab  fontWeight="semibold" fontSize="sm">BUSQUEDA POR DNI</Tab>
                   </TabList>
                   <TabPanels>
                     <TabPanel>
@@ -510,7 +510,7 @@ const saveOrigen = () => {
                                   borderRadius="none"
                                   onClick={handleSearchApellido1}
                                   icon={<SearchIcon />}
-                                  _focus={{ boxShadow: "none" }}
+                                  
                                   disabled={usuarioApellido1 === null || usuarioApellido1.length < 3}
                                 />
                               }
@@ -527,7 +527,7 @@ const saveOrigen = () => {
                           <ModalOverlay />
                           <ModalContent>
                             <ModalHeader>LISTA DE USUARIOS CON EL APELLIDO BUSCADO</ModalHeader>
-                            <ModalCloseButton _focus={{ boxShadow: "none" }} onClick={handleCloseModalSearch1} />
+                            <ModalCloseButton  onClick={handleCloseModalSearch1} />
                             <ModalBody pb={6}>
                               <FormControl>
                                 <FormLabel fontWeight="semibold">LISTA DE USUARIOS</FormLabel>
@@ -569,7 +569,7 @@ const saveOrigen = () => {
                                   borderRadius="none"
                                   onClick={handleSearchDNI1}
                                   icon={<SearchIcon />}
-                                  _focus={{ boxShadow: "none" }}
+                                  
                                   disabled={usuarioNotificaDNI === '' || usuarioNotificaDNI.length < 8 || usuarioNotificaDNI.length > 8}
                                 />
                               }
@@ -593,8 +593,8 @@ const saveOrigen = () => {
                 <Text fontWeight="semibold">USUARIO CON PROBLEMA</Text>
                 <RadioGroup onChange={handleChangeRadio} value={radioValue} mt={2}>
                   <Stack direction='row'>
-                    <Radio size='md' value='apellido' _focus={{ boxShadow: "none" }} defaultChecked={true}>BUSCAR POR APELLIDO</Radio>
-                    <Radio size='md' value='dni' _focus={{ boxShadow: "none" }}>BUSCAR POR DNI</Radio>
+                    <Radio size='md' value='apellido'  defaultChecked={true}>BUSCAR POR APELLIDO</Radio>
+                    <Radio size='md' value='dni' >BUSCAR POR DNI</Radio>
                   </Stack>
                 </RadioGroup>
               </HStack>
@@ -612,7 +612,7 @@ const saveOrigen = () => {
                           borderRadius="none"
                           onClick={handleSearchDNI}
                           icon={<SearchIcon />}
-                          _focus={{ boxShadow: "none" }}
+                          
                           disabled={usuarioDNI === '' || usuarioDNI.length < 8 || usuarioDNI.length > 8}
                         />
                       }
@@ -639,7 +639,7 @@ const saveOrigen = () => {
                           borderRadius="none"
                           onClick={handleSearchApellido}
                           icon={<SearchIcon />}
-                          _focus={{ boxShadow: "none" }}
+                          
                           disabled={usuarioApellido === null || usuarioApellido.length < 3}
                         />
                       }
@@ -656,7 +656,7 @@ const saveOrigen = () => {
                   <ModalOverlay />
                   <ModalContent>
                     <ModalHeader>LISTA DE USUARIOS CON EL APELLIDO BUSCADO</ModalHeader>
-                    <ModalCloseButton _focus={{ boxShadow: "none" }} onClick={handleCloseModalSearch} />
+                    <ModalCloseButton  onClick={handleCloseModalSearch} />
                     <ModalBody pb={6}>
                       <FormControl>
                         <FormLabel fontWeight="semibold">LISTA DE USUARIOS</FormLabel>
@@ -711,13 +711,13 @@ const saveOrigen = () => {
                     <Text fontWeight={'semibold'}>ORIGEN</Text>
                     <Popover placement='left'>
                       <PopoverTrigger>
-                        <Button size='xs' leftIcon={<AddIcon />} _focus={{ boxShadow: "none" }} colorScheme="messenger">
+                        <Button size='xs' leftIcon={<AddIcon />}  colorScheme="messenger">
                           NUEVO
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent _focus={{ boxShadow: "none" }}>
+                      <PopoverContent >
                         <PopoverArrow />
-                        <PopoverCloseButton _focus={{ boxShadow: "none" }} />
+                        <PopoverCloseButton  />
                         <PopoverHeader fontWeight="semibold">AGREGAR NUEVO</PopoverHeader>
                         <PopoverBody>
                           <FormControl>
@@ -739,7 +739,7 @@ const saveOrigen = () => {
                               autoFocus
                               disabled={dataOrigen.origen === "" ? true : false}
                               colorScheme="green"
-                              _focus={{ boxShadow: "none" }}
+                              
                             >GUARDAR</Button>
                           </ButtonGroup>
                         </PopoverFooter>
@@ -761,13 +761,13 @@ const saveOrigen = () => {
                     <Text fontWeight={'semibold'}>MOTIVO</Text>
                     <Popover placement='left'>
                       <PopoverTrigger>
-                        <Button size='xs' leftIcon={<AddIcon />} _focus={{ boxShadow: "none" }} colorScheme="messenger">
+                        <Button size='xs' leftIcon={<AddIcon />}  colorScheme="messenger">
                           NUEVO
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent _focus={{ boxShadow: "none" }}>
+                      <PopoverContent >
                         <PopoverArrow />
-                        <PopoverCloseButton _focus={{ boxShadow: "none" }} />
+                        <PopoverCloseButton  />
                         <PopoverHeader fontWeight="semibold">AGREGAR NUEVO</PopoverHeader>
                         <PopoverBody>
                           <FormControl>
@@ -789,7 +789,7 @@ const saveOrigen = () => {
                               autoFocus
                               disabled={dataMotivo.motivo === "" ? true : false}
                               colorScheme="green"
-                              _focus={{ boxShadow: "none" }}
+                              
                             >GUARDAR</Button>
                           </ButtonGroup>
                         </PopoverFooter>
@@ -842,12 +842,12 @@ const saveOrigen = () => {
                 type={'submit'}
                 colorScheme={'facebook'}
                 autoFocus mr={3}
-                _focus={{ boxShadow: "none" }}
+                
                 onClick={() => { crearIncidencia() }}
               >
                 GUARDAR
               </Button>
-              <Button onClick={handleCloseModal} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+              <Button onClick={handleCloseModal}  colorScheme="red" variant="outline">CANCELAR</Button>
             </ModalFooter>
           </ModalContent>
       </Modal>

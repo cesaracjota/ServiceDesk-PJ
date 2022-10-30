@@ -1,33 +1,27 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { store } from '../../../store/store';
-import Sidebar from '../base/Sidebar';
 import Tables from './TablePerfilPersona';
 import { perfilPersona } from '../../../actions/perfilPersona'; 
 import { types } from '../../../types/types';
+import Dashboard from '../base/layout/Dashboard';
 
 export const PerfilPersona = () => {
   const dispatch = useDispatch();
 
-  const fetchData= async ()=> {
-    await perfilPersona().then((res)=>{
-      dispatch(getPerfilPersona(res));
-    }).catch((err)=>{
-      // console.log("WARN " + err);
-    });
+  const fetchDataPerfilPersona = async () => {
+    const response = await perfilPersona();
+    dispatch(getPerfilPersona(response));
   }
 
   useEffect(() => {
     if(store.getState().perfilPersona.rows.length <= 0){
-      fetchData();
+      fetchDataPerfilPersona();
     }
   });
 
-  return (
-    <>
-      <Sidebar componente={Tables} />
-    </>
-  );
+  return (<Dashboard componente={<Tables />} />)
+
 };
 
 export const getPerfilPersona = perfil =>({

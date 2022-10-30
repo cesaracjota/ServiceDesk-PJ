@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@chakra-ui/icons": "^2.0.1",
-    "@chakra-ui/react": "^2.1.0",
+    "@chakra-ui/react": "^2.3.6",
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
     "@fontsource/raleway": "^4.5.11",
@@ -14,7 +14,6 @@
     "external-ip": "^2.3.1",
     "formik": "^2.2.9",
     "formik-chakra-ui": "^1.6.0",
-    "framer-motion": "^6.3.3",
     "highcharts": "^10.2.1",
     "highcharts-react-official": "^3.1.0",
     "history": "^5.3.0",

@@ -32,6 +32,9 @@ import {
   PopoverBody,
   Portal,
   Progress,
+  Tooltip,
+  FormLabel,
+  FormControl,
 } from '@chakra-ui/react';
 import { CalendarIcon, RepeatIcon } from '@chakra-ui/icons';
 
@@ -44,7 +47,7 @@ import 'react-data-table-component-extensions/dist/index.css';
 import IncidenciaAgregar from '../IncidenciaAgregar';
 import IncidenciaDetalles from '../IncidenciaDetalles';
 import IncidenciaAtender from './IncidenciaAtender';
-import { incidenciaEnTramite, fetchIncidenciaSoporte } from '../../../../actions/incidencia';
+import { createDescripcionTramite, fetchIncidenciaSoporte } from '../../../../actions/incidencia';
 import { getIncidenciasAsignadasSoporte } from './incidencia';
 import Moment from 'moment';
 import IncidenciaViewFileSoporte from './IncidenciaViewFile';
@@ -53,6 +56,10 @@ import { AiFillFileText, AiFillFilter } from 'react-icons/ai';
 import AtencionViewFile from '../conocimiento/AtencionViewFile';
 import IncidenciaViewFile from '../conocimiento/IncidenciaViewFile';
 import { ModalReAsignarTecnico } from '../asistente/TableIncidenciaAsignadas';
+import { loadConfiguracionBotones } from '../../../../actions/configurarBotones';
+import { getConfiguracionBotones } from '../asistente/incidencia';
+import ReactQuill from 'react-quill';
+import { formats, modules } from '../../../../helpers/quillConfig';
 
 export default function TableIncidenciaSoporte() {
   const [openAlert, setOpenAlert] = useState(false);
@@ -64,7 +71,13 @@ export default function TableIncidenciaSoporte() {
 
   const data = store.getState().incidenciasAsignadasSoporte.rows;
 
+  const dataConfiguracionValue = store.getState().configuracionBotones.rows;
+
+  const dataBotonAgregar = dataConfiguracionValue.filter((item) => item.slug === "botonagregar" );
+  const dataBotonReAsignar = dataConfiguracionValue.filter( (item) => item.slug === "botonreasignar");
+
   const [tableRowsData, setTableRowsData] = useState(data);
+  const [descripcion, setDescripcion] = useState('');
 
   const ContadorPendientes = data.filter(row => row.historialIncidencia.filter(pendiente => pendiente.estadoIncidencia === "P" && pendiente.estado === "A").length > 0);
   const ContadorTramite = data.filter(row => row.historialIncidencia.filter(tramite => tramite.estadoIncidencia === "T" && tramite.estado === "A").length > 0);
@@ -74,6 +87,11 @@ export default function TableIncidenciaSoporte() {
     await fetchIncidenciaSoporte(identificador).then((res) => {
       dispatch(getIncidenciasAsignadasSoporte(res));
     });
+  }
+
+  const fetchDataConfiguracionBotones = async () => {
+    const response = await loadConfiguracionBotones();
+    dispatch(getConfiguracionBotones(response));
   }
 
   const changeSetProgressTrue = () => {
@@ -100,11 +118,12 @@ export default function TableIncidenciaSoporte() {
   });
 
   const ActualizarIncidenciaEnTramite = () => {
-    var incidencia = {
-      idIncidencia: indice.idIncidencia,
-      historialIncidencia: [indice.historialIncidencia]
+    var detallesObservacion = {
+      incidencia: indice.idIncidencia,
+      descripcion: descripcion,
+      archivo: null
     }
-    dispatch(incidenciaEnTramite(incidencia))
+    dispatch(createDescripcionTramite(detallesObservacion))
       .then(() => {
         fetchDataIncidencias();
         setOpenAlert(false);
@@ -120,11 +139,13 @@ export default function TableIncidenciaSoporte() {
   };
 
   const handleCloseAlert = () => {
+    setDescripcion('');
     setOpenAlert(false);
   };
 
   const refreshTable = () => {
     fetchDataIncidencias();
+    fetchDataConfiguracionBotones();
   }
 
   // filtros por estado
@@ -238,17 +259,21 @@ export default function TableIncidenciaSoporte() {
                     setProgressFalse={() => changeSetProgressFalse()}
                   />
                 ) : (null)}
-                <IconButton
-                  icon={<CalendarIcon />}
-                  variant={'outline'}
-                  colorScheme={'yellow'}
-                  onClick={() => handleClickOpenAlert(row)}
-                  size={'sm'}
-                  fontSize={'20px'}
-                  ml={1}
-                  _focus={{ boxShadow: "none" }}
-                />
-                <ModalReAsignarTecnico row={row} refreshData={() => refreshTable()} />
+                <Tooltip hasArrow placement="auto" label="Cambiar a Trámite el Estado" aria-label="A tooltip">
+                  <IconButton
+                    icon={<CalendarIcon />}
+                    variant={'outline'}
+                    colorScheme={'yellow'}
+                    onClick={() => handleClickOpenAlert(row)}
+                    size={'sm'}
+                    fontSize={'20px'}
+                    ml={1}
+                    
+                  />
+                </Tooltip>
+                {dataBotonReAsignar[0]?.activo === "S" ? (
+                  <ModalReAsignarTecnico row={row} refreshData={() => refreshTable()} />
+                ) : null}
                 <IncidenciaAtender
                   rowId={row.idIncidencia}
                 />
@@ -261,15 +286,18 @@ export default function TableIncidenciaSoporte() {
                     identificador={identificador}
                   />
                   {archivoUsuario !== null ? (
-                    <IncidenciaViewFileSoporte
-                      rowData={row.incidenciaArchivos}
-                      typeFile={archivoUsuario.file}
-                      setProgressTrue={() => changeSetProgressTrue()}
-                      setProgressFalse={() => changeSetProgressFalse()}
-                    />
+                    <Tooltip hasArrow placement="auto" label="Visualizar Archivos de la Incidencia" aria-label="A tooltip">
+                      <IncidenciaViewFileSoporte
+                        rowData={row.incidenciaArchivos}
+                        typeFile={archivoUsuario.file}
+                        setProgressTrue={() => changeSetProgressTrue()}
+                        setProgressFalse={() => changeSetProgressFalse()}
+                      />
+                    </Tooltip>
                   ) : (null)}
                   <IncidenciaAtender
                     rowId={row.idIncidencia}
+                    descripcionIncidencia = {row.descripcionIncidencia}
                   />
                 </>
               ) : (
@@ -279,70 +307,84 @@ export default function TableIncidenciaSoporte() {
                     identificador={identificador}
                   />
                   {archivoTecnico === null && archivoUsuario === null ? null : (
-                    <Popover placement='left'>
-                      <PopoverTrigger>
-                        <IconButton
-                          size="sm"
-                          colorScheme="purple"
-                          icon={<AiFillFileText />}
-                          ml={1}
-                          fontSize={'20px'}
-                          _focus={{ boxShadow: 'none' }}
-                        />
-                      </PopoverTrigger>
-                      <Portal>
-                        <PopoverContent _focus={{ boxShadow: 'none' }}>
-                          <PopoverArrow />
-                          <PopoverCloseButton _focus={{ boxShadow: 'none' }} />
-                          <PopoverHeader>VISUALIZAR ARCHIVO</PopoverHeader>
-                          <PopoverBody>
-                            <Stack direction={'column'} spacing={4} alignItems="start">
-                              {archivoUsuario !== null ? (
-                                <IncidenciaViewFile
-                                  rowData={row?.incidenciaArchivos}
-                                  typeFile={archivoUsuario?.file}
-                                  setProgressTrue={() => changeSetProgressTrue()}
-                                  setProgressFalse={() => changeSetProgressFalse()}
-                                />
-                              ) : null}
+                    <Popover placement="auto">
+                        <PopoverTrigger>
+                          <Box as="a" cursor={'pointer'}>
+                            <Tooltip hasArrow placement="auto" label="Visualizar Archivos de la Incidencia" aria-label="A tooltip">
+                              <IconButton
+                                size="sm"
+                                colorScheme="purple"
+                                icon={<AiFillFileText />}
+                                ml={1}
+                                fontSize={'20px'}
+                                _focus={{ boxShadow: 'none' }}
+                              />
+                            </Tooltip>
+                          </Box>
+                        </PopoverTrigger>
+                        <Portal>
+                          <PopoverContent _focus={{ boxShadow: 'none' }}>
+                            <PopoverArrow />
+                            <PopoverCloseButton _focus={{ boxShadow: 'none' }} />
+                            <PopoverHeader>VISUALIZAR ARCHIVO</PopoverHeader>
+                            <PopoverBody>
+                              <Stack direction={'column'} spacing={4} alignItems="start">
+                                {archivoUsuario !== null ? (
+                                  <IncidenciaViewFile
+                                    rowData={row?.incidenciaArchivos}
+                                    typeFile={archivoUsuario?.file}
+                                    setProgressTrue={() => changeSetProgressTrue()}
+                                    setProgressFalse={() => changeSetProgressFalse()}
+                                  />
+                                ) : null}
 
-                              {archivoTecnico !== null ? (
-                                <AtencionViewFile
-                                  rowData={row.descripcionIncidencia?.incidenciaArchivos}
-                                  typeFile={archivoTecnico?.file}
-                                  setProgressTrue={() => changeSetProgressTrue()}
-                                  setProgressFalse={() => changeSetProgressFalse()}
-                                />
-                              ) : null}
-                            </Stack>
-                          </PopoverBody>
-                        </PopoverContent>
-                      </Portal>
-                    </Popover>
+                                {archivoTecnico !== null ? (
+                                  <AtencionViewFile
+                                    rowData={row.descripcionIncidencia?.incidenciaArchivos}
+                                    typeFile={archivoTecnico?.file}
+                                    setProgressTrue={() => changeSetProgressTrue()}
+                                    setProgressFalse={() => changeSetProgressFalse()}
+                                  />
+                                ) : null}
+                              </Stack>
+                            </PopoverBody>
+                          </PopoverContent>
+                        </Portal>
+                      </Popover>
                   )}
                 </>
               )
             )}
-            <AlertDialog isOpen={openAlert} onClose={handleCloseAlert} size={'3xl'}>
+            <AlertDialog isOpen={openAlert} onClose={handleCloseAlert} size={'4xl'}>
               <AlertDialogOverlay>
                 <AlertDialogContent>
                   <AlertDialogHeader fontSize="xl" fontWeight="bold">
                     ¿DESEA CAMBIAR EL ESTADO, EN TRÁMITE?
                   </AlertDialogHeader>
-                  <AlertDialogCloseButton _focus={{ boxShadow: "none" }} />
+                  <AlertDialogCloseButton  />
                   <AlertDialogBody>
-                    <Box px={2}>
-                      <Text>¿CONFIRMAR LA ACCIÓN?</Text>
-                    </Box>
+                    <FormControl isRequired>
+                      <FormLabel fontWeight="semibold">AGREGAR UNA OBSERVACIÓN</FormLabel>
+                      <ReactQuill
+                        theme="snow"
+                        style={{
+                          textTransform: 'uppercase',
+                        }}
+                        placeholder="Ingrese una observación"
+                        modules={modules}
+                        formats={formats}
+                        onChange={(e) => setDescripcion(e.valueOf().toUpperCase())}
+                      />
+                </FormControl>
                   </AlertDialogBody>
                   <AlertDialogFooter>
-                    <Button onClick={handleCloseAlert} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+                    <Button onClick={handleCloseAlert}  colorScheme="red" variant="outline">CANCELAR</Button>
                     <Button
                       bg={'yellow.500'}
                       _hover={{ bg: 'yellow.600' }}
                       color={'white'}
                       ml={3}
-                      _focus={{ boxShadow: "none" }}
+                      disabled={(descripcion.length < 5 || descripcion === '') ? true : false}
                       onClick={() => ActualizarIncidenciaEnTramite()}
                     >
                       CONFIRMAR
@@ -564,7 +606,7 @@ export default function TableIncidenciaSoporte() {
                 size={'sm'}
                 icon={<RepeatIcon boxSize={4} />}
                 colorScheme={'facebook'}
-                _focus={{ boxShadow: "none" }}
+                
                 onClick={refreshTable}
               />
               <Menu size={'xs'}>
@@ -583,7 +625,9 @@ export default function TableIncidenciaSoporte() {
                   <MenuItem icon={<AiFillFilter size={'20px'} />} onClick={refreshTable}>TODOS</MenuItem>
                 </MenuList>
               </Menu>
-              <IncidenciaAgregar />
+              {dataBotonAgregar[0]?.activo === "S" ? (
+                <IncidenciaAgregar />
+              ) : null}
             </Stack>
           </Box>
         </HStack>
@@ -597,7 +641,7 @@ export default function TableIncidenciaSoporte() {
             paginationPerPage={10}
             noDataComponent={
               <Text fontSize="sm" textAlign="center" color="gray.600">
-                  NO HAY DATOS PARA MOSTRAR, REFRESCAR LA TABLA
+                NO HAY DATOS PARA MOSTRAR, REFRESCAR LA TABLA
               </Text>
             }
             paginationRowsPerPageOptions={[10, 15, 20, 30]}

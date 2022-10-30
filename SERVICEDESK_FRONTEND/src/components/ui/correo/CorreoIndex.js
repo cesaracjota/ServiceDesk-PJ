@@ -76,10 +76,10 @@ export default function CorreoIndex(){
       </HStack>
       <Tabs defaultIndex={1} colorScheme='blue' isFitted w={'100%'}>
         <TabList color={textColor}>
-          <Tab py={4} _focus={{ boxShadow: "none" }} _hover={{ backgroundColor: hover, color: hoverTextColor, borderRadius: 'sm' }}>
+          <Tab py={4}  _hover={{ backgroundColor: hover, color: hoverTextColor, borderRadius: 'sm' }}>
               <Icon as={SiAddthis}/>
           </Tab>
-          <Tab onClick={fetchCorreoRecibidoData} py={4} _focus={{ boxShadow: "none" }} _hover={{ backgroundColor: hover, color: hoverTextColor, borderRadius: 'sm' }}>
+          <Tab onClick={fetchCorreoRecibidoData} py={4}  _hover={{ backgroundColor: hover, color: hoverTextColor, borderRadius: 'sm' }}>
             <HStack spacing={3}>
               <Icon boxSize={5} as={RiInboxArchiveFill} />
               <Text>Recibidos</Text>
@@ -93,7 +93,7 @@ export default function CorreoIndex(){
                   </Tag>
             </HStack>
           </Tab>
-          <Tab py={4} _focus={{ boxShadow: "none" }} _hover={{ backgroundColor: hover, color: hoverTextColor, borderRadius: 'sm' }}>
+          <Tab py={4}  _hover={{ backgroundColor: hover, color: hoverTextColor, borderRadius: 'sm' }}>
             <HStack spacing={4}>
               <Icon boxSize={5} as={RiSendPlane2Fill} />
               <Text>Enviados</Text>
@@ -107,7 +107,7 @@ export default function CorreoIndex(){
               </Tag>
             </HStack>
           </Tab>
-          <Tab py={4} _focus={{ boxShadow: "none" }} _hover={{ backgroundColor: hover, color: hoverTextColor, borderRadius: 'sm' }}>
+          <Tab py={4}  _hover={{ backgroundColor: hover, color: hoverTextColor, borderRadius: 'sm' }}>
             <HStack spacing={3}>
               <Icon boxSize={5} as={RiNotification2Fill} />
               <Text>Notificaciones</Text>

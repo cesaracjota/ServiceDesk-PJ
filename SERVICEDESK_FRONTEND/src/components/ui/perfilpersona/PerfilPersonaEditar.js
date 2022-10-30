@@ -61,7 +61,7 @@ export const PerfilPersonaEditar = ({ row }) => {
                 onClick={() => handleClickOpenEdit(row)}
                 fontSize={'22px'}
                 size={'sm'}
-                _focus={{ boxShadow: "none" }}
+                
             />
             <Modal isOpen={openedit} onClose={handleCloseEdit} size={'3xl'}>
                 <ModalOverlay />
@@ -69,7 +69,7 @@ export const PerfilPersonaEditar = ({ row }) => {
                     <ModalHeader display={'flex'} justifyContent={'center'}>
                         EDITAR PERFIL
                     </ModalHeader>
-                    <ModalCloseButton _focus={{ boxShadow: "none" }} />
+                    <ModalCloseButton  />
                     <ModalBody pb={4}>
 
                         <FormControl textAlign="center">
@@ -130,11 +130,11 @@ export const PerfilPersonaEditar = ({ row }) => {
                             onClick={e => actualizarPerfilPersona(e)}
                             colorScheme="green"
                             mr={3}
-                            _focus={{ boxShadow: "none" }}
+                            
                         >
                             ACTUALIZAR
                         </Button>
-                        <Button onClick={handleCloseEdit} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+                        <Button onClick={handleCloseEdit}  colorScheme="red" variant="outline">CANCELAR</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

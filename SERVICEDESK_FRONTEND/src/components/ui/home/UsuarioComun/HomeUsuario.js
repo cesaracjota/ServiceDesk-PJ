@@ -64,7 +64,7 @@ const HomeUsuario = () => {
                                         size="md" 
                                         w="full" 
                                         mt={2}
-                                        _focus={{ boxShadow: "none" }}>
+                                        >
                                         IR A MIS INCIDENCIAS
                                     </Button>
                                 </NavLink>

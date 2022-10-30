@@ -226,7 +226,7 @@ export const RegisterValidateScreen = () => {
                               _hover={{
                                 bg: 'red.600',
                               }}
-                              _focus={{ boxShadow: "none" }}
+                              
                               disabled={
                                 dataUsuario.password1 !== dataUsuario.password2 ||
                                   dataUsuario.password1.length < 6 ||
@@ -243,7 +243,7 @@ export const RegisterValidateScreen = () => {
                               w="100%"
                               colorScheme="gray"
                               fontWeight="extrabold"
-                              _focus={{ boxShadow: "none" }}
+                              
                             >
                               REGRESAR
                             </Button>

@@ -13,7 +13,7 @@ import {
 import Swal from 'sweetalert2';
 
 export const AlertChackra = (icon, title, message) => {
-  
+
   const { onOpen, onClose } = useDisclosure();
   const cancelRef = React.useRef();
 
@@ -28,26 +28,26 @@ export const AlertChackra = (icon, title, message) => {
       >
         <AlertDialogOverlay />
         <AlertDialogContent>
-        <Alert
-          status={icon}
-          variant="subtle"
-          flexDirection="column"
-          alignItems="center"
-          justifyContent="center"
-          textAlign="center"
-          height="400px"
-        >
-          <AlertIcon boxSize="80px" mr={0} />
-          <AlertTitle mt={4} fontSize="lg">
-            {title}
-          </AlertTitle>
-          <AlertDescription maxWidth="sm" mt={4}>
-            {message}
-          </AlertDescription>
-          <Button colorScheme={'purple'} onClick={onClose} mt={4}>
-            OK
-          </Button>
-        </Alert>
+          <Alert
+            status={icon}
+            variant="subtle"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            textAlign="center"
+            height="400px"
+          >
+            <AlertIcon boxSize="80px" mr={0} />
+            <AlertTitle mt={4} fontSize="lg">
+              {title}
+            </AlertTitle>
+            <AlertDescription maxWidth="sm" mt={4}>
+              {message}
+            </AlertDescription>
+            <Button colorScheme={'purple'} onClick={onClose} mt={4}>
+              OK
+            </Button>
+          </Alert>
         </AlertDialogContent>
       </AlertDialog>
     </>

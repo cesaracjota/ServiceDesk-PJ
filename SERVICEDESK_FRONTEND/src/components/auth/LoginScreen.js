@@ -122,7 +122,7 @@ export const LoginScreen = () => {
                         name="username"
                         value={username}
                         onChange={handleInputChange}
-                        _focus={{ boxShadow: "none" }}
+                        
                         _hover={{ borderColor: 'gray.400'}}
                       />
                     </InputGroup>
@@ -142,11 +142,11 @@ export const LoginScreen = () => {
                         autoComplete='off'
                         value={password}
                         onChange={handleInputChange}
-                        _focus={{ boxShadow: "none" }}
+                        
                         _hover={{ borderColor: 'gray.400'}}
                       />
                       <InputRightElement width="4.5rem">
-                        <Button h="1.75rem" color={'white'} bg="red.600" _hover={{ bg: 'red.700'}} size="sm" onClick={handleShowClick} _focus={{ boxShadow: "none" }}>
+                        <Button h="1.75rem" color={'white'} bg="red.600" _hover={{ bg: 'red.700'}} size="sm" onClick={handleShowClick} >
                           {showPassword ? <Icon as={ViewIcon} /> : <Icon as={ViewOffIcon} />}
                         </Button>
                       </InputRightElement>
@@ -163,7 +163,7 @@ export const LoginScreen = () => {
                       bg: 'red.700',
                     }}
                     fontWeight="extrabold"
-                    _focus={{ boxShadow: "none" }}
+                    
                   >
                     INICIAR SESIÓN
                   </Button>

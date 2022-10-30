@@ -57,7 +57,7 @@ export const MotivoEditar = ({ row }) => {
                 onClick={() => handleClickOpenEdit(row)}
                 fontSize={'22px'}
                 size={'sm'}
-                _focus={{ boxShadow: "none" }}
+                
             />
             <Modal isOpen={openedit} onClose={handleCloseEdit} size={'2xl'}>
                 <ModalOverlay />
@@ -65,7 +65,7 @@ export const MotivoEditar = ({ row }) => {
                     <ModalHeader>
                         EDITAR EL MOTIVO DE LA INCIDENCIA
                     </ModalHeader>
-                    <ModalCloseButton _focus={{ boxShadow: "none" }} />
+                    <ModalCloseButton  />
                     <ModalBody pb={6}>
                         <FormControl>
                             <Input
@@ -92,11 +92,11 @@ export const MotivoEditar = ({ row }) => {
                             onClick={e => handleUpdateMotivo(e)}
                             colorScheme="green"
                             mr={3}
-                            _focus={{ boxShadow: "none" }}
+                            
                         >
                             ACTUALIZAR
                         </Button>
-                        <Button onClick={handleCloseEdit} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+                        <Button onClick={handleCloseEdit}  colorScheme="red" variant="outline">CANCELAR</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

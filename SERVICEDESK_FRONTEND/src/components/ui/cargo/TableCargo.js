@@ -186,12 +186,12 @@ const ModalEliminarCargo = ({ row }) => {
             <AlertDialogBody>CONFIRMO LA ACCIÓN</AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button onClick={handleCloseDelete} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+              <Button onClick={handleCloseDelete}  colorScheme="red" variant="outline">CANCELAR</Button>
               <Button
                 onClick={() => handleDeleteCargo(row.idCargo)}
                 colorScheme="red"
                 ml={3}
-                _focus={{ boxShadow: "none" }}
+                
               >
                 SI
               </Button>

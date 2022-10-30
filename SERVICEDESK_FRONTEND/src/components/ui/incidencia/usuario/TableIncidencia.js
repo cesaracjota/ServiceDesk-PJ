@@ -23,6 +23,7 @@ import {
   PopoverBody,
   Portal,
   Progress,
+  Tooltip,
 } from '@chakra-ui/react';
 import { store } from '../../../../store/store';
 import DataTable, { createTheme } from 'react-data-table-component';
@@ -170,16 +171,20 @@ export default function TableIncidencia() {
               identificador={identificador}
             />
             {((row.descripcionIncidencia !== null) && (row.descripcionIncidencia?.incidenciaArchivos !== null)) || (row.incidenciaArchivos !== null) ? (
-              <Popover placement='left'>
+              <Popover placement="auto">
                 <PopoverTrigger>
-                  <IconButton
-                    size="sm"
-                    colorScheme="purple"
-                    icon={<AiFillFileText />}
-                    ml={1}
-                    fontSize={'20px'}
-                    _focus={{ boxShadow: 'none' }}
-                  />
+                <Box as="a" cursor={'pointer'}>
+                  <Tooltip hasArrow placement="auto" label="Visualizar Archivos de la Incidencia" aria-label="A tooltip">
+                    <IconButton
+                      size="sm"
+                      colorScheme="purple"
+                      icon={<AiFillFileText />}
+                      ml={1}
+                      fontSize={'20px'}
+                      _focus={{ boxShadow: 'none' }}
+                    />
+                  </Tooltip>
+                </Box>
                 </PopoverTrigger>
                 <Portal>
                   <PopoverContent _focus={{ boxShadow: 'none' }}>
@@ -423,7 +428,7 @@ export default function TableIncidencia() {
                 size={'sm'}
                 icon={<RepeatIcon boxSize={4} />}
                 colorScheme={'facebook'}
-                _focus={{ boxShadow: "none" }}
+                
                 onClick={refreshTable} />
               <Menu size={'xs'}>
                 <MenuButton as={'menu'} style={{ cursor: 'pointer' }}>

@@ -80,7 +80,7 @@ const OrganoAgregar = () => {
         size="sm"
         onClick={handleClickOpenCreate}
         colorScheme={'facebook'}
-        _focus={{ boxShadow: "none" }}
+        
       >
         AGREGAR
       </Button>
@@ -94,7 +94,7 @@ const OrganoAgregar = () => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader textAlign="center">AGREGAR NUEVO ORGANO</ModalHeader>
-          <ModalCloseButton _focus={{ boxShadow: "none" }} />
+          <ModalCloseButton  />
           <ModalBody pb={8}>
             <FormControl>
               <FormLabel fontWeight="semibold">SEDE</FormLabel>
@@ -143,12 +143,12 @@ const OrganoAgregar = () => {
               colorScheme={'facebook'}
               autoFocus
               mr={3}
-              _focus={{ boxShadow: "none" }}
+              
               disabled={dataOrgano.organo === '' || dataOrgano.sede.idSede === null}
             >
               GUARDAR
             </Button>
-            <Button onClick={handleCloseModal} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+            <Button onClick={handleCloseModal}  colorScheme="red" variant="outline">CANCELAR</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

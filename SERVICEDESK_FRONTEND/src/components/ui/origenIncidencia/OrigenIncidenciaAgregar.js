@@ -52,7 +52,7 @@ const OrigenAgregar = () => {
 
     return (
         <>
-            <Button leftIcon={<AddIcon />} size='sm' onClick={handleClickOpenCreate} colorScheme={'facebook'} _focus={{ boxShadow: "none" }}>NUEVO</Button>
+            <Button leftIcon={<AddIcon />} size='sm' onClick={handleClickOpenCreate} colorScheme={'facebook'} >NUEVO</Button>
 
             <Modal
                 isOpen={openCreate}
@@ -63,7 +63,7 @@ const OrigenAgregar = () => {
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>AGREGAR NUEVO ORIGEN PARA LA INCIDENCIA</ModalHeader>
-                    <ModalCloseButton _focus={{ boxShadow: "none" }} />
+                    <ModalCloseButton  />
                     <ModalBody pb={6}>
                         <FormControl>
                             <FormLabel fontWeight="semibold">ORIGEN</FormLabel>
@@ -80,12 +80,12 @@ const OrigenAgregar = () => {
                             onClick={() => saveOrigen()} 
                             colorScheme={'facebook'}
                             autoFocus mr={3} 
-                            _focus={{ boxShadow: "none" }}
+                            
                             disabled = { dataOrigen.origen === "" ? true : false }
                         >
                             GUARDAR
                         </Button>
-                        <Button onClick={handleCloseModal} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+                        <Button onClick={handleCloseModal}  colorScheme="red" variant="outline">CANCELAR</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

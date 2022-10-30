@@ -203,7 +203,7 @@ const ModalSedeEditar = ({ row }) => {
         onClick={() => handleClickOpenEdit(row)}
         fontSize={'22px'}
         size={'sm'}
-        _focus={{ boxShadow: "none" }}
+        
       />
       <Modal isOpen={openedit} onClose={handleCloseEdit} size={'3xl'}>
         <ModalOverlay />
@@ -211,7 +211,7 @@ const ModalSedeEditar = ({ row }) => {
           <ModalHeader display={'flex'} justifyContent={'center'}>
             EDITAR SEDE
           </ModalHeader>
-          <ModalCloseButton _focus={{ boxShadow: "none" }} />
+          <ModalCloseButton  />
           <ModalBody pb={6}>
             <FormControl>
               <Input
@@ -262,11 +262,11 @@ const ModalSedeEditar = ({ row }) => {
               onClick={e => actualizarSede(e)}
               colorScheme="green"
               mr={3}
-              _focus={{ boxShadow: "none" }}
+              
             >
               ACTUALIZAR
             </Button>
-            <Button onClick={handleCloseEdit} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+            <Button onClick={handleCloseEdit}  colorScheme="red" variant="outline">CANCELAR</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -333,12 +333,12 @@ const ModalSedeEliminar = ({ row }) => {
             <AlertDialogBody>CONFIRMO LA ACCIÓN</AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button onClick={handleCloseDelete} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+              <Button onClick={handleCloseDelete}  colorScheme="red" variant="outline">CANCELAR</Button>
               <Button
                 onClick={() => handleDeleteSede(row.idSede)}
                 colorScheme="red"
                 ml={3}
-                _focus={{ boxShadow: "none" }}
+                
               >
                 SI
               </Button>

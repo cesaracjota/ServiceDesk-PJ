@@ -128,7 +128,7 @@ export const OficinaEditar = ({ row }) => {
                 colorScheme="facebook"
                 icon={<AiTwotoneEdit size={24} />}
                 size={'sm'}
-                _focus={{ boxShadow: "none" }}
+                
             />
             <Modal isOpen={openedit} onClose={handleCloseEdit} size={'3xl'}>
                 <ModalOverlay />
@@ -136,7 +136,7 @@ export const OficinaEditar = ({ row }) => {
                     <ModalHeader textAlign="center">
                         EDITAR LA OFICINA
                     </ModalHeader>
-                    <ModalCloseButton _focus={{ boxShadow: "none" }} />
+                    <ModalCloseButton  />
                     <ModalBody pb={6}>
                         <FormControl>
                             <Input
@@ -200,12 +200,12 @@ export const OficinaEditar = ({ row }) => {
                             onClick={e => handleUpdateOrgano(e)}
                             colorScheme="green"
                             mr={3}
-                            _focus={{ boxShadow: "none" }}
+                            
                             disabled={optionsOrgano[optionsOrganoindex]?.value === null || indice?.organo?.idOrgano === null ? true : false}
                         >
                             ACTUALIZAR
                         </Button>
-                        <Button onClick={handleCloseEdit} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+                        <Button onClick={handleCloseEdit}  colorScheme="red" variant="outline">CANCELAR</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

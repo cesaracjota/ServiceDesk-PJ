@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../../../store/store';
-import Sidebar from '../base/Sidebar';
 import { fetchIncidencias, fetchIncidenciasPersonas } from '../../../actions/incidencia'; 
 import { types } from '../../../types/types';
 import TableIncidencia from './TableIncidencia';
 import { fetchMotivos } from '../../../actions/motivo';
 import { fetchOrigen } from '../../../actions/origenIncidencia';
+import Dashboard from '../base/layout/Dashboard';
 
 export const Incidencia = () => {
   
@@ -49,11 +49,8 @@ export const Incidencia = () => {
     }
   });
 
-  return (
-    <>
-      <Sidebar componente={TableIncidencia} />
-    </>
-  );
+  return (<Dashboard componente={<TableIncidencia />} />)
+
 };
 
 export const getIncidencias = incidencia =>({

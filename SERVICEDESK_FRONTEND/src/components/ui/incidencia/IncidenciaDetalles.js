@@ -23,6 +23,7 @@ import {
   Divider,
   useColorModeValue,
   Flex,
+  Tooltip,
 } from '@chakra-ui/react';
 
 import { ViewIcon } from '@chakra-ui/icons';
@@ -42,7 +43,6 @@ const IncidenciaDetalles = (props) => {
   const [openCreate, setOpenCreate] = React.useState(false);
 
   const [detalleIncidencia, setDetalleIncidencia] = useState([]);
-  // const [detalleIncidenciaAtendida, setDetalleIncidenciaAtendida] = useState([]);
   const [incidenciaHistorial, setIncidenciaHistorial] = useState([]);
   const [incidenciaMotivo, setIncidenciaMotivo] = useState([]);
   const [incidenciaOrigen, setIncidenciaOrigen] = useState([]);
@@ -95,15 +95,17 @@ const IncidenciaDetalles = (props) => {
 
   return (
     <>
-      <IconButton
-        icon={<ViewIcon />}
-        variant={'outline'}
-        colorScheme={'facebook'}
-        onClick={handleClickOpenCreate}
-        size={'sm'}
-        fontSize={'20px'}
-        _focus={{ boxShadow: 'none' }}
-      />
+      <Tooltip hasArrow placement="auto" label="Ver Detalles de la Incidencia">
+        <IconButton
+          icon={<ViewIcon />}
+          variant={'outline'}
+          colorScheme={'facebook'}
+          onClick={handleClickOpenCreate}
+          size={'sm'}
+          fontSize={'20px'}
+          _focus={{ boxShadow: 'none' }}
+        />
+      </Tooltip>
 
       <Drawer
         isOpen={openCreate}
@@ -175,75 +177,25 @@ const IncidenciaDetalles = (props) => {
                   >
                     DESCRIPCIÓN DE LA INCIDENCIA
                   </FormLabel>
-                  <ReactQuill 
+                  <ReactQuill
                     style={{
-                      border: '1px solid #385898', 
-                      borderRadius: '5px', 
+                      border: '1px solid #385898',
+                      borderRadius: '5px',
                       color: '#385898',
                       fontSize: '13px',
                       fontWeight: 'bold',
                       maxHeight: '60px',
-                    }} 
-                    scrollingContainer="true" 
-                    tabIndex={2} 
-                    theme="bubble" 
-                    value={detalleIncidencia.descripcion} 
-                    readOnly={true} 
-                  />
-                  {/* <Textarea
-                    fontSize={'13px'}
-                    textColor={'blue.500'}
-                    textAlign="center"
-                    size={'sm'}
-                    fontWeight={'bold'}
-                    rows={2}
+                    }}
+                    scrollingContainer="true"
+                    tabIndex={2}
+                    theme="bubble"
                     value={detalleIncidencia.descripcion}
-                    readOnly
-                  /> */}
+                    readOnly={true}
+                  />
                 </FormControl>
               </Box>
-              {/* <Box textAlign="center" w="auto">
-                <FormControl>
-                  <FormLabel
-                    fontSize={'14px'}
-                    textAlign="center"
-                    fontWeight={'bold'}
-                  >
-                    MAS DETALLES
-                  </FormLabel>
-                  <IconButton
-                    icon={<FaFileArchive />}
-                    variant={'outline'}
-                    colorScheme={'telegram'}
-                    size={'lg'}
-                    fontSize={'30px'}
-                    _focus={{ boxShadow: 'none' }} />
-                </FormControl>
-              </Box> */}
             </Flex>
-            {/* <Box flex="1" textAlign="center" mt={4}>
-              <FormControl>
-                <FormLabel
-                  fontSize={'14px'}
-                  textAlign="center"
-                  fontWeight={'bold'}
-                >
-                  DESCRIPCIÓN DE LA INCIDENCIA CREADA
-                </FormLabel>
-                <Textarea
-                  fontSize={'13px'}
-                  textColor={'blue.500'}
-                  textAlign="center"
-                  size={'sm'}
-                  fontWeight={'bold'}
-                  rows={2}
-                  value={detalleIncidencia.descripcion}
-                  readOnly
-                />
-              </FormControl>
-            </Box> */}
-            {/* Acordion items */}
-            <Accordion defaultIndex={[0, 2,3]} mt={2} allowMultiple>
+            <Accordion defaultIndex={[0, 2, 3]} mt={2} allowMultiple>
               <AccordionItem>
                 <AccordionButton
                   _focus={{ boxShadow: 'none' }}
@@ -446,7 +398,7 @@ const IncidenciaDetalles = (props) => {
                   </AccordionItem>
                 )}
             </Accordion>
-            {detalleIncidencia.descripcionIncidencia === null ?
+            { detalleIncidencia?.descripcionIncidencia === null ?
               (
                 <Box flex="1" textAlign="center" mt={2}>
                   <FormControl>
@@ -461,51 +413,135 @@ const IncidenciaDetalles = (props) => {
                   </FormControl>
                 </Box>
               ) : (
-                <Box flex="1" mt={2} justify="center" alignItems={'center'}>
-                  <FormControl>
-                    <FormLabel
-                      fontSize={'14px'}
-                      textAlign="center"
-                      fontWeight={'bold'}
-                    >
-                      DESCRIPCIÓN DE LA ATENCIÓN DE LA INCIDENCIA
-                    </FormLabel>
-                    {/* <Textarea
-                      fontSize={'13px'}
-                      textColor={'green.500'}
-                      textAlign="center"
-                      size={'sm'}
-                      fontWeight={'bold'}
-                      rows={2}
-                      value={parse(detalleIncidenciaAtendida.descripcion)}
-                      readOnly
-                    /> */}
-                    <Box flex="1" mt={2} textAlign="center" alignItems={'center'}>
-                      <ReactQuill
-                        style={{
-                          border: '1px solid #38a169', 
-                          borderRadius: '5px', 
-                          color: '#38a169',
-                          fontWeight: 'bold',
-                          fontSize: '13px',
-                          maxHeight: '60px',
-                        }} 
-                        theme="bubble"
-                        value={detalleIncidencia?.descripcionIncidencia?.descripcion}
-                        rows={2}
-                        scrollingContainer="true" 
-                        tabIndex={2} 
-                        readOnly
-                      />
-                      {/* {parse(detalleIncidenciaAtendida.descripcion)} */}
-                    </Box>
-                  </FormControl>
-                </Box>
-              )}
+                detalleIncidencia?.descripcionIncidencia?.descripcionTramite === null ? (
+                  <Box flex="1" mt={2} justify="center" alignItems={'center'}>
+                    <FormControl>
+                      <FormLabel
+                        fontSize={'14px'}
+                        textAlign="center"
+                        fontWeight={'bold'}
+                      >
+                        DESCRIPCIÓN DE LA ATENCIÓN DE LA INCIDENCIA
+                      </FormLabel>
+                      <Box flex="1" mt={2} textAlign="center" alignItems={'center'}>
+                        <ReactQuill
+                          style={{
+                            border: '1px solid #38a169',
+                            borderRadius: '5px',
+                            color: '#38a169',
+                            fontWeight: 'bold',
+                            fontSize: '13px',
+                            maxHeight: '60px',
+                          }}
+                          theme="bubble"
+                          value={detalleIncidencia?.descripcionIncidencia?.descripcionAtencion}
+                          rows={2}
+                          scrollingContainer="true"
+                          tabIndex={2}
+                          readOnly
+                        />
+                      </Box>
+                    </FormControl>
+                  </Box>
+                ) : (
+                  detalleIncidencia?.descripcionIncidencia?.descripcionAtencion === null ? (
+                    <Box flex="1" mt={2} justify="center" alignItems={'center'}>
+                    <FormControl>
+                      <FormLabel
+                        fontSize={'14px'}
+                        textAlign="center"
+                        fontWeight={'bold'}
+                      >
+                        DESCRIPCIÓN DE LA OBSERVACIÓN DEL CAMBIO A ESTADO EN TRÁMITE
+                      </FormLabel>
+                      <Box flex="1" mt={2} textAlign="center" alignItems={'center'}>
+                        <ReactQuill
+                          style={{
+                            border: '1px solid #d69e2e',
+                            borderRadius: '5px',
+                            color: '#d69e2e',
+                            fontWeight: 'bold',
+                            fontSize: '13px',
+                            maxHeight: '60px',
+                          }}
+                          theme="bubble"
+                          value={detalleIncidencia?.descripcionIncidencia?.descripcionTramite}
+                          rows={2}
+                          scrollingContainer="true"
+                          tabIndex={2}
+                          readOnly
+                        />
+                      </Box>
+                    </FormControl>
+                  </Box>
+                  ) : (
+                    <>
+                      <Box flex="1" mt={2} justify="center" alignItems={'center'}>
+                        <FormControl>
+                          <FormLabel
+                            fontSize={'14px'}
+                            textAlign="center"
+                            fontWeight={'bold'}
+                          >
+                            DESCRIPCIÓN DE LA OBSERVACIÓN DEL CAMBIO A ESTADO EN TRÁMITE
+                          </FormLabel>
+                          <Box flex="1" mt={2} textAlign="center" alignItems={'center'}>
+                            <ReactQuill
+                              style={{
+                                border: '1px solid #d69e2e',
+                                borderRadius: '5px',
+                                color: '#d69e2e',
+                                fontWeight: 'bold',
+                                fontSize: '13px',
+                                maxHeight: '60px',
+                              }}
+                              theme="bubble"
+                              value={detalleIncidencia?.descripcionIncidencia?.descripcionTramite}
+                              rows={2}
+                              scrollingContainer="true"
+                              tabIndex={2}
+                              readOnly
+                            />
+                          </Box>
+                        </FormControl>
+                      </Box>
+
+                      <Box flex="1" mt={2} justify="center" alignItems={'center'}>
+                        <FormControl>
+                          <FormLabel
+                            fontSize={'14px'}
+                            textAlign="center"
+                            fontWeight={'bold'}
+                          >
+                            DESCRIPCIÓN DE LA ATENCIÓN DE LA INCIDENCIA
+                          </FormLabel>
+                          <Box flex="1" mt={2} textAlign="center" alignItems={'center'}>
+                            <ReactQuill
+                              style={{
+                                border: '1px solid #38a169',
+                                borderRadius: '5px',
+                                color: '#38a169',
+                                fontWeight: 'bold',
+                                fontSize: '13px',
+                                maxHeight: '60px',
+                              }}
+                              theme="bubble"
+                              value={detalleIncidencia?.descripcionIncidencia?.descripcionAtencion}
+                              rows={2}
+                              scrollingContainer="true"
+                              tabIndex={2}
+                              readOnly
+                            />
+                          </Box>
+                        </FormControl>
+                      </Box>
+                    </>
+                  )
+                )) }
 
           </DrawerBody>
           <DrawerFooter>
-            <Button colorScheme={'facebook'} onClick={handleCloseModal} _focus={{ boxShadow: "none" }}>
+            <Button colorScheme={'facebook'} onClick={handleCloseModal} >
               OK
             </Button>
           </DrawerFooter>

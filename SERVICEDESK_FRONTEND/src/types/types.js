@@ -26,4 +26,6 @@ export const types = {
     eventLoadedOrigenIncidencia: '[event] Events loaded Origen Incidencia',
     eventLoadedFtp: '[event] Events loaded Ftp',
     eventLoadedCorreoCredencial: '[event] Events loaded Correo Credencial',
+    eventLoadedConfigurarBotones : '[event] Events loaded Configurar Botones',
+    eventLoadedMensajes: '[event] Events loaded Mensajes',
 }

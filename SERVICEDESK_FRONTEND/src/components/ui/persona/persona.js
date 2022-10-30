@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { store } from '../../../store/store';
-import Sidebar from '../base/Sidebar';
 import { personaList } from '../../../actions/persona';
 import { fetchPersonaOrgano } from '../../../actions/personaOrgano';
 import { types } from '../../../types/types';
@@ -13,6 +12,7 @@ import { fetchOficinas } from '../../../actions/oficina';
 import { getOficinas } from '../oficina/oficina';
 import { fetchCargos } from '../../../actions/cargo';
 import { getCargos } from '../cargo/cargo';
+import Dashboard from '../base/layout/Dashboard';
 
 export const Persona = () => {
 
@@ -77,11 +77,8 @@ export const Persona = () => {
     }
   });
 
-  return (
-    <>
-      <Sidebar componente={TablePersona} />
-    </>
-  );
+  return (<Dashboard componente={<TablePersona />} />)
+
 };
 
 export const getPersona = persona =>({

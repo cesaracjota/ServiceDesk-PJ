@@ -236,7 +236,7 @@ export const RegisterScreen = () => {
                               bg: 'red.600',
                             }}
                             type="submit"
-                            _focus={{ boxShadow: "none" }}
+                            
                           >
                             VALIDAR
                           </Button>
@@ -279,14 +279,14 @@ const PopoverForm = () => {
         onOpen={onOpen}
         onClose={onClose}
         placement='right'
-        _focus={{ boxShadow: "none" }}
+        
       >
         <PopoverTrigger>
-          <IconButton size='xs' icon={<QuestionIcon />} _focus={{ boxShadow: "none" }} />
+          <IconButton size='xs' icon={<QuestionIcon />}  />
         </PopoverTrigger>
-        <PopoverContent p={5} _focus={{ boxShadow: "none" }} color='white' bg='gray.700' borderColor='blue.600'>
+        <PopoverContent p={5}  color='white' bg='gray.700' borderColor='blue.600'>
           <PopoverArrow bg='gray.700'/>
-          <PopoverCloseButton _focus={{ boxShadow: "none" }} />
+          <PopoverCloseButton  />
           <PopoverHeader fontWeight="bold" fontSize={'sm'} textAlign="center">¿DONDE ENCONTRAR EL CÓDIGO DE VERIFICACIÓN DE MI DNI?</PopoverHeader>
           <PopoverBody>
             <Text fontSize="xs" color="gray.500" textTransform={'uppercase'} textAlign="justify">

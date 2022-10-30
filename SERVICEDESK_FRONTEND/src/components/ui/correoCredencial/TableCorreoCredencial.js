@@ -180,7 +180,7 @@ const ModalEliminarCorreoCredencial = ({ row }) => {
         icon={<DeleteIcon />}
         size={'sm'}
         onClick={() => handleClickOpenDelete(row.idCorreoCredenciales)}
-        _focus={{ boxShadow: "none" }}
+        
     />
       <AlertDialog isOpen={opendelete} onClose={handleCloseDelete} size="2xl">
         <AlertDialogOverlay>
@@ -197,12 +197,12 @@ const ModalEliminarCorreoCredencial = ({ row }) => {
             </AlertDialogBody>
 
             <AlertDialogFooter textAlign={'center'} justifyContent="center">
-              <Button onClick={handleCloseDelete} _focus={{ boxShadow: "none" }}>NO</Button>
+              <Button onClick={handleCloseDelete} >NO</Button>
               <Button
                 onClick={() => handleDeleteCorreoCredencial(row.idCorreoCredenciales)}
                 colorScheme="red"
                 ml={3}
-                _focus={{ boxShadow: "none" }}
+                
               >
                 SI
               </Button>

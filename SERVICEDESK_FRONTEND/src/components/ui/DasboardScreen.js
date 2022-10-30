@@ -4,7 +4,7 @@ import { Switch } from 'react-router-dom';
 import { home } from './home/home';
 import { HomeUsuarioComun } from './home/UsuarioComun/index';
 import { HomeSoporteTecnico } from './home/SoporteTecnico/index';
-import { MisIncidencias } from './incidencia/asistente/incidencia';
+import { Configuracion, MisIncidencias } from './incidencia/asistente/incidencia';
 import { Incidencia } from './incidencia/incidencia';
 import { IncidenciaUsuario } from './incidencia/usuario/incidencia';
 import { IncidenciaAsistenteNoAsignados, IncidenciaAsistenteAsignados } from './incidencia/asistente/incidencia';
@@ -26,6 +26,7 @@ import { perfil } from './perfil/index';
 import { Ftp } from './ftp/ftp';
 import { IncidenciaConocimiento } from './incidencia/conocimiento/incidencia';
 import { CorreoCredencial } from './correoCredencial/correoCredencial';
+import { Mensaje } from './mensaje/mensaje';
 
 export const DasboardScreen = () => {
   //
@@ -161,6 +162,16 @@ export const DasboardScreen = () => {
         <PrivateRoute
           exact path="/dashboard/correo-credencial"
           component={CorreoCredencial}
+          isAuthenticated={!!access_token}
+        />
+        <PrivateRoute
+          exact path="/dashboard/configuraciones"
+          component={Configuracion}
+          isAuthenticated={!!access_token}
+        />
+        <PrivateRoute
+          exact path="/dashboard/mensajes"
+          component={Mensaje}
           isAuthenticated={!!access_token}
         />
       </Switch>

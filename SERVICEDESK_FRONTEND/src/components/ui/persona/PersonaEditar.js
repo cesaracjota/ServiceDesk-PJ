@@ -76,7 +76,7 @@ const PersonaEditar = ({ row }) => {
         colorScheme="facebook"
         icon={<AiTwotoneEdit size={24} />}
         size={'sm'}
-        _focus={{ boxShadow: "none" }}
+        
       />
 
       <Modal isOpen={openedit} onClose={handleCloseEdit} size={'6xl'}>
@@ -84,7 +84,7 @@ const PersonaEditar = ({ row }) => {
         <form onSubmit={handleUpdatePersona}>
           <ModalContent>
             <ModalHeader>EDITAR PERSONA</ModalHeader>
-            <ModalCloseButton _focus={{ boxShadow: "none" }} />
+            <ModalCloseButton  />
             <ModalBody pb={2}>
               <FormControl>
                 <Input
@@ -256,11 +256,11 @@ const PersonaEditar = ({ row }) => {
                 type={'submit'}
                 colorScheme={'green'}
                 mr={3}
-                _focus={{ boxShadow: "none" }}
+                
               >
                 ACTUALIZAR
               </Button>
-              <Button onClick={handleCloseEdit} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+              <Button onClick={handleCloseEdit}  colorScheme="red" variant="outline">CANCELAR</Button>
             </ModalFooter>
           </ModalContent>
         </form>

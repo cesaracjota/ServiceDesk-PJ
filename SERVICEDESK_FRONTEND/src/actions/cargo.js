@@ -83,7 +83,7 @@ export const updateCargo = data => {
 
 //  DELETE / DISABLED SEDE
 
-export const deleteCargo = id => {
+export const deleteCargo = (id) => {
   return async dispatch => {
     const response = await fetchToken(`cargos/${id}`, '', 'DELETE');
 

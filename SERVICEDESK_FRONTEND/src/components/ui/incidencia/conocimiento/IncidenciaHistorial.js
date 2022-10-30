@@ -31,6 +31,7 @@ import {
     Tbody,
     Td,
     TableContainer,
+    Tooltip,
 } from '@chakra-ui/react'
 import { FaHistory } from 'react-icons/fa';
 import Moment from 'moment';
@@ -50,20 +51,22 @@ export const IncidenciaHistorial = ({ rowData }) => {
 
     return (
         <>
-            <IconButton
-                size="sm"
-                colorScheme="orange"
-                variant={'outline'}
-                icon={<FaHistory fontSize={'20px'} />}
-                ml={2}
-                _focus={{ boxShadow: 'none' }}
-                onClick={handleClickOpenModal}
-            />
+            <Tooltip hasArrow placement="auto" label="Historial de la Incidencia" aria-label="A tooltip">
+                <IconButton
+                    size="sm"
+                    colorScheme="orange"
+                    variant={'outline'}
+                    icon={<FaHistory fontSize={'20px'} />}
+                    ml={2}
+                    _focus={{ boxShadow: 'none' }}
+                    onClick={handleClickOpenModal}
+                />
+            </Tooltip>
             <Modal isOpen={openModal} onClose={handleCloseModal} size={'5xl'}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader w={'full'} flex="1" textAlign="center" fontWeight={'bold'}>MÁS DETALLES DE LA INCIDENCIA</ModalHeader>
-                    <ModalCloseButton _focus={{ boxShadow: "none" }} />
+                    <ModalCloseButton  />
                     <ModalBody>
                         <Flex
                             bg="#edf3f8"
@@ -134,7 +137,7 @@ export const IncidenciaHistorial = ({ rowData }) => {
                                 <Flex alignItems="center" mt={4} w={'full'}>
                                     <Accordion w='full' allowMultiple>
                                         <AccordionItem>
-                                            <AccordionButton _focus={{ boxShadow: "none" }}>
+                                            <AccordionButton >
                                                 <Box flex='1' textAlign='center'>
                                                     <Text fontWeight={'bold'}>
                                                         HISTORIAL DE LA INCIDENCIA
@@ -211,7 +214,7 @@ export const IncidenciaHistorial = ({ rowData }) => {
 
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme="red" mr={3} onClick={handleCloseModal} _focus={{ boxShadow: "none" }}>
+                        <Button colorScheme="red" mr={3} onClick={handleCloseModal} >
                             CERRAR
                         </Button>
                     </ModalFooter>

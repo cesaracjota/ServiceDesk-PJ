@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { fetchSedes } from '../../../../../actions/sede';
 import { store } from '../../../../../store/store';
-import Sidebar from '../../../base/Sidebar';
 import IncidenciaReportes from './IncidenciaReportes';
 import SegundoReporte from './SegundoReporte';
 import TercerReporte from './TercerReporte';
 import { useDispatch } from 'react-redux';
 import { types } from '../../../../../types/types';
+import Dashboard from '../../../base/layout/Dashboard';
 
 export const ReporteIncidencia = () => {
 
@@ -23,11 +23,8 @@ export const ReporteIncidencia = () => {
     }
   });
 
-  return (
-    <>
-      <Sidebar componente={IncidenciaReportes} />
-    </>
-  );
+  return (<Dashboard componente={<IncidenciaReportes />} />)
+
 };
 
 export const IncidenciaSegundoReporte = () => {
@@ -45,11 +42,8 @@ export const IncidenciaSegundoReporte = () => {
     }
   });
 
-  return (
-    <>
-      <Sidebar componente={SegundoReporte} />
-    </>
-  );
+  return (<Dashboard componente={<SegundoReporte />} />)
+
 };
 
 export const IncidenciaTercerReporte = () => {
@@ -67,11 +61,8 @@ export const IncidenciaTercerReporte = () => {
     }
   });
 
-  return (
-    <>
-      <Sidebar componente={TercerReporte} />
-    </>
-  );
+  return (<Dashboard componente={<TercerReporte />} />)
+
 };
 
 export const getSedes = sede =>({

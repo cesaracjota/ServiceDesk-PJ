@@ -22,6 +22,7 @@ import {
     SimpleGrid,
     Heading,
     Stack,
+    Tooltip,
 } from '@chakra-ui/react';
 
 import { RiRoadMapFill } from 'react-icons/ri';
@@ -187,19 +188,21 @@ const ModalActualizarHistorial = ({ rowData }) => {
 
     return (
         <>
-            <IconButton
-                icon={<RiRoadMapFill fontSize="22px" />}
-                size="sm"
-                ml={2}
-                colorScheme="orange"
-                _focus={{ boxShadow: "none" }}
-                onClick={handleOpenModal}
-            />
+            <Tooltip hasArrow label="Ver el Historial del Usuario" placement="left" aria-label="A tooltip">
+                <IconButton
+                    icon={<RiRoadMapFill fontSize="22px" />}
+                    size="sm"
+                    ml={2}
+                    colorScheme="orange"
+                    
+                    onClick={handleOpenModal}
+                />
+            </Tooltip>
             <Modal size={'6xl'} isOpen={openModal} onClose={handleCloseModal} id="modalOrganoAsignacion">
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader textAlign="center">VER Y ACTUALIZAR DATOS ADICIONALES DEL USUARIO</ModalHeader>
-                    <ModalCloseButton _focus={{ boxShadow: "none" }} />
+                    <ModalCloseButton  />
                     <ModalBody>
 
                         <VStack spacing={4} w={'100%'} color="white" bgGradient='linear(to-r, gray.700, gray.700)' pb={8} mt={4} py={8} boxShadow="base" borderRadius={'xl'}>
@@ -336,7 +339,7 @@ const ModalActualizarHistorial = ({ rowData }) => {
                         <Button
                             colorScheme="blue"
                             mr={3}
-                            _focus={{ boxShadow: "none" }}
+                            
                             hidden={selectCodicional === false}
                             disabled={indiceHistorial.oficina.idOficina === null && indiceHistorial.cargo.idCargo === null}
                             onClick={saveHistorialPersona}
@@ -345,7 +348,7 @@ const ModalActualizarHistorial = ({ rowData }) => {
                         </Button>
                         <Button
                             colorScheme="red"
-                            _focus={{ boxShadow: "none" }}
+                            
                             variant="outline"
                             onClick={handleCloseModal}
                         >

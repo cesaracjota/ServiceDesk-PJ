@@ -147,7 +147,7 @@ const PersonaAgregar = () => {
 
   return (
     <>
-      <Button leftIcon={<AddIcon />} size="sm" colorScheme={'facebook'} onClick={handleClickOpenCreate} _focus={{ boxShadow: "none" }}>
+      <Button leftIcon={<AddIcon />} size="sm" colorScheme={'facebook'} onClick={handleClickOpenCreate} >
         AGREGAR
       </Button>
 
@@ -162,7 +162,7 @@ const PersonaAgregar = () => {
         <form onSubmit={savePersona}>
           <ModalContent>
             <ModalHeader textAlign="center">AGREGAR NUEVO USUARIO</ModalHeader>
-            <ModalCloseButton _focus={{ boxShadow: "none" }} />
+            <ModalCloseButton  />
             <ModalBody pb={2}>
               <Progress size="xs" value={progress} colorScheme="messenger" hidden={ progress === false } isIndeterminate = { progress === true } mb={2} />
 
@@ -185,7 +185,7 @@ const PersonaAgregar = () => {
                     size='sm'
                     onClick={consultaReniecDNI}
                     disabled={persona.dni === '' || persona.dni.length !== 8}
-                    _focus={{ boxShadow: "none" }}
+                    
                   >
                     CONSULTAR
                   </Button>
@@ -352,12 +352,12 @@ const PersonaAgregar = () => {
                 type={'submit'} 
                 colorScheme={'facebook'} 
                 mr={3} 
-                _focus={{ boxShadow: "none" }}
+                
                 disabled={persona.password === '' || persona.password.length < 6}
                 >
                 GUARDAR
               </Button>
-              <Button onClick={handleCloseModal} _focus={{ boxShadow: "none" }} colorScheme="red" variant="outline">CANCELAR</Button>
+              <Button onClick={handleCloseModal}  colorScheme="red" variant="outline">CANCELAR</Button>
             </ModalFooter>
           </ModalContent>
         </form>

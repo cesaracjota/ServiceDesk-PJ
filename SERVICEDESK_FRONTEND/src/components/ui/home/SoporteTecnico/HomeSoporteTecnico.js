@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Box, Flex, Link, chakra, Image, Text, Heading, Stack, Button, Avatar, Skeleton, SkeletonText, SkeletonCircle } from "@chakra-ui/react"
 import { NavLink } from 'react-router-dom';
 import { CgChevronDoubleDown } from 'react-icons/cg';
+import ModalMensajes from './ModalMensajes';
 
 const HomeSoporte = () => {
 
@@ -30,6 +31,7 @@ const HomeSoporte = () => {
 
     return (
         <>
+            <ModalMensajes />
             <Flex
                 w="full"
                 alignItems="center"
@@ -63,7 +65,7 @@ const HomeSoporte = () => {
                                       variant="solid" 
                                       size="md" 
                                       w="full" 
-                                      _focus={{ boxShadow: "none" }}
+                                      
                                       mt={2}>
                                         IR A MIS INCIDENCIAS
                                     </Button>
