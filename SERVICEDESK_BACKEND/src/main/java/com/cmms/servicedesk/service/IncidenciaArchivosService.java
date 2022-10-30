@@ -1,6 +1,5 @@
 package com.cmms.servicedesk.service;
 
-import com.cmms.servicedesk.model.Incidencia;
 import com.cmms.servicedesk.model.IncidenciaArchivos;
 import com.cmms.servicedesk.repository.IIncidenciaArchivosRepository;
 import org.springframework.beans.factory.annotation.Autowired;

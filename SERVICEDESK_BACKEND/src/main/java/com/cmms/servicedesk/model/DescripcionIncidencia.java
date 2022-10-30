@@ -17,8 +17,11 @@ public class DescripcionIncidencia {
     @Column(name = "n_id_descripcion_incidencia")
     private Integer idDescripcionIncidencia;
 
-    @Column(name = "s_descripcion", columnDefinition = "TEXT")
-    private String descripcion;
+    @Column(name = "s_descripcion_atencion", columnDefinition = "TEXT")
+    private String descripcionAtencion;
+
+    @Column(name = "s_descripcion_tramite", columnDefinition = "TEXT")
+    private String descripcionTramite;
 
     @OneToOne
     @JoinColumn(name = "n_id_incidencia", nullable = false , unique = true)

@@ -1,6 +1,5 @@
 package com.cmms.servicedesk.service;
 
-import com.cmms.servicedesk.model.Correo;
 import com.cmms.servicedesk.model.Persona;
 
 import java.util.List;

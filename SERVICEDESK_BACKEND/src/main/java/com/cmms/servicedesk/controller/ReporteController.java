@@ -11,7 +11,6 @@ import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/reporte/incidencia")
@@ -138,8 +137,6 @@ public class ReporteController {
                 }
             });
         });
-
-
 
         for (Incidencia incidencia : incidencias2) {
             ZonedDateTime fechaTranscurrido = null, fechaAtendido = null;

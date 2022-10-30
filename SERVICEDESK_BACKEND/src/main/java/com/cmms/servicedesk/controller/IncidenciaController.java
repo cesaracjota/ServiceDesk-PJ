@@ -222,7 +222,7 @@ public class IncidenciaController {
 
     @PostMapping(value = "/usuariocomun", consumes = {"multipart/form-data"})
     @ResponseBody
-    public ResponseEntity<Incidencia> createusuario(@ModelAttribute("incidencia") Incidencia incidencia, @RequestParam(value = "archivo", required = false) MultipartFile archivo){
+    public ResponseEntity createusuario(@ModelAttribute("incidencia") Incidencia incidencia, @RequestParam(value = "archivo", required = false) MultipartFile archivo) throws Exception {
         Persona persona = incidencia.getPersona();
         HistorialPersona historialPersona = historialPersonaService.findByPersonaAndActivo(persona,'S').get();
         HistorialIncidencia historialIncidencia = new HistorialIncidencia();
@@ -335,6 +335,12 @@ public class IncidenciaController {
             System.out.println("Error al subir archivo");
         }
         historialIncidenciaService.create(historialIncidencia);
+        HistorialIncidencia personaAsignado = historialIncidenciaService.findByIdTecnicoAsignado(incidencia1.getIdIncidencia());
+        if (personaAsignado != null){
+            String cantidadEspera = incidenciaService.findCountIncidencias(personaAsignado.getPersona_asignado().getIdpersona());
+            historialIncidencia.setIncidencia(null);
+            return new ResponseEntity<>(cantidadEspera, HttpStatus.OK);
+        }
         historialIncidencia.setIncidencia(null);
         return new ResponseEntity<>(incidencia1, HttpStatus.CREATED);
     }

@@ -4,7 +4,6 @@ import com.cmms.servicedesk.model.HistorialIncidencia;
 import com.cmms.servicedesk.model.Incidencia;
 import com.cmms.servicedesk.model.Persona;
 import com.cmms.servicedesk.repository.IHistorialIncidenciaRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -68,4 +67,8 @@ public class HistorialIncidenciaService implements IHistorialIncidenciaService {
         return historialIncidenciaRepository.findByIncidenciaAndEstado(incidencia, estado);
     }
 
+    @Override
+    public HistorialIncidencia findByIdTecnicoAsignado(Integer idIncidencia){
+        return historialIncidenciaRepository.findByIdTecnicoAsignado(idIncidencia);
+    }
 }

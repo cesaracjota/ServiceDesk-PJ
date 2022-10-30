@@ -1,7 +1,6 @@
 package com.cmms.servicedesk.service;
 
 import com.cmms.servicedesk.model.SoporteTecnicoSede;
-import com.cmms.servicedesk.repository.IOficinaRepository;
 import com.cmms.servicedesk.repository.ISoporteTecnicoSede;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

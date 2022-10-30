@@ -47,7 +47,7 @@ public class Incidencia {
     private List<HistorialIncidencia> historialIncidencia;
 
     @Transient
-    private DescripcionIncidencia descripcionIncidencia = null;
+    private DescripcionIncidencia descripcionIncidencia;
 
     @ManyToOne
     @JoinColumn(name = "n_id_incidencia_archivos", nullable = true)

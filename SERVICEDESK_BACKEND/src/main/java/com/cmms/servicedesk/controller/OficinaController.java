@@ -1,7 +1,6 @@
 package com.cmms.servicedesk.controller;
 
 import com.cmms.servicedesk.model.Oficina;
-import com.cmms.servicedesk.model.Organo;
 import com.cmms.servicedesk.service.OficinaService;
 import com.cmms.servicedesk.service.OrganoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/oficinas")

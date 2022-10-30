@@ -1,7 +1,6 @@
 package com.cmms.servicedesk.service;
 
 import com.cmms.servicedesk.model.CorreoCredenciales;
-import com.cmms.servicedesk.model.Organo;
 import com.cmms.servicedesk.repository.ICorreoCredencialesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

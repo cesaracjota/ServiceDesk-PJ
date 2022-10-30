@@ -3,7 +3,6 @@ package com.cmms.servicedesk.service;
 import com.cmms.servicedesk.model.EstadoUsuarioComun;
 import com.cmms.servicedesk.model.Persona;
 import com.cmms.servicedesk.repository.IEstadoUsuarioComunRepository;
-import org.omg.CORBA.PRIVATE_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

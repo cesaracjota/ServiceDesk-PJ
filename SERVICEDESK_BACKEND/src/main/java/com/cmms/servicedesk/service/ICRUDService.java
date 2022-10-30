@@ -1,7 +1,5 @@
 package com.cmms.servicedesk.service;
 
-import com.cmms.servicedesk.model.Organo;
-
 import java.util.List;
 import java.util.Optional;
 

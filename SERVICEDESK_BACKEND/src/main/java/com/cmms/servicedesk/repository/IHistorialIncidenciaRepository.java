@@ -5,6 +5,7 @@ import com.cmms.servicedesk.model.Incidencia;
 import com.cmms.servicedesk.model.Persona;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -25,6 +26,10 @@ public interface IHistorialIncidenciaRepository extends JpaRepository<HistorialI
 
     @Query(value = "SELECT * FROM historial_incidencia WHERE n_id_persona_asignado is not null AND s_estado = 'A'", nativeQuery = true)
     List<HistorialIncidencia> findByPersona_asignadoIsNotNull();
+
+    @Query(value = "SELECT * FROM historial_incidencia hi WHERE hi.n_id_incidencia = :idIncidencia AND hi.s_estado_incidencia = 'P' AND hi.s_estado = 'A' AND hi.n_id_persona_asignado IS NOT NULL",
+            nativeQuery = true)
+    HistorialIncidencia findByIdTecnicoAsignado(@Param("idIncidencia") Integer idIncidencia);
 
 }
 

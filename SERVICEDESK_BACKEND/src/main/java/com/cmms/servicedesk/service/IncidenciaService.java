@@ -90,4 +90,8 @@ public class IncidenciaService implements IIncidenciaService{
         return incidenciaRepository.findByFechaBetween(startDate, endDate);
     }
 
+    @Override
+    public String findCountIncidencias(Integer idTecnicoAsignado) {
+        return incidenciaRepository.findCountIncidencias(idTecnicoAsignado);
+    }
 }

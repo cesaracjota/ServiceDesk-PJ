@@ -1,8 +1,5 @@
 package com.cmms.servicedesk.controller;
-
-import com.cmms.servicedesk.model.Cargo;
 import com.cmms.servicedesk.model.CorreoCredenciales;
-import com.cmms.servicedesk.model.Motivo;
 import com.cmms.servicedesk.service.CorreoCredencialesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/correo_credenciales")

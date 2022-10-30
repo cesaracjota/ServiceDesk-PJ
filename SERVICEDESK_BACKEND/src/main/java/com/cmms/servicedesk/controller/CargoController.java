@@ -2,7 +2,6 @@ package com.cmms.servicedesk.controller;
 
 import com.cmms.servicedesk.model.Cargo;
 import com.cmms.servicedesk.service.CargoService;
-import com.cmms.servicedesk.service.OrganoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

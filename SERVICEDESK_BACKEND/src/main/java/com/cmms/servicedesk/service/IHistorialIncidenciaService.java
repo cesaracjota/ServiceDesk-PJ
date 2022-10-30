@@ -29,4 +29,6 @@ public interface IHistorialIncidenciaService {
 
     HistorialIncidencia findByIncidenciaAndEstado(Incidencia incidencia, char estado);
 
+    HistorialIncidencia findByIdTecnicoAsignado(Integer idIncidencia);
+
 }
