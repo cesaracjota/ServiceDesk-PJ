@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         customAuthenticationFilter.setFilterProcessesUrl("/api/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/api/login/**", "/api/refreshtoken/**", "/api/personas/register", "/api/personas", "/api/personas/dni/**", "/api/reniec/**", "/api/frasedia/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/login/**", "/api/personas/register", "/api/refreshtoken/**", "/api/personas/update", "/api/personas", "/api/personas/dni/**", "/api/reniec/**").permitAll();
         http.authorizeRequests().antMatchers("/api/personas/**", "/api/soporteTecnicoSede/**" ,"/api/correo/**").hasAnyAuthority("SOPORTE TECNICO","ASISTENTE INFORMATICO","COORDINADOR INFORMATICO", "USUARIO COMUN");
         http.authorizeRequests().antMatchers("/api/historialpersonas/**", "/api/personas", "/api/sedes/listAll", "/api/organos/listAll", "/api/oficinas/listall/**/**", "/api/cargos/listall/**/**").hasAnyAuthority("USUARIO COMUN", "COORDINADOR INFORMATICO", "ASISTENTE INFORMATICO", "SOPORTE TECNICO");
         http.authorizeRequests().antMatchers("/api/**").hasAnyAuthority("COORDINADOR INFORMATICO", "USUARIO COMUN","ASISTENTE INFORMATICO", "SOPORTE TECNICO");

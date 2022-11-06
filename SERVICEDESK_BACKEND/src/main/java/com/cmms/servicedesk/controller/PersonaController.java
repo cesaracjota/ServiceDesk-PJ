@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -35,6 +36,12 @@ public class PersonaController {
 
     @Autowired
     private PersonaOrganoService personaOrganoService;
+
+    @Autowired
+    private AuditoriaUsuarioService auditoriaUsuarioService;
+
+    @Autowired
+    private HttpServletRequest request;
 
     @Autowired
     private EstadoUsuarioComunService estadoUsuarioComunService;
@@ -124,6 +131,18 @@ public class PersonaController {
                     }
                     return ResponseEntity.ok(personaService.update(persona, false));
                 })
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/personas/update")
+    public ResponseEntity<Persona> updatePersona(@Valid @RequestBody Persona persona){
+        return personaService.findById(persona.getIdpersona())
+                .map(c -> {
+                            String IP = auditoriaUsuarioService.getClientIp(request);
+                            AuditoriaUsuarios auditoriaUsuarios = new AuditoriaUsuarios(null, persona.getDni(), ZonedDateTime.now(), IP);
+                            auditoriaUsuarioService.create(auditoriaUsuarios);
+                            return ResponseEntity.ok(personaService.update(persona, false));
+                        })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
