@@ -27,6 +27,7 @@ import { deleteMensaje, updateEstadoMensaje } from '../../../actions/mensaje';
 import { BsArrowDown, BsTrash2 } from 'react-icons/bs';
 import { MensajeEditar } from './MensajeEditar';
 import { CrearMensaje } from './CrearMensaje';
+import { customStyles } from '../../../helpers/customStyle';
 
 export default function TableMensajes() {
 
@@ -136,6 +137,7 @@ export default function TableMensajes() {
           pagination
           ignoreRowClick={true}
           responsive={true}
+          customStyles={customStyles}
         />
       </DataTableExtensions>
     </Box>

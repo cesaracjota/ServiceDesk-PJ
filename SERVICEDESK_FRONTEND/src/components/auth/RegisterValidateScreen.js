@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link as LinkA } from 'react-router-dom';
-// Chakra imports
+import { Link as LinkA, useHistory } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -35,7 +34,7 @@ export const RegisterValidateScreen = () => {
   const dispatch = useDispatch();
 
   const data = store.getState().usuarioDni;
-
+  const history = useHistory();
   const initialUsuario = {
     nombre: '',
     apellido: '',
@@ -74,6 +73,10 @@ export const RegisterValidateScreen = () => {
       dispatch(createPersonaRegister(usuario));
     }
   };
+
+  if(data?.dni === undefined){
+    history.push('/auth/register');
+}
 
   const validationSchema = Yup.object({
     password1: Yup.string().required('El campo es requerido').min(6, 'La contraseña debe tener al menos 6 caracteres'),
@@ -141,7 +144,7 @@ export const RegisterValidateScreen = () => {
             >
               REGISTRO DE USUARIO
             </Text>
-            <Box minW={{ base: "90%", md: "360px" }}>
+            <Box w={{ base: "360px", md: "400px", lg: "700px" }}>
               <Formik
                 initialValues={initialUsuario}
                 onSubmit={onSubmit}
@@ -159,7 +162,7 @@ export const RegisterValidateScreen = () => {
                             <Input
                               fontSize="sm"
                               type="text"
-                              size="lg"
+                              size="sm"
                               readOnly
                               name="documentoIdentificacion"
                               defaultValue={data ? data.dni : ''}
@@ -178,7 +181,7 @@ export const RegisterValidateScreen = () => {
                             <Input
                               fontSize="sm"
                               type="text"
-                              size="lg"
+                              size="sm"
                               readOnly
                               defaultValue={data ? data.nombre : ''}
                             />
@@ -190,7 +193,7 @@ export const RegisterValidateScreen = () => {
                             <Input
                               fontSize="sm"
                               type="text"
-                              size="lg"
+                              size="sm"
                               readOnly
                               defaultValue={data ? data.apellidos : ''}
                             />
@@ -199,18 +202,23 @@ export const RegisterValidateScreen = () => {
 
                         <HStack>
                           <InputControl
+                            label="CONTRASEÑA"
                             name={'password1'}
-                            inputProps={{ type: "password" }}
-                            label="PASSWORD"
+                            inputProps={{ 
+                              type: "password",
+                              size: 'sm',
+                              placeholder:"Ingrese su nueva contraseña"
+                            }}
                             onChange={e => { setUsuario({ ...dataUsuario, password1: e.target.value }) }}
                           />
                           <InputControl
                             name={'password2'}
                             inputProps={{
                               type: "password",
-                              fontWeight: 'normal'
+                              size: 'sm',
+                              placeholder:"Confirme su contraseña"
                             }}
-                            label="CONFIRME SU PASSWORD"
+                            label="CONFIRME SU CONTRASEÑA"
                             onChange={e => { setUsuario({ ...dataUsuario, password2: e.target.value }) }}
                           />
                         </HStack>
@@ -226,11 +234,12 @@ export const RegisterValidateScreen = () => {
                               _hover={{
                                 bg: 'red.600',
                               }}
-                              
+
                               disabled={
                                 dataUsuario.password1 !== dataUsuario.password2 ||
                                   dataUsuario.password1.length < 6 ||
-                                  dataUsuario.password2.length < 6 ? true : false
+                                  dataUsuario.password2.length < 6 ||
+                                  data?.dni === undefined ? true : false
                               }
                             >
                               REGISTRARSE
@@ -243,7 +252,7 @@ export const RegisterValidateScreen = () => {
                               w="100%"
                               colorScheme="gray"
                               fontWeight="extrabold"
-                              
+
                             >
                               REGRESAR
                             </Button>

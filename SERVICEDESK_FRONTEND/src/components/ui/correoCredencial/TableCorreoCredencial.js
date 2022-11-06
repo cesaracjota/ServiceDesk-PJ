@@ -27,6 +27,7 @@ import CorreoCredencialAgregar from './correoCredencialCrear';
 import { CorreoCredencialEditar } from './correoCredencialEditar';
 import { deleteCorreoCredencial } from '../../../actions/correoCredencial';
 import { DeleteIcon } from '@chakra-ui/icons';
+import { customStyles } from '../../../helpers/customStyle';
 
 export default function TableCorreoCredencial() {
 
@@ -141,6 +142,7 @@ export default function TableCorreoCredencial() {
           pagination
           ignoreRowClick={true}
           responsive={true}
+          customStyles={customStyles}
         />
       </DataTableExtensions>
     </Box>

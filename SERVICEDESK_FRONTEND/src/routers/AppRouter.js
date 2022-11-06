@@ -15,6 +15,8 @@ import HistorialUsuario from '../components/historialUsuario/HistorialUsuario';
 import { startChecking } from '../actions/auth';
 import { PublicRoute } from './PublicRoute';
 import { PrivateRoute } from './PrivateRoute';
+import { RecoveryPasswordScreen } from '../components/auth/RecoveryPasswordScreen';
+import { RecoveryPasswordValidate } from '../components/auth/RecoveryPasswordValidate';
 
 export const AppRouter = () => {
   const dispatch = useDispatch();
@@ -51,6 +53,20 @@ export const AppRouter = () => {
             exact
             path="/auth/register/validate"
             component={RegisterValidateScreen}
+            isAuthenticated={!!access_token}
+            rol={rol}
+          />
+          <PublicRoute
+            exact
+            path="/auth/recovery-password"
+            component={RecoveryPasswordScreen}
+            isAuthenticated={!!access_token}
+            rol={rol}
+          />
+          <PublicRoute
+            exact
+            path="/auth/recovery-password/validate"
+            component={RecoveryPasswordValidate}
             isAuthenticated={!!access_token}
             rol={rol}
           />

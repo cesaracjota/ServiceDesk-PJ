@@ -22,7 +22,7 @@ import {
   Center,
 } from '@chakra-ui/react';
 
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import BgSignUp from '../../assets/img/fondo.jpg';
 import logoPJA from '../../assets/img/csjar.webp';
 import { FaUserAlt, FaLock } from "react-icons/fa";
@@ -32,7 +32,7 @@ const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
 
 export const LoginScreen = () => {
-  // Chakra color mode
+
   const primaryColor = useColorModeValue('#c53030', '#c53030');
   const bgCard = useColorModeValue("gray.50", "gray.50");
 
@@ -94,7 +94,7 @@ export const LoginScreen = () => {
             backgroundColor="whiteAlpha.900"
             boxShadow={'md'}
             px={'3.5rem'}
-            py={'5rem'}
+            py={'4rem'}
             rounded="xl"
             borderTop="10px solid"
             borderColor={primaryColor}
@@ -122,8 +122,8 @@ export const LoginScreen = () => {
                         name="username"
                         value={username}
                         onChange={handleInputChange}
-                        
-                        _hover={{ borderColor: 'gray.400'}}
+
+                        _hover={{ borderColor: 'gray.400' }}
                       />
                     </InputGroup>
                   </FormControl>
@@ -142,11 +142,11 @@ export const LoginScreen = () => {
                         autoComplete='off'
                         value={password}
                         onChange={handleInputChange}
-                        
-                        _hover={{ borderColor: 'gray.400'}}
+
+                        _hover={{ borderColor: 'gray.400' }}
                       />
                       <InputRightElement width="4.5rem">
-                        <Button h="1.75rem" color={'white'} bg="red.600" _hover={{ bg: 'red.700'}} size="sm" onClick={handleShowClick} >
+                        <Button h="1.75rem" color={'white'} bg="red.600" _hover={{ bg: 'red.700' }} size="sm" onClick={handleShowClick} >
                           {showPassword ? <Icon as={ViewIcon} /> : <Icon as={ViewOffIcon} />}
                         </Button>
                       </InputRightElement>
@@ -163,7 +163,7 @@ export const LoginScreen = () => {
                       bg: 'red.700',
                     }}
                     fontWeight="extrabold"
-                    
+
                   >
                     INICIAR SESIÓN
                   </Button>
@@ -172,8 +172,13 @@ export const LoginScreen = () => {
             </Box>
             <Box fontSize={'14px'} color="gray.600">
               ¿NO TIENES UNA CUENTA?{" "}
-              <LinkChackra color={primaryColor} as={Link} ms="5px" fontWeight="extrabold" to="/auth/register">
+              <LinkChackra color={primaryColor} as={NavLink} ms="5px" fontWeight="extrabold" to="/auth/register">
                 CREAR CUENTA
+              </LinkChackra>
+            </Box>
+            <Box fontSize={'13px'} color="gray.600">
+              <LinkChackra color={primaryColor} as={NavLink} ms="5px" fontWeight="extrabold" to="/auth/recovery-password">
+                OLVIDÉ MI CONTRASEÑA
               </LinkChackra>
             </Box>
           </Stack>

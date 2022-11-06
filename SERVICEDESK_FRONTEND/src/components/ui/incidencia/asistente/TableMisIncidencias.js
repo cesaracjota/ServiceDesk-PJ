@@ -58,6 +58,7 @@ import IncidenciaViewFileSoporte from '../soporte/IncidenciaViewFile';
 import { ModalReAsignarTecnico } from './TableIncidenciaAsignadas';
 import { formats, modules } from '../../../../helpers/quillConfig';
 import ReactQuill from 'react-quill';
+import { customStyles } from '../../../../helpers/customStyle';
 
 export default function TableMisIncidencias() {
     const [openAlert, setOpenAlert] = useState(false);
@@ -629,8 +630,7 @@ export default function TableMisIncidencias() {
                             selectAllRowsItem: true,
                             selectAllRowsItemText: 'Todos',
                         }}
-                        fixedHeader
-                        fixedHeaderScrollHeight="550px"
+                        customStyles={customStyles}
                         key={tableRowsData.map((item) => { return item.idIncidencia })}
                     />
                 </DataTableExtensions>

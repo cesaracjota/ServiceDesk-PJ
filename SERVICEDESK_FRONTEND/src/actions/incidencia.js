@@ -475,8 +475,17 @@ export const buscarUsuarioDni = async (dni) => {
     idpersona: body.idpersona,
     nombre: body.nombre,
     apellido: body.apellido,
+    usuario: body.usuario,
+    correo: body.correo,
+    celular: body.celular,
+    telefono: body.telefono,
+    anexo: body.anexo,
+    fecha: body.fecha,
+    sexo: body.sexo,
     dni: body.dni,
-    oficina: body.oficina
+    activo: body.activo,
+    oficina: body.oficina,
+    perfilPersona: body.perfilPersona
   };
 
   return PersonasDni;

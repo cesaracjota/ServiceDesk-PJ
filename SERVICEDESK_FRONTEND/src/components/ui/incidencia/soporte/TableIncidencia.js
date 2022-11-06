@@ -60,6 +60,7 @@ import { loadConfiguracionBotones } from '../../../../actions/configurarBotones'
 import { getConfiguracionBotones } from '../asistente/incidencia';
 import ReactQuill from 'react-quill';
 import { formats, modules } from '../../../../helpers/quillConfig';
+import { customStyles } from '../../../../helpers/customStyle';
 
 export default function TableIncidenciaSoporte() {
   const [openAlert, setOpenAlert] = useState(false);
@@ -651,8 +652,7 @@ export default function TableIncidenciaSoporte() {
               selectAllRowsItem: true,
               selectAllRowsItemText: 'Todos',
             }}
-            fixedHeader
-            fixedHeaderScrollHeight="550px"
+            customStyles={customStyles}
             key={tableRowsData.map((item) => { return item.idIncidencia })}
           />
         </DataTableExtensions>

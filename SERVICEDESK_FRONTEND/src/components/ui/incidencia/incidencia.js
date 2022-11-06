@@ -7,12 +7,22 @@ import TableIncidencia from './TableIncidencia';
 import { fetchMotivos } from '../../../actions/motivo';
 import { fetchOrigen } from '../../../actions/origenIncidencia';
 import Dashboard from '../base/layout/Dashboard';
+import { useHistory } from 'react-router-dom';
+import { ROLES } from '../../../helpers/roles';
 
 export const Incidencia = () => {
   
   const dispatch = useDispatch();
+  const history = useHistory();
 
+  const usuario = store.getState().auth;
   const { identificador } = useSelector(state => state.auth);
+  
+  if (usuario?.rol !== ROLES.ADMINISTRADOR && usuario?.rol !== ROLES.ASISTENTE_INFORMATICO ) {
+    usuario?.rol === ROLES.SOPORTE_TECNICO  
+    ? history.push('/dashboard/soporte-tecnico/home')
+    : history.push('/dashboard/usuario/home')
+  }
 
   const fetchDataIncidencias = async () => {
     const response = await fetchIncidencias();

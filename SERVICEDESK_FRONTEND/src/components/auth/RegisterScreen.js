@@ -40,6 +40,7 @@ import Moment from 'moment';
 import { notification, timerNotification } from '../../helpers/alert';
 import { QuestionIcon } from '@chakra-ui/icons';
 import { consultaReniec } from '../../actions/persona';
+import { ToastChakra } from '../../helpers/toast';
 
 export const RegisterScreen = () => {
   const titleColor = useColorModeValue('#c53030', 'red.700');
@@ -73,29 +74,29 @@ export const RegisterScreen = () => {
   }
 
   const StartDni = async (numeroDocumento, codigoVerificacion, fechaNacimiento) => {
-      try {
-        const response = await consultaReniec(numeroDocumento);
-
-        var fechax = Moment(new Date(stringToDate(response.data[28], "dd/MM/yyyy", "/"))).format('yyyy-MM-DD');
-        if ((response.data[0] === numeroDocumento) && (response.data[1] === codigoVerificacion) && (fechax === fechaNacimiento)) {
-          timerNotification('VALIDACIÓN EXITOSA');
-          dispatch(validadorUsuario({
-            dni: response.data[0],
-            numeroVerificacion: response.data[1],
-            nombre: response.data[5],
-            apellidos: response.data[2] + ' ' + response.data[3],
-            fechaNacimiento: response.data[28],
-            sexo: response.data[17]
-          }))
-          history.push('/auth/register/validate');
-        }else{
-          history.push('/auth/register');
-          notification('LOS DATOS NO COINCIDEN', 'ERROR DE VALIDACIÓN, INTENTE DE NUEVO', 'error');
-        }
-      } catch (error) {
-        notification('ERROR DE VALIDACIÓN', 'ERROR DE VALIDACIÓN, INTENTE DE NUEVO', 'error');
+    ToastChakra('CONSULTANDO DATA', 'Espere un momento por favor...!', 'loading', 3000, 'botom');
+    try {
+      const response = await consultaReniec(numeroDocumento);
+      var fechax = Moment(new Date(stringToDate(response.data[28], "dd/MM/yyyy", "/"))).format('yyyy-MM-DD');
+      if ((response.data[0] === numeroDocumento) && (response.data[1] === codigoVerificacion) && (fechax === fechaNacimiento)) {
+        timerNotification('VALIDACIÓN EXITOSA');
+        dispatch(validadorUsuario({
+          dni: response.data[0],
+          numeroVerificacion: response.data[1],
+          nombre: response.data[5],
+          apellidos: response.data[2] + ' ' + response.data[3],
+          fechaNacimiento: response.data[28],
+          sexo: response.data[17]
+        }))
+        history.push('/auth/register/validate');
+      } else {
+        history.push('/auth/register');
+        notification('LOS DATOS NO COINCIDEN', 'ERROR DE VALIDACIÓN, INTENTE DE NUEVO', 'error');
       }
-      
+    } catch (error) {
+      notification('ERROR DE VALIDACIÓN', 'ERROR DE VALIDACIÓN, INTENTE DE NUEVO', 'error');
+    }
+
   }
 
   const HandleValidatorUser = () => {
@@ -157,110 +158,110 @@ export const RegisterScreen = () => {
         >
         </Box>
         <Flex alignItems="center" justifyContent="center" h={"100%"} w={'100%'} mt={"40px"}>
-            <Stack
-              flexDir="column"
-              mb="2"
-              justifyContent="center"
-              alignItems="center"
-              backgroundColor={bgCard}
-              boxShadow={'md'}
-              px={'4rem'}
-              py={'3rem'}
-              rounded="xl"
-              borderTop="8px solid"
-              borderColor={titleColor}
+          <Stack
+            flexDir="column"
+            mb="2"
+            justifyContent="center"
+            alignItems="center"
+            backgroundColor={bgCard}
+            boxShadow={'md'}
+            px={'4rem'}
+            py={'3rem'}
+            rounded="xl"
+            borderTop="8px solid"
+            borderColor={titleColor}
+          >
+            <Box p={2} boxShadow="md" borderRadius="md">
+              <Image boxSize='50px' objectFit='cover' src={DNI} />
+            </Box>
+            <Text
+              fontSize="xl"
+              color={titleColor}
+              fontWeight="extrabold"
+              textAlign="center"
+              mb={'20px'}
             >
-              <Box p={2} boxShadow="md" borderRadius="md">
-                <Image boxSize='50px' objectFit='cover' src={DNI} />
-              </Box>
-              <Text
-                fontSize="xl"
-                color={titleColor}
-                fontWeight="extrabold"
-                textAlign="center"
-                mb={'20px'}
+              VALIDAR DNI
+            </Text>
+            <Box minW={{ base: "90%", md: "360px" }}>
+              <Formik
+                initialValues={validadorDni}
+                validationSchema={validationSchema}
+                onSubmit={HandleValidatorUser}
               >
-                VALIDAR DNI
-              </Text>
-              <Box minW={{ base: "90%", md: "360px" }}>
-                <Formik
-                  initialValues={validadorDni}
-                  validationSchema={validationSchema}
-                  onSubmit={HandleValidatorUser}
-                >
-                  {({ handleSubmit }) => (
-                    <form onSubmit={handleSubmit}>
-                      <VStack spacing={1} align="flex-start" mt={2}>
-                        <InputControl
-                          name={'dni'}
-                          label={'DNI'}
-                          inputProps={{ type: "text", placeholder: "INGRESE SU DNI", _focus: { boxShadow: "none" } }}
-                          onChange={e => {
-                            setDni({ ...validadorDni, dni: e.target.value });
+                {({ handleSubmit }) => (
+                  <form onSubmit={handleSubmit}>
+                    <VStack spacing={1} align="flex-start" mt={2}>
+                      <InputControl
+                        name={'dni'}
+                        label={'DNI'}
+                        inputProps={{ type: "text", placeholder: "INGRESE SU DNI", _focus: { boxShadow: "none" } }}
+                        onChange={e => {
+                          setDni({ ...validadorDni, dni: e.target.value });
+                        }}
+                      />
+                      <InputControl
+                        name={'codigoVerificacion'}
+                        label={<Flex justify="space-between">
+                          <Text>CODIGO DE VERIFICACIÓN</Text>
+                          <PopoverForm />
+                        </Flex>}
+                        inputProps={{ type: "text", placeholder: "CÓDIGO DE VERIFICACIÓN", _focus: { boxShadow: "none" } }}
+                        onChange={e => {
+                          setDni({
+                            ...validadorDni,
+                            codigoVerificacion: e.target.value,
+                          });
+                        }}
+                      />
+                      <InputControl
+                        name={'fechaNacimiento'}
+                        inputProps={{ type: "date", _focus: { boxShadow: "none" } }}
+                        label={'FECHA DE NACIMIENTO'}
+                        onChange={e => {
+                          setDni({
+                            ...validadorDni,
+                            fechaNacimiento: e.target.value.toString(),
+                          });
+                        }}
+                      />
+                      <HStack w={'100%'}>
+                        <Button
+                          bg="red.500"
+                          fontSize="16px"
+                          color="white"
+                          fontWeight="extrabold"
+                          w="100%"
+                          mt={'10px'}
+                          _hover={{
+                            bg: 'red.600',
                           }}
-                        />
-                        <InputControl
-                          name={'codigoVerificacion'}
-                          label={<Flex justify="space-between">
-                            <Text>CODIGO DE VERIFICACIÓN</Text>
-                            <PopoverForm />
-                          </Flex>}
-                          inputProps={{ type: "text", placeholder: "CÓDIGO DE VERIFICACIÓN", _focus: { boxShadow: "none" } }}
-                          onChange={e => {
-                            setDni({
-                              ...validadorDni,
-                              codigoVerificacion: e.target.value,
-                            });
-                          }}
-                        />
-                        <InputControl
-                          name={'fechaNacimiento'}
-                          inputProps={{ type: "date", _focus: { boxShadow: "none" } }}
-                          label={'FECHA DE NACIMIENTO'}
-                          onChange={e => {
-                            setDni({
-                              ...validadorDni,
-                              fechaNacimiento: e.target.value.toString(),
-                            });
-                          }}
-                        />
-                        <HStack w={'100%'}>
-                          <Button
-                            bg="red.500"
-                            fontSize="16px"
-                            color="white"
+                          type="submit"
+
+                        >
+                          VALIDAR
+                        </Button>
+                      </HStack>
+                      <Flex justifyContent={'center'} w={'100%'} fontSize={'14px'} textAlign={'center'}>
+                        <Text color={textColor} mt={1}>
+                          ¿YA TIENES UNA CUENTA?
+                          <LinkB
+                            color={titleColor}
+                            as="span"
+                            ms="5px"
+                            href="#"
                             fontWeight="extrabold"
-                            w="100%"
-                            mt={'10px'}
-                            _hover={{
-                              bg: 'red.600',
-                            }}
-                            type="submit"
-                            
                           >
-                            VALIDAR
-                          </Button>
-                        </HStack>
-                        <Flex justifyContent={'center'} w={'100%'} fontSize={'14px'} textAlign={'center'}>
-                          <Text color={textColor} mt={1}>
-                            ¿YA TIENES UNA CUENTA?
-                            <LinkB
-                              color={titleColor}
-                              as="span"
-                              ms="5px"
-                              href="#"
-                              fontWeight="extrabold"
-                            >
-                              <LinkA to={'/auth/login'}>LOGIN</LinkA>
-                            </LinkB>
-                          </Text>
-                        </Flex>
-                      </VStack>
-                    </form>
-                  )}
-                </Formik>
-              </Box>
-            </Stack>
+                            <LinkA to={'/auth/login'}>LOGIN</LinkA>
+                          </LinkB>
+                        </Text>
+                      </Flex>
+                    </VStack>
+                  </form>
+                )}
+              </Formik>
+            </Box>
+          </Stack>
         </Flex>
       </Flex>
     </>
@@ -279,14 +280,14 @@ const PopoverForm = () => {
         onOpen={onOpen}
         onClose={onClose}
         placement='right'
-        
+
       >
         <PopoverTrigger>
-          <IconButton size='xs' icon={<QuestionIcon />}  />
+          <IconButton size='xs' icon={<QuestionIcon />} />
         </PopoverTrigger>
-        <PopoverContent p={5}  color='white' bg='gray.700' borderColor='blue.600'>
-          <PopoverArrow bg='gray.700'/>
-          <PopoverCloseButton  />
+        <PopoverContent p={5} color='white' bg='gray.700' borderColor='blue.600'>
+          <PopoverArrow bg='gray.700' />
+          <PopoverCloseButton />
           <PopoverHeader fontWeight="bold" fontSize={'sm'} textAlign="center">¿DONDE ENCONTRAR EL CÓDIGO DE VERIFICACIÓN DE MI DNI?</PopoverHeader>
           <PopoverBody>
             <Text fontSize="xs" color="gray.500" textTransform={'uppercase'} textAlign="justify">

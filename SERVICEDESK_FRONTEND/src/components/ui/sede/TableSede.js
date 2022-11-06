@@ -38,6 +38,7 @@ import { deleteSede, updateSede } from '../../../actions/sede';
 import SedeAgregar from './SedeAgregar';
 import { BsArrowDown } from 'react-icons/bs';
 import { AiTwotoneEdit } from 'react-icons/ai';
+import { customStyles } from '../../../helpers/customStyle';
 
 export default function TableSede() {
 
@@ -154,8 +155,7 @@ export default function TableSede() {
           responsive={true}
           paginationPerPage={10}
           paginationRowsPerPageOptions={[10, 15, 20, 30]}
-          fixedHeader
-          fixedHeaderScrollHeight="550px"
+          customStyles={customStyles}
         />
       </DataTableExtensions>
     </Box>

@@ -27,6 +27,7 @@ import {
 import PerfilPersonaAgregar from './PerfilPersonaAgregar';
 import { BsArrowDown } from 'react-icons/bs';
 import { PerfilPersonaEditar } from './PerfilPersonaEditar';
+import { customStyles } from '../../../helpers/customStyle';
 
 export default function Tables() {
 
@@ -138,8 +139,7 @@ export default function Tables() {
           sortIcon={<BsArrowDown />}
           paginationPerPage={10}
           paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
-          fixedHeader
-          fixedHeaderScrollHeight="550px"
+          customStyles={customStyles}
         />
       </DataTableExtensions>
     </Box>

@@ -32,8 +32,8 @@ import {
   import { ImCheckboxChecked, ImCheckboxUnchecked } from 'react-icons/im';
   import { HiViewBoards } from 'react-icons/hi';
 
-import LOGOLIGHT from '../../../../assets/logo/logolight.webp'
-import LOGODARK from '../../../../assets/logo/logodark.webp'
+import LIGHT_LOGO from '../../../../assets/logo/lightLogo.webp';
+import DARK_LOGO from '../../../../assets/logo/darkLogo.webp';
 import { NavLink } from 'react-router-dom';
 
 const NavItem = (props) => {
@@ -109,13 +109,8 @@ const SidebarContent = (props) => {
         { name: 'INICIO', icon: FaTachometerAlt, ruta: '/dashboard/soporte-tecnico/home' },
         { name: 'MIS INCIDENCIAS', icon: HiViewBoards, ruta: '/dashboard/soporte/incidencias' },
         { name: 'INCIDENCIAS NO ASIGN.', icon: ImCheckboxUnchecked, ruta: '/dashboard/incidencias-no-asignadas' },
-        { name: 'SEDE', icon: FaMapMarkedAlt, ruta: '/dashboard/sedes' },
-        { name: 'ÓRGANOS', icon: FaMap, ruta: '/dashboard/organos' },
-        { name: 'OFICINAS', icon: FaBuilding, ruta: '/dashboard/oficinas' },
         { name: 'MOTIVO INCIDENCIA', icon: FaQuestionCircle, ruta: '/dashboard/motivos' },
         { name: 'ORIGEN INCIDENCIA', icon: FaExclamationCircle, ruta: '/dashboard/origen-incidencia' },
-        { name: 'USUARIOS', icon: FaUsers, ruta: '/dashboard/personas' },
-        { name: 'CARGOS', icon: FaBox, ruta: '/dashboard/cargos' },
         { name: 'TABLA DE CONOCIMIENTO', icon: FaBrain, ruta: '/dashboard/tabla-conocimiento' },
       ];
       
@@ -148,11 +143,12 @@ const SidebarContent = (props) => {
                 border
                 color="inherit"
                 borderRightWidth="1px"
+                boxShadow="0px 3px 5px -1px rgba(0,0,0,.2),0px 5px 8px 0px rgba(0,0,0,.14),0px 1px 14px 0px rgba(0,0,0,.12)"
                 w="60"
                 {...props}
             >
                 <Flex px="4" py="3" align="center" direction={'column'}>
-                        <Image align={'center'} src={useColorModeValue(LOGOLIGHT,LOGODARK)} alt="SERVICEDESK Logo" boxSize={12}/>
+                        <Image align={'center'} src={useColorModeValue(LIGHT_LOGO,DARK_LOGO)} alt="SERVICEDESK Logo" boxSize={12}/>
                         <Text
                             fontSize="lg"
                             color="#999999"

@@ -62,7 +62,7 @@ export const IncidenciaHistorial = ({ rowData }) => {
                     onClick={handleClickOpenModal}
                 />
             </Tooltip>
-            <Modal isOpen={openModal} onClose={handleCloseModal} size={'5xl'}>
+            <Modal isOpen={openModal} onClose={handleCloseModal} size={'5xl'} scrollBehavior="inside">
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader w={'full'} flex="1" textAlign="center" fontWeight={'bold'}>MÁS DETALLES DE LA INCIDENCIA</ModalHeader>
@@ -98,11 +98,11 @@ export const IncidenciaHistorial = ({ rowData }) => {
                                             color: "gray.400",
                                         }}
                                     >
-                                        {Moment(rowData.fecha).format('yyyy-MM-DD - HH:mm:ss')}
+                                        {Moment(rowData?.fecha).format('yyyy-MM-DD - HH:mm:ss')}
                                     </chakra.span>
                                     <HStack alignItems={'baseline'}>
-                                        <Avatar color="white" size="xs" name={rowData.persona.nombre + ' ' + rowData.persona.apellido} />
-                                        <Text>{rowData.persona.nombre + ' ' + rowData.persona.apellido}</Text>
+                                        <Avatar color="white" size="xs" name={rowData?.persona?.nombre + ' ' + rowData?.persona?.apellido} />
+                                        <Text>{rowData.persona.nombre + ' ' + rowData?.persona?.apellido}</Text>
                                     </HStack>
                                 </Flex>
 
@@ -147,8 +147,8 @@ export const IncidenciaHistorial = ({ rowData }) => {
                                             </AccordionButton>
                                             <AccordionPanel pb={4} w="full">
                                                 {rowData.historialIncidencia.map((item, index) => (
-                                                    <>
-                                                        <Flex justifyContent={'space-between'} alignItems="center" w="full" key={index}>
+                                                    <div key={index}>
+                                                        <Flex justifyContent={'space-between'} alignItems="center" w="full">
                                                             <Stack direction='row' w='full' h='100px' p={4}>
                                                                 <VStack textAlign="right" fontSize="xs">
                                                                     <Text textAlign={'right'}>{Moment(item.fecha).format('DD/MM/YYYY')}</Text>
@@ -203,7 +203,7 @@ export const IncidenciaHistorial = ({ rowData }) => {
                                                             </Stack>
                                                         </Flex>
                                                         <Divider />
-                                                    </>
+                                                    </div>
                                                 )).slice(-2).reverse()}
                                             </AccordionPanel>
                                         </AccordionItem>

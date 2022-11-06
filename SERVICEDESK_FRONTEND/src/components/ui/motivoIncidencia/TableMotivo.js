@@ -27,6 +27,7 @@ import { deleteMotivo } from '../../../actions/motivo';
 import MotivoAgregar from './MotivoAgregar';
 import { BsArrowDown } from 'react-icons/bs';
 import { MotivoEditar } from './MotivoEditar';
+import { customStyles } from '../../../helpers/customStyle';
 
 export default function TableMotivo() {
 
@@ -115,8 +116,7 @@ export default function TableMotivo() {
           responsive={true}
           paginationPerPage={10}
           paginationRowsPerPageOptions={[10, 15, 20, 30]}
-          fixedHeader
-          fixedHeaderScrollHeight="550px"
+          customStyles={customStyles}
         />
       </DataTableExtensions>
     </Box>

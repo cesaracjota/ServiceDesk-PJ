@@ -26,6 +26,7 @@ import { deleteCargo } from '../../../actions/cargo';
 import CargoAgregar from './CargoAgregar';
 import { BsArrowDown } from 'react-icons/bs';
 import { CargoEditar } from './CargoEditar';
+import { customStyles } from '../../../helpers/customStyle';
 
 export default function TableCargo() {
 
@@ -128,8 +129,7 @@ export default function TableCargo() {
           paginationRowsPerPageOptions={[10, 15, 20, 30]}
           ignoreRowClick={true}
           responsive={true}
-          fixedHeader
-          fixedHeaderScrollHeight="550px"
+          customStyles={customStyles}
         />
       </DataTableExtensions>
     </Box>

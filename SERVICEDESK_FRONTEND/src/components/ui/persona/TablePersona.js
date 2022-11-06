@@ -47,6 +47,7 @@ import { BsArrowDown } from 'react-icons/bs';
 import PersonaEditar from './PersonaEditar';
 import { AiFillFilter } from 'react-icons/ai';
 import ModalActualizarHistorial from './ModalActualizarHistorial';
+import { customStyles } from '../../../helpers/customStyle';
 
 export default function TablePersona() {
   const [openModal, setOpenModal] = React.useState(false);
@@ -356,8 +357,7 @@ export default function TablePersona() {
             responsive={true}
             paginationPerPage={10}
             paginationRowsPerPageOptions={[10, 15, 20, 30]}
-            fixedHeader
-            fixedHeaderScrollHeight="550px"
+            customStyles={customStyles}
           />
         </DataTableExtensions>
       </Box>

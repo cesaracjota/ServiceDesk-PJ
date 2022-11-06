@@ -53,6 +53,7 @@ import { FaFilter, FaHistory } from 'react-icons/fa';
 import { AiFillFilter } from 'react-icons/ai';
 import { RepeatIcon } from '@chakra-ui/icons';
 import { getIncidenciaAsignadas } from './incidencia';
+import { customStyles } from '../../../../helpers/customStyle';
 
 export default function TableIncidenciaAsignados() {
   const dispatch = useDispatch();
@@ -227,7 +228,7 @@ export default function TableIncidenciaAsignados() {
         );
       },
       export: false,
-      width: '140px',
+      width: '150px',
     },
   ];
 
@@ -477,6 +478,7 @@ export default function TableIncidenciaAsignados() {
               selectAllRowsItem: true,
               selectAllRowsItemText: 'Todos',
             }}
+            customStyles={customStyles}
             key={tableRowsData.map((item) => { return item.idIncidencia })}
           />
         </DataTableExtensions>

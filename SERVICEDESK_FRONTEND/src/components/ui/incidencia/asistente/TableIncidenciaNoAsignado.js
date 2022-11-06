@@ -40,6 +40,7 @@ import IncidenciaAsignarme from '../soporte/incidenciaAsignarme';
 import { FaFilter } from 'react-icons/fa';
 import { RepeatIcon } from '@chakra-ui/icons';
 import { getIncidenciaNoAsignadas, getMisIncidencias } from './incidencia';
+import { customStyles } from '../../../../helpers/customStyle';
 
 export default function TableIncidenciaNoAsignados() {
   const dispatch = useDispatch();
@@ -423,6 +424,7 @@ export default function TableIncidenciaNoAsignados() {
               selectAllRowsItem: true,
               selectAllRowsItemText: 'Todos',
             }}
+            customStyles={customStyles}
             key={tableRowsData.map((item) => { return item.idIncidencia })}
           />
         </DataTableExtensions>

@@ -27,6 +27,7 @@ import { deleteOrigen } from '../../../actions/origenIncidencia';
 import OrigenAgregar from './OrigenIncidenciaAgregar';
 import { BsArrowDown } from 'react-icons/bs';
 import { OrigenIncidenciaEditar } from './OrigenIncidenciaEditar';
+import { customStyles } from '../../../helpers/customStyle';
 
 export default function TableOrigen() {
 
@@ -115,8 +116,7 @@ export default function TableOrigen() {
           responsive={true}
           paginationPerPage={10}
           paginationRowsPerPageOptions={[10, 15, 20, 30]}
-          fixedHeader
-          fixedHeaderScrollHeight="550px"
+          customStyles={customStyles}
         />
       </DataTableExtensions>
     </Box>

@@ -46,6 +46,7 @@ import IncidenciaViewFile from './IncidenciaViewFile';
 import AtencionViewFile from './AtencionViewFile';
 import { IncidenciaHistorial } from './IncidenciaHistorial';
 import Moment from 'moment';
+import { customStyles } from '../../../../helpers/customStyle';
 
 export default function TableConocimiento() {
     const { identificador } = useSelector(state => state.auth);
@@ -98,17 +99,16 @@ export default function TableConocimiento() {
 
     const columns = [
         {
-            name: 'DESCRIPCIÓN INCIDENCIA',
+            name: 'INCIDENCIA',
             selector: row => parse(row.descripcion),
             cellExport: row => row.descripcion,
             sortable: true,
         },
         {
-            name: 'ATENCION DE LA INCIDENCIA',
-            selector: row => parse(row.descripcionIncidencia ? row.descripcionIncidencia.descripcion : 'SIN ATENCIÓN'),
-            cellExport: row => row.descripcionIncidencia ? row.descripcionIncidencia.descripcion : 'INCIDENCIA SIN ATENCIÓN',
+            name: 'ATENCION INCIDENCIA',
+            selector: row => (row?.descripcionIncidencia?.descripcionAtencion && row?.descripcionIncidencia?.descripcionTramite !== undefined) ? parse(row?.descripcionIncidencia?.descripcionAtencion) : 'SIN ATENCIÓN',
+            cellExport: row => (row?.descripcionIncidencia?.descripcionAtencion && row?.descripcionIncidencia?.descripcionTramite !== undefined) ? row?.descripcionIncidencia?.descripcionAtencion : 'INCIDENCIA SIN ATENCIÓN',
             sortable: true,
-            maxWidth: '600px',
         },
         {
             name: 'FECHA Y HORA',
@@ -458,6 +458,7 @@ export default function TableConocimiento() {
                             selectAllRowsItem: true,
                             selectAllRowsItemText: 'Todos',
                         }}
+                        customStyles={customStyles}
                         key={tableRowsData.map((item) => { return item.idIncidencia })}
                     />
                 </DataTableExtensions>

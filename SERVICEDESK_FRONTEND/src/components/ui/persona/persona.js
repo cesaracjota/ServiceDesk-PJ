@@ -13,10 +13,21 @@ import { getOficinas } from '../oficina/oficina';
 import { fetchCargos } from '../../../actions/cargo';
 import { getCargos } from '../cargo/cargo';
 import Dashboard from '../base/layout/Dashboard';
+import { useHistory } from 'react-router-dom';
+import { ROLES } from '../../../helpers/roles';
 
 export const Persona = () => {
 
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const usuario = store.getState().auth;
+
+  if (usuario?.rol !== ROLES.ADMINISTRADOR && usuario?.rol !== ROLES.ASISTENTE_INFORMATICO ) {
+    usuario?.rol === ROLES.SOPORTE_TECNICO  
+    ? history.push('/dashboard/soporte-tecnico/home')
+    : history.push('/dashboard/usuario/home')
+  }
 
   const fetchDataPersonas = async () => {
     const response = await personaList();
@@ -54,25 +65,25 @@ export const Persona = () => {
   }
 
   useEffect(() => {
-    if(store.getState().persona.checking){
+    if (store.getState().persona.checking) {
       fetchDataPersonas();
     }
-    if(store.getState().personaOrgano.rows.checking){
+    if (store.getState().personaOrgano.rows.checking) {
       fetchDataPersonaOrgano();
     }
-    if(store.getState().perfilPersona.checking){
+    if (store.getState().perfilPersona.checking) {
       fetchDataPerfilPersona();
     }
-    if(store.getState().sede.checking){
+    if (store.getState().sede.checking) {
       fetchDataSede();
     }
-    if(store.getState().organo.checking){
+    if (store.getState().organo.checking) {
       fetchDataOrgano();
     }
-    if(store.getState().oficina.checking){
+    if (store.getState().oficina.checking) {
       fetchDataOficinas();
     }
-    if(store.getState().cargo.checking){
+    if (store.getState().cargo.checking) {
       fetchDataCargos();
     }
   });
@@ -81,27 +92,27 @@ export const Persona = () => {
 
 };
 
-export const getPersona = persona =>({
+export const getPersona = persona => ({
   type: types.eventLoadedPersona,
   payload: persona,
 });
 
-export const getPersonaOrgano = personaOrgano =>({
+export const getPersonaOrgano = personaOrgano => ({
   type: types.eventLoadedPersonaOrgano,
   payload: personaOrgano,
 });
 
-export const getPerfilPersona = perfil =>({
+export const getPerfilPersona = perfil => ({
   type: types.eventLoadedPerfil,
   payload: perfil,
 });
 
-export const getSede = sede =>({
+export const getSede = sede => ({
   type: types.eventLoadedSede,
   payload: sede
 });
 
-export const getOrgano = organo =>({
+export const getOrgano = organo => ({
   type: types.eventLoadedOrgano,
   payload: organo
 });

@@ -26,6 +26,7 @@ import { deleteFtp } from '../../../actions/ftp';
 import { BsArrowDown } from 'react-icons/bs';
 import { FtpEditar } from './FtpEditar';
 import FtpAgregar from './FtpCrear';
+import { customStyles } from '../../../helpers/customStyle';
 
 export default function TableFtp() {
 
@@ -146,6 +147,7 @@ export default function TableFtp() {
           pagination
           ignoreRowClick={true}
           responsive={true}
+          customStyles={customStyles}
         />
       </DataTableExtensions>
     </Box>

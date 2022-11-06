@@ -125,6 +125,53 @@ export const updatePersona = (data) => {
   };
 };
 
+
+export const updatePasswordPersona = (data) => {
+
+  var idPerfilPersona = {};
+  if (data.perfilPersona.idPerfilPersona != null) {
+    idPerfilPersona = {
+      idPerfilPersona: Number(data.perfilPersona.idPerfilPersona),
+    };
+  } else {
+    idPerfilPersona = {
+      idPerfilPersona: Number(data.perfilPersona),
+    };
+  }
+
+  return async dispatch => {
+    const response = await fetchToken(
+      `personas/update`,
+      {
+        idpersona: data.idpersona,
+        nombre: data.nombre,
+        apellido: data.apellido,
+        dni: data.dni,
+        usuario: data.usuario,
+        password: data.password,
+        correo: data.correo,
+        celular: data.celular,
+        telefono: data.telefono,
+        anexo: data.anexo,
+        fecha: data.fecha,
+        sexo: data.sexo,
+        activo: data.activo,
+        perfilPersona: idPerfilPersona
+      },
+      'PUT'
+    );
+
+    if (response.status === 200) {
+      notification('CONTRASEÑA MODIFICADA', 'HA REGISTRADO SU NUEVA CONTRASEÑA CORRECTAMENTE', 'success');
+      return true;
+    } else {
+      notification('ERROR AL MODIFICAR', 'NO SE LOGRÓ MODIFICAR SU CONTRASEÑA', 'error');
+      return false;
+    }
+  };
+};
+
+
 export const fetchUsuarioId = async (id) => {
   const response = await fetchToken(`personas/${id}`);
   if (!response.ok) {

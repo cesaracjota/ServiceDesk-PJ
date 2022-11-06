@@ -26,6 +26,7 @@ import { deleteOrgano } from '../../../actions/organo';
 import OrganoAgregar from './OrganoAgregar';
 import { BsArrowDown } from 'react-icons/bs';
 import { OrganoEditar } from './OrganoEditar';
+import { customStyles } from '../../../helpers/customStyle';
 
 export default function TableOrgano() {
 
@@ -144,8 +145,7 @@ export default function TableOrgano() {
           responsive={true}
           paginationPerPage={10}
           paginationRowsPerPageOptions={[10, 15, 20, 30]}
-          fixedHeader
-          fixedHeaderScrollHeight="550px"
+          customStyles={customStyles}
         />
       </DataTableExtensions>
     </Box>

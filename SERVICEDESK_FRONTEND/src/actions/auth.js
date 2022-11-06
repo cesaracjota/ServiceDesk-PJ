@@ -61,13 +61,27 @@ export const LogOut = () => {
 export const validadorUsuarioCreado = async (dni) => {
   const response = await fetchToken('personas/dni/' + dni);
   if (response.status === 200 || response.status === 201) {
-    notification('ATENCIÓN', 'ESTE USUARIO YA ESTA REGISTRADO EN EL SISTEMA', 'info');
+    notification('ATENCIÓN', 'Este usuario ya está registrado en el sistema, comunícate con el administrador', 'info');
     return false;
   }
   else if (response.status === 404 || response.status === 500 || response.status === 403) {
     return true;
   } else {
-    notification('ERROR', 'NO SE LOGRÓ VALIDAR, INTENTE DE NUEVO', 'error');
+    notification('ERROR', 'No se logró validar correctamente, intente de nuevo, gracias', 'error');
+    return false;
+  }
+}
+
+export const validarUsuarioExiste = async (dni) => {
+  const response = await fetchToken('personas/dni/' + dni);
+  if (response.status === 200 || response.status === 201) {
+    return true;
+  }
+  else if (response.status === 404 || response.status === 500 || response.status === 403) {
+    notification('ATENCIÓN', 'No se encontró registros de este usuario en la base de datos, intente nuevo', 'info');
+    return false;
+  } else {
+    notification('ERROR', 'No se logró validar correctamente, intente de nuevo, gracias', 'error');
     return false;
   }
 }

@@ -66,8 +66,8 @@ const Topnav = (props) => {
                     py={4}
                     css={{
                         // para especificar el background de la cabecera, para ajustar el transparente
-                        backdropFilter: 'saturate(180%) blur(8px)',
-                        backgroundColor: useColorModeValue('rgba(256, 256, 256, 0.80)', 'rgba(26, 32, 44, 0.10)')
+                        backdropFilter: 'saturate(180%) blur(50px)',
+                        backgroundColor: useColorModeValue('rgba(256, 256, 256, 0.90)', 'rgba(26, 32, 44, 0.10)')
                     }}
                 >
                     <Drawer

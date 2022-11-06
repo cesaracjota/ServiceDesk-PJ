@@ -40,6 +40,7 @@ import { FaFilter } from 'react-icons/fa';
 import IncidenciaDetalles from '../IncidenciaDetalles';
 import AtencionViewFile from '../conocimiento/AtencionViewFile';
 import IncidenciaViewFile from '../conocimiento/IncidenciaViewFile';
+import { customStyles } from '../../../../helpers/customStyle';
 
 // import parse from 'html-react-parser';
 
@@ -473,6 +474,7 @@ export default function TableIncidencia() {
               selectAllRowsItem: true,
               selectAllRowsItemText: 'Todos',
             }}
+            customStyles={customStyles}
             key={tableRowsData.map((item) => { return item.idIncidencia })}
           />
         </DataTableExtensions>
