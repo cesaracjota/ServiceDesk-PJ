@@ -403,7 +403,7 @@ export default function TableIncidenciaNoAsignados() {
             </Stack>
           </Box>
         </HStack>
-        <DataTableExtensions columns={columns} data={tableRowsData} print={false}>
+        <DataTableExtensions columns={columns} data={tableRowsData.reverse()} print={false}>
           <DataTable
             theme={useColorModeValue('default', 'solarized')}
             pagination

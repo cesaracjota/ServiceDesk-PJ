@@ -15,8 +15,8 @@ import {
 //     FiMail,
 //     FiChevronsDown,
 //   } from 'react-icons/fi';
-  
-  import {
+
+import {
     FaBox,
     FaBuilding,
     FaExclamationCircle,
@@ -27,10 +27,10 @@ import {
     FaUserAlt,
     FaUsers,
     FaBrain,
-  } from 'react-icons/fa';
-  
-  import { ImCheckboxChecked, ImCheckboxUnchecked } from 'react-icons/im';
-  import { HiViewBoards } from 'react-icons/hi';
+} from 'react-icons/fa';
+
+import { ImCheckboxChecked, ImCheckboxUnchecked } from 'react-icons/im';
+import { HiViewBoards } from 'react-icons/hi';
 
 import LIGHT_LOGO from '../../../../assets/logo/lightLogo.webp';
 import DARK_LOGO from '../../../../assets/logo/darkLogo.webp';
@@ -103,28 +103,28 @@ const SidebarContent = (props) => {
         { name: 'CARGOS', icon: FaBox, ruta: '/dashboard/cargos' },
         { name: 'FTP', icon: FaBox, ruta: '/dashboard/ftp' },
         { name: 'CORREO CREDENCIAL', icon: FaBox, ruta: '/dashboard/correo-credencial' },
-      ];
-      
-      const LinkItemsSoporteTecnico = [
+    ];
+
+    const LinkItemsSoporteTecnico = [
         { name: 'INICIO', icon: FaTachometerAlt, ruta: '/dashboard/soporte-tecnico/home' },
         { name: 'MIS INCIDENCIAS', icon: HiViewBoards, ruta: '/dashboard/soporte/incidencias' },
         { name: 'INCIDENCIAS NO ASIGN.', icon: ImCheckboxUnchecked, ruta: '/dashboard/incidencias-no-asignadas' },
         { name: 'MOTIVO INCIDENCIA', icon: FaQuestionCircle, ruta: '/dashboard/motivos' },
         { name: 'ORIGEN INCIDENCIA', icon: FaExclamationCircle, ruta: '/dashboard/origen-incidencia' },
         { name: 'TABLA DE CONOCIMIENTO', icon: FaBrain, ruta: '/dashboard/tabla-conocimiento' },
-      ];
-      
-      const LinkItemsUsuarioComun = [
+    ];
+
+    const LinkItemsUsuarioComun = [
         { name: 'INICIO', icon: FaTachometerAlt, ruta: '/dashboard/usuario/home' },
         { name: 'MIS INCIDENCIAS', icon: HiViewBoards, ruta: '/dashboard/usuario/incidencias' },
-      ];
+    ];
 
-      const ROLES = {
+    const ROLES = {
         ADMINISTRADOR: '[COORDINADOR INFORMATICO]',
         ASISTENTE_INFORMATICO: '[ASISTENTE INFORMATICO]',
         SOPORTE_TECNICO: '[SOPORTE TECNICO]',
         USUARIO_COMUN: '[USUARIO COMUN]',
-      }
+    }
 
     return (
         <>
@@ -148,15 +148,15 @@ const SidebarContent = (props) => {
                 {...props}
             >
                 <Flex px="4" py="3" align="center" direction={'column'}>
-                        <Image align={'center'} src={useColorModeValue(LIGHT_LOGO,DARK_LOGO)} alt="SERVICEDESK Logo" boxSize={12}/>
-                        <Text
-                            fontSize="lg"
-                            color="#999999"
-                            fontWeight="extrabold"
-                            mt={2}
-                        >
-                            <span style={{ 'color': '#B40001' }}>SERVICE</span> DESK
-                        </Text>
+                    <Image align={'center'} src={useColorModeValue(LIGHT_LOGO, DARK_LOGO)} alt="SERVICEDESK Logo" boxSize={12} />
+                    <Text
+                        fontSize="lg"
+                        color="#999999"
+                        fontWeight="extrabold"
+                        mt={2}
+                    >
+                        <span style={{ 'color': '#B40001' }}>SERVICE</span> DESK
+                    </Text>
                 </Flex>
                 <Flex
                     direction="column"
@@ -166,22 +166,22 @@ const SidebarContent = (props) => {
                     aria-label="Main Navigation"
                 >
                     {
-                        (rol === ROLES.ADMINISTRADOR) || ( rol === ROLES.ASISTENTE_INFORMATICO) ? (
+                        (rol === ROLES.ADMINISTRADOR) || (rol === ROLES.ASISTENTE_INFORMATICO) ? (
                             LinkItemsAdministrador.map((link, index) => (
                                 <Link key={index} as={NavLink} to={link.ruta} _activeLink={{ color: activeLinkcolor, bg: bgActiveLinkColor }} _hover={{ textDecoration: 'none' }}>
                                     <NavItem icon={link.icon}>{link.name}</NavItem>
                                 </Link>
-                        ) )) : (rol === ROLES.SOPORTE_TECNICO) ? (
-                            LinkItemsSoporteTecnico.map((link, index) => (
-                                <Link key={index} as={NavLink} to={link.ruta} _activeLink={{ color: activeLinkcolor, bg: bgActiveLinkColor }} _hover={{ textDecoration: 'none' }}>
-                                    <NavItem icon={link.icon}>{link.name}</NavItem>
-                                </Link>
-                        ) )) : (rol === ROLES.USUARIO_COMUN) ? (
-                            LinkItemsUsuarioComun.map((link, index) => (
-                                <Link key={index} as={NavLink} to={link.ruta} _activeLink={{ color: activeLinkcolor, bg: bgActiveLinkColor }} _hover={{ textDecoration: 'none' }}>
-                                    <NavItem icon={link.icon}>{link.name}</NavItem>
-                                </Link>
-                        ))) : null
+                            ))) : (rol === ROLES.SOPORTE_TECNICO) ? (
+                                LinkItemsSoporteTecnico.map((link, index) => (
+                                    <Link key={index} as={NavLink} to={link.ruta} _activeLink={{ color: activeLinkcolor, bg: bgActiveLinkColor }} _hover={{ textDecoration: 'none' }}>
+                                        <NavItem icon={link.icon}>{link.name}</NavItem>
+                                    </Link>
+                                ))) : (rol === ROLES.USUARIO_COMUN) ? (
+                                    LinkItemsUsuarioComun.map((link, index) => (
+                                        <Link key={index} as={NavLink} to={link.ruta} _activeLink={{ color: activeLinkcolor, bg: bgActiveLinkColor }} _hover={{ textDecoration: 'none' }}>
+                                            <NavItem icon={link.icon}>{link.name}</NavItem>
+                                        </Link>
+                                    ))) : null
                     }
                 </Flex>
             </Box>

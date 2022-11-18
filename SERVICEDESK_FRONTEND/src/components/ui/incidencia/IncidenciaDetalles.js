@@ -24,6 +24,7 @@ import {
   useColorModeValue,
   Flex,
   Tooltip,
+  Stack,
 } from '@chakra-ui/react';
 
 import { ViewIcon } from '@chakra-ui/icons';
@@ -33,14 +34,20 @@ import { fetchHistorialPersona } from '../../../actions/historialpersona';
 import Moment from 'moment';
 
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-//import parse from 'html-react-parser';
+import "react-quill/dist/quill.bubble.css";
+import IncidenciaAtender from './soporte/IncidenciaAtender';
+import IncidenciaTramitar from './soporte/IncidenciaTramitar';
+import { store } from '../../../store/store';
+import { useSelector } from 'react-redux';
 
 const IncidenciaDetalles = (props) => {
+
   const colorStatus = useColorModeValue('gray.700', 'white');
   const bgAcordion = useColorModeValue('gray.100', 'gray.600');
 
   const [openCreate, setOpenCreate] = React.useState(false);
+  const { identificador } = useSelector(state => state.auth);
+  const usuario = store.getState().auth;
 
   const [detalleIncidencia, setDetalleIncidencia] = useState([]);
   const [incidenciaHistorial, setIncidenciaHistorial] = useState([]);
@@ -184,13 +191,11 @@ const IncidenciaDetalles = (props) => {
                       color: '#385898',
                       fontSize: '13px',
                       fontWeight: 'bold',
-                      maxHeight: '60px',
+                      maxWidth: '100%',
                     }}
-                    scrollingContainer="true"
-                    tabIndex={2}
                     theme="bubble"
                     value={detalleIncidencia.descripcion}
-                    readOnly={true}
+                    readOnly
                   />
                 </FormControl>
               </Box>
@@ -431,7 +436,6 @@ const IncidenciaDetalles = (props) => {
                             color: '#38a169',
                             fontWeight: 'bold',
                             fontSize: '13px',
-                            maxHeight: '60px',
                           }}
                           theme="bubble"
                           value={detalleIncidencia?.descripcionIncidencia?.descripcionAtencion}
@@ -462,13 +466,10 @@ const IncidenciaDetalles = (props) => {
                             color: '#d69e2e',
                             fontWeight: 'bold',
                             fontSize: '13px',
-                            maxHeight: '60px',
                           }}
                           theme="bubble"
                           value={detalleIncidencia?.descripcionIncidencia?.descripcionTramite}
-                          rows={2}
                           scrollingContainer="true"
-                          tabIndex={2}
                           readOnly
                         />
                       </Box>
@@ -493,13 +494,10 @@ const IncidenciaDetalles = (props) => {
                                 color: '#d69e2e',
                                 fontWeight: 'bold',
                                 fontSize: '13px',
-                                maxHeight: '60px',
                               }}
                               theme="bubble"
                               value={detalleIncidencia?.descripcionIncidencia?.descripcionTramite}
-                              rows={2}
                               scrollingContainer="true"
-                              tabIndex={2}
                               readOnly
                             />
                           </Box>
@@ -523,13 +521,10 @@ const IncidenciaDetalles = (props) => {
                                 color: '#38a169',
                                 fontWeight: 'bold',
                                 fontSize: '13px',
-                                maxHeight: '60px',
                               }}
                               theme="bubble"
                               value={detalleIncidencia?.descripcionIncidencia?.descripcionAtencion}
-                              rows={2}
                               scrollingContainer="true"
-                              tabIndex={2}
                               readOnly
                             />
                           </Box>
@@ -540,7 +535,31 @@ const IncidenciaDetalles = (props) => {
                 )) }
 
           </DrawerBody>
-          <DrawerFooter>
+          <DrawerFooter display={'flex'} justifyContent='space-between'>
+            <Stack direction={'row'} spacing={4}>
+              {
+                usuario?.rol === '[SOPORTE TECNICO]' && incidenciaPersonaAsignado[0] !== null && incidenciaPersonaAsignado[0]?.idpersona === Number(identificador) ? (
+                  <>
+                  { incidenciaHistorial[0]?.estadoIncidencia === 'P' ? (
+                    <>
+                      <IncidenciaTramitar
+                        row = { detalleIncidencia } 
+                      />
+                      <IncidenciaAtender
+                        rowId={detalleIncidencia.idIncidencia}
+                        descripcionIncidencia = {detalleIncidencia.descripcionIncidencia}
+                      />
+                    </>
+                  ) : incidenciaHistorial[0]?.estadoIncidencia === 'T' ? (
+                    <IncidenciaAtender
+                      rowId={detalleIncidencia.idIncidencia}
+                      descripcionIncidencia = {detalleIncidencia.descripcionIncidencia}
+                    />
+                  ) : null }
+                  </>
+                ) : null
+              }
+            </Stack>
             <Button colorScheme={'facebook'} onClick={handleCloseModal} >
               OK
             </Button>

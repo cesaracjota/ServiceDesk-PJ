@@ -76,7 +76,6 @@ const PersonaEditar = ({ row }) => {
         colorScheme="facebook"
         icon={<AiTwotoneEdit size={24} />}
         size={'sm'}
-        
       />
 
       <Modal isOpen={openedit} onClose={handleCloseEdit} size={'6xl'}>

@@ -444,13 +444,11 @@ const IncidenciaAgregar = () => {
                 modules={modules}
                 formats={formats}
                 placeholder="Aqui describe la incidencia"
-                style={{
-                  textTransform: 'uppercase',
-                }}
+                textTransform={'uppercase'}
                 onChange={(e) => {
                   setIndiceIncidencia({
                     ...indiceIncidencia,
-                    descripcion: e.valueOf().toUpperCase(),
+                    descripcion: e.valueOf(),
                   });
                 }}
               />

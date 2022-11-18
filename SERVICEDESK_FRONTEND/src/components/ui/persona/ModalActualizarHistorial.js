@@ -161,9 +161,7 @@ const ModalActualizarHistorial = ({ rowData }) => {
     };
 
     const handleChangeCargo = (value) => {
-        setIndiceHistorial({
-            ...indiceHistorial,
-            cargo: { idCargo: value.value, cargo: value.label },
+            setIndiceHistorial({...indiceHistorial, cargo: { idCargo: value.value, cargo: value.label },
         });
     };
 
@@ -192,7 +190,7 @@ const ModalActualizarHistorial = ({ rowData }) => {
                 <IconButton
                     icon={<RiRoadMapFill fontSize="22px" />}
                     size="sm"
-                    ml={2}
+                    ml={1}
                     colorScheme="orange"
                     
                     onClick={handleOpenModal}

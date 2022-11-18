@@ -63,6 +63,7 @@ import { fetchHistorialPersona } from '../../../actions/historialpersona';
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+
 import { formats, modules } from '../../../helpers/quillConfig';
 import { createMotivo1, fetchMotivos } from '../../../actions/motivo';
 import { createOrigen1, fetchOrigen } from '../../../actions/origenIncidencia';
@@ -305,7 +306,6 @@ const IncidenciaAgregar = () => {
 
   const seleccionarUsuario = async (user) => {
     await fetchHistorialPersona(user).then(historial => {
-      console.log(historial);
       setUsuarioDataNombre(historial.data.persona.nombre + ' ' + historial.data.persona.apellido);
       setUsuarioNotificaData(historial.data.persona);
       setUsuarioSede(historial.data.oficina.organo.sede.sede)
@@ -815,14 +815,12 @@ const saveOrigen = () => {
                   theme="snow"
                   formats={formats}
                   modules={modules}
-                  style={{
-                    textTransform: 'uppercase',
-                  }}
-                  placeholder="Aqui describe la incidencia"
+                  textTransform={'uppercase'}
+                  placeholder="Describe aquí, la incidencia"
                   onChange={(e) => {
                     setIndiceIncidencia({
                       ...indiceIncidencia,
-                      descripcion: e.valueOf().toUpperCase(),
+                      descripcion: e.valueOf(),
                     });
                   }}
                 />

@@ -1,32 +1,32 @@
-import React, { useEffect, useState } from 'react'
-import { Box, Flex, Link, chakra, Image, Text, Heading, Stack, Button, Avatar, Skeleton, SkeletonText, SkeletonCircle } from "@chakra-ui/react"
+import React from 'react'
+import { Box, Flex, Image, Text, Heading, Stack, Button } from "@chakra-ui/react"
 import { NavLink } from 'react-router-dom';
 import { CgChevronDoubleDown } from 'react-icons/cg';
 
 const HomeUsuario = () => {
 
-    const [fraseDia, setFraseDia] = useState('');
-    const [autorFrase, setAutorFrase] = useState('');
-    const [isLoaded, setIsLoaded] = useState(false);
+    // const [fraseDia, setFraseDia] = useState('');
+    // const [autorFrase, setAutorFrase] = useState('');
+    // const [isLoaded, setIsLoaded] = useState(false);
 
-    const fetchFraseRandom = async() => {
-        try {
-            const response = await fetch('https://agyl-frases-api.vercel.app/api/frases/frase/random/', { headers: { 'Allow-Control-Allow-Origin': '*' }});
-            const data = await response.json();
-            setFraseDia(data?.frase?.contenido);
-            setAutorFrase(data?.frase?.autor);
-            setIsLoaded(true);
-        } catch (error) {
-            setFraseDia('No se pudo cargar la frase del día');
-            setAutorFrase('Autor Anonimo');
-            setIsLoaded(true);
-            console.log(error);
-        }
-    }
+    // const fetchFraseRandom = async() => {
+    //     try {
+    //         const response = await fetch('https://agyl-frases-api.vercel.app/api/frases/frase/random/', { headers: { 'Allow-Control-Allow-Origin': '*' }});
+    //         const data = await response.json();
+    //         setFraseDia(data?.frase?.contenido);
+    //         setAutorFrase(data?.frase?.autor);
+    //         setIsLoaded(true);
+    //     } catch (error) {
+    //         setFraseDia('No se pudo cargar la frase del día');
+    //         setAutorFrase('Autor Anonimo');
+    //         setIsLoaded(true);
+    //         console.log(error);
+    //     }
+    // }
 
-    useEffect(() => {
-        fetchFraseRandom();
-    }, []);
+    // useEffect(() => {
+    //     fetchFraseRandom();
+    // }, []);
 
     return (
         <>
@@ -35,12 +35,13 @@ const HomeUsuario = () => {
                 alignItems="center"
                 justifyContent="center"
                 mb={4}
+                h={'full'}
             >
-                <Stack spacing={4} w="full" direction={'column'}>
-                    <Box mx="auto" rounded="lg" shadow="md" bgGradient='linear(to-r, gray.500, gray.800)' color="white" w="full" pt={10} pb={14} px={10}>
+                <Stack spacing={4} w="full" h="full" direction={'column'}>
+                    <Box mx="auto" rounded="lg" shadow="md" bgGradient='linear(to-r, gray.500, gray.800)' color="white" w="full" py={100} px={10}>
                         <Flex alignItems="center" justifyContent="space-between">
                             <Text fontSize={'2xl'} fontWeight="bold" textTransform="uppercase">{
-                               new Date().getHours() < 12 ? 'Buenos días' : new Date().getHours() < 18 ? 'Buenas tardes' : 'Buenas noches'
+                                new Date().getHours() < 12 ? 'Buenos días' : new Date().getHours() < 18 ? 'Buenas tardes' : 'Buenas noches'
                             }</Text>
                             <Text textTransform="uppercase" fontSize="14px">{
                                 new Date().toLocaleDateString('es-ES', {
@@ -71,7 +72,7 @@ const HomeUsuario = () => {
                             </Stack>
                         </Flex>
                     </Box>
-                    <Box
+                    {/* <Box
                         mx="auto"
                         rounded="lg"
                         shadow="md"
@@ -169,7 +170,7 @@ const HomeUsuario = () => {
                                 </Flex>
                             </Box>
                         </Box>
-                    </Box>
+                    </Box> */}
                 </Stack>
             </Flex>
         </>

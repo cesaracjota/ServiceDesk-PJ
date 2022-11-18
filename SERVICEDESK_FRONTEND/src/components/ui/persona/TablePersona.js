@@ -48,11 +48,13 @@ import PersonaEditar from './PersonaEditar';
 import { AiFillFilter } from 'react-icons/ai';
 import ModalActualizarHistorial from './ModalActualizarHistorial';
 import { customStyles } from '../../../helpers/customStyle';
+import { SpinnerComponent } from '../../../helpers/spinner';
 
 export default function TablePersona() {
   const [openModal, setOpenModal] = React.useState(false);
   const [opendelete, setOpenDelete] = React.useState(false);
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(true);
 
   // Close Modal Organo Asignacion
   const handleCloseModalOrganoAsignacion = () => {
@@ -63,8 +65,10 @@ export default function TablePersona() {
     setOpenModal(true);
   };
 
-  const bgStatus = useColorModeValue('gray.400', '#1a202c');
-  const colorStatus = useColorModeValue('white', 'gray.400');
+  let bgStatus = useColorModeValue('gray.400', '#1a202c');
+  let colorStatus = useColorModeValue('white', 'gray.400');
+  let bg = useColorModeValue('white', 'gray.900');
+  let theme = useColorModeValue('default', 'solarized');
 
   const data = store.getState().persona.rows;
 
@@ -229,7 +233,7 @@ export default function TablePersona() {
         <div>
           <Switch
             colorScheme={'red'}
-            mr={2}
+            mr={1}
             isChecked={row.activo === 'S'}
             onChange={() => handleClickOpenDelete(row.idpersona)}
           />
@@ -272,7 +276,7 @@ export default function TablePersona() {
         </div>
       ),
       export: false,
-      width: '150px',
+      width: '160px',
     },
   ];
 
@@ -294,73 +298,83 @@ export default function TablePersona() {
       default: '#FFF opacity 92%',
     },
   });
-
-  return (
-    <>
-      <ModalOrganoAsignacion
-        abrir={openModal}
-        cerrar={handleCloseModalOrganoAsignacion}
-        usuario={indice}
-        abrirSeter={setOpenModal}
-        abrirModalPersonaOrgano={handleOpenModalOrganoAsignacion}
-        personaOrgano={personaOrganos}
-        setpersonaOrgano={setPersonaOrganos}
-      />
-      <Box
-        borderWidth="1px"
-        borderRadius="lg"
-        overflow="hidden"
-        boxShadow={'md'}
-        bg={useColorModeValue('white', 'gray.900')}
-      >
-        <HStack
-          spacing="24px"
-          width={'100%'}
-          justifyContent={'space-between'}
-          verticalAlign={'center'}
-          p={4}
+  
+  setTimeout(() => {
+    setIsLoading(false);
+  }, 5000);
+  
+  if(isLoading === true){
+    return <SpinnerComponent />
+  }else{
+    return (
+      <>
+        <ModalOrganoAsignacion
+          abrir={openModal}
+          cerrar={handleCloseModalOrganoAsignacion}
+          usuario={indice}
+          abrirSeter={setOpenModal}
+          abrirModalPersonaOrgano={handleOpenModalOrganoAsignacion}
+          personaOrgano={personaOrganos}
+          setpersonaOrgano={setPersonaOrganos}
+        />
+        <Box
+          borderWidth="1px"
+          borderRadius="lg"
+          overflow="hidden"
+          boxShadow={'md'}
+          bg={bg}
         >
-          <Box>
-            <Text fontSize="lg" fontWeight="600">
-              TABLA DE USUARIOS
-            </Text>
-          </Box>
-          <Box>
-            <Stack direction={'row'} spacing={2}>
-              <PersonaAgregar />
-              <Menu>
-                <MenuButton as={'menu'} style={{ cursor: 'pointer' }}>
-                  <HStack spacing={2}>
-                    <Text fontSize="sm" fontWeight={'semibold'}>
-                      FILTRAR POR PERFIL
-                    </Text>
-                    <IconButton colorScheme={'twitter'} icon={<FaFilter />} size="sm" />
-                  </HStack>
-                </MenuButton>
-                <MenuList zIndex={2} fontSize="sm">
-                  <MenuItem onClick={handleClickFilterCoodinador} icon={<AiFillFilter color='#c53030' size={'20px'} />}>COORDINADOR INFORMATICO</MenuItem>
-                  <MenuItem onClick={handleClickFilterAsistente} icon={<AiFillFilter color='#2b6cb0' size={'20px'} />}>ASISTENTE INFORMATICO</MenuItem>
-                  <MenuItem onClick={handleClickFilterSoporte} icon={<AiFillFilter color='green' size={'20px'} />}>SOPORTE TECNICO</MenuItem>
-                  <MenuItem icon={<AiFillFilter color='gray' size={'20px'} />} onClick={handleClickFilterUsuario}>USUARIO COMUN</MenuItem>
-                  <MenuItem icon={<AiFillFilter size={'20px'} />} onClick={refreshTable}>TODOS</MenuItem>
-                </MenuList>
-              </Menu>
-            </Stack>
-          </Box>
-        </HStack>
-        <DataTableExtensions data={tableRowsData} columns={columns} print={false}>
-          <DataTable
-            sortIcon={<BsArrowDown />}
-            theme={useColorModeValue('default', 'solarized')}
-            pagination
-            ignoreRowClick={true}
-            responsive={true}
-            paginationPerPage={10}
-            paginationRowsPerPageOptions={[10, 15, 20, 30]}
-            customStyles={customStyles}
-          />
-        </DataTableExtensions>
-      </Box>
-    </>
-  );
+          <HStack
+            spacing="24px"
+            width={'100%'}
+            justifyContent={'space-between'}
+            verticalAlign={'center'}
+            p={4}
+          >
+            <Box>
+              <Text fontSize="lg" fontWeight="600">
+                TABLA DE USUARIOS
+              </Text>
+            </Box>
+            <Box>
+              <Stack direction={'row'} spacing={2}>
+                <PersonaAgregar />
+                <Menu>
+                  <MenuButton as={'menu'} style={{ cursor: 'pointer' }}>
+                    <HStack spacing={2}>
+                      <Text fontSize="sm" fontWeight={'semibold'}>
+                        FILTRAR POR PERFIL
+                      </Text>
+                      <IconButton colorScheme={'twitter'} icon={<FaFilter />} size="sm" />
+                    </HStack>
+                  </MenuButton>
+                  <MenuList zIndex={2} fontSize="sm">
+                    <MenuItem onClick={handleClickFilterCoodinador} icon={<AiFillFilter color='#c53030' size={'20px'} />}>COORDINADOR INFORMATICO</MenuItem>
+                    <MenuItem onClick={handleClickFilterAsistente} icon={<AiFillFilter color='#2b6cb0' size={'20px'} />}>ASISTENTE INFORMATICO</MenuItem>
+                    <MenuItem onClick={handleClickFilterSoporte} icon={<AiFillFilter color='green' size={'20px'} />}>SOPORTE TECNICO</MenuItem>
+                    <MenuItem icon={<AiFillFilter color='gray' size={'20px'} />} onClick={handleClickFilterUsuario}>USUARIO COMUN</MenuItem>
+                    <MenuItem icon={<AiFillFilter size={'20px'} />} onClick={refreshTable}>TODOS</MenuItem>
+                  </MenuList>
+                </Menu>
+              </Stack>
+            </Box>
+          </HStack>
+          <DataTableExtensions data={tableRowsData} columns={columns} print={false}>
+            <DataTable
+              sortIcon={<BsArrowDown />}
+              theme={theme}
+              pagination
+              ignoreRowClick={true}
+              responsive={true}
+              paginationPerPage={10}
+              paginationRowsPerPageOptions={[10, 15, 20, 30]}
+              customStyles={customStyles}
+            />
+          </DataTableExtensions>
+        </Box>
+      </>
+    );
+  }
+  
+
 }

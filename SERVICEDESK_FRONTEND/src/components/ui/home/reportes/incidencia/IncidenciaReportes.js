@@ -16,7 +16,7 @@ import Select from 'react-select';
 import { SearchIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import Moment from 'moment';
 import { timerNotification } from '../../../../../helpers/alert';
-import ChartReporteOne from './ChartReporteOne';
+import ChartReporteTecnicos from './ChartReporteTecnicos';
 import ReporteTecnicos from './ReporteTecnicos';
 import { fetchReporteTecnicos } from '../../../../../actions/reporte';
 
@@ -267,7 +267,7 @@ export default function IncidenciaReportes() {
                 />
               </TabPanel>
               <TabPanel>
-                <ChartReporteOne
+                <ChartReporteTecnicos
                   reportes={reportes}
                   nombreTecnicos={nombreTecnicos}
                   totalReportes={totalReportes}

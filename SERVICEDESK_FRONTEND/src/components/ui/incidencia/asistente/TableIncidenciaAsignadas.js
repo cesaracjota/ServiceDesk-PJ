@@ -54,6 +54,7 @@ import { AiFillFilter } from 'react-icons/ai';
 import { RepeatIcon } from '@chakra-ui/icons';
 import { getIncidenciaAsignadas } from './incidencia';
 import { customStyles } from '../../../../helpers/customStyle';
+import { SpinnerComponent } from '../../../../helpers/spinner';
 
 export default function TableIncidenciaAsignados() {
   const dispatch = useDispatch();
@@ -62,6 +63,10 @@ export default function TableIncidenciaAsignados() {
   const data = store.getState().incidenciasAsignadas.rows;
 
   const [tableRowsData, setTableRowsData] = useState(data);
+  const [isLoading, setIsLoading] = useState(true);
+
+  let bg = useColorModeValue('white', 'gray.900');
+  let theme = useColorModeValue('default', 'solarized');
 
   //Contadores de incidencia
   const ContadorPendientes = data.filter(row => row.historialIncidencia.filter(pendiente => pendiente.estadoIncidencia === "P" && pendiente.estado === "A").length > 0);
@@ -251,240 +256,247 @@ export default function TableIncidenciaAsignados() {
     },
   });
 
-  return (
-    <>
-      <Box borderWidth="1px"
-        borderRadius="lg"
-        overflow="hidden"
-        boxShadow={'md'}
-        mb={4}
-        p={2}
-        fontSize={['6px', '9px', '10px', '12px']}
-        bg={useColorModeValue('gray.100', 'gray.900')} >
-        <SimpleGrid columns={4} spacing={5} textColor={'white'}>
-          <Box
-            w={'100%'}
-            bg="white"
-            _dark={{ bg: "gray.800", borderWidth: "1px" }}
-            shadow="lg"
-            rounded="lg"
-            overflow="hidden"
-            textAlign={'center'}
-          >
-            <chakra.h3
-              py={2}
-              textAlign="center"
-              fontWeight="bold"
-              textTransform="uppercase"
-              color="red.500"
-              _dark={{ color: "white" }}
-            >
-              INCIDENCIAS PENDIENTES
-            </chakra.h3>
-            <Flex
-              alignItems="center"
-              justify={'center'}
-              py={2}
+  setTimeout(() => {
+    setIsLoading(false);
+  }, 5000);
+  
+  if(isLoading === true){
+    return <SpinnerComponent />
+  }else{
+    return (
+      <>
+        <Box borderWidth="1px"
+          borderRadius="lg"
+          overflow="hidden"
+          boxShadow={'md'}
+          mb={4}
+          p={2}
+          fontSize={['6px', '9px', '10px', '12px']}
+          bg={bg} >
+          <SimpleGrid columns={4} spacing={5} textColor={'white'}>
+            <Box
               w={'100%'}
-              bg="red.500"
-              _dark={{ bg: "gray.700" }}
+              bg="white"
+              _dark={{ bg: "gray.800", borderWidth: "1px" }}
+              shadow="lg"
+              rounded="lg"
+              overflow="hidden"
+              textAlign={'center'}
             >
-              <chakra.span
+              <chakra.h3
+                py={2}
+                textAlign="center"
                 fontWeight="bold"
-                color="white"
-                _dark={{ color: "gray.200" }}
+                textTransform="uppercase"
+                color="red.500"
+                _dark={{ color: "white" }}
               >
-                {ContadorPendientes.length}
-              </chakra.span>
-            </Flex>
-          </Box>
-          <Box
-            w={'100%'}
-            bg="white"
-            _dark={{ bg: "gray.800", borderWidth: "1px" }}
-            shadow="lg"
-            rounded="lg"
-            overflow="hidden"
-            textAlign={'center'}
-          >
-            <chakra.h3
-              py={2}
-              textAlign="center"
-              fontWeight="bold"
-              textTransform="uppercase"
-              color="yellow.500"
-              _dark={{ color: "white" }}
+                INCIDENCIAS PENDIENTES
+              </chakra.h3>
+              <Flex
+                alignItems="center"
+                justify={'center'}
+                py={2}
+                w={'100%'}
+                bg="red.500"
+                _dark={{ bg: "gray.700" }}
+              >
+                <chakra.span
+                  fontWeight="bold"
+                  color="white"
+                  _dark={{ color: "gray.200" }}
+                >
+                  {ContadorPendientes.length}
+                </chakra.span>
+              </Flex>
+            </Box>
+            <Box
+              w={'100%'}
+              bg="white"
+              _dark={{ bg: "gray.800", borderWidth: "1px" }}
+              shadow="lg"
+              rounded="lg"
+              overflow="hidden"
+              textAlign={'center'}
             >
-              Incidencias en Tramite
-            </chakra.h3>
-            <Flex
-              alignItems="center"
-              justify={'center'}
-              py={2}
-              px={3}
-              bg="yellow.500"
-              _dark={{ bg: "gray.700" }}
-            >
-              <chakra.span
+              <chakra.h3
+                py={2}
+                textAlign="center"
                 fontWeight="bold"
-                color="gray.200"
-                _dark={{ color: "gray.200" }}
+                textTransform="uppercase"
+                color="yellow.500"
+                _dark={{ color: "white" }}
               >
-                {ContadorTramite.length}
-              </chakra.span>
-            </Flex>
-          </Box>
-          <Box
-            w={'100%'}
-            bg="white"
-            _dark={{ bg: "gray.800", borderWidth: "1px" }}
-            shadow="lg"
-            rounded="lg"
-            overflow="hidden"
-            textAlign={'center'}
-          >
-            <chakra.h3
-              py={2}
-              textAlign="center"
-              fontWeight="bold"
-              textTransform="uppercase"
-              color="green.500"
-              _dark={{ color: "white" }}
+                Incidencias en Tramite
+              </chakra.h3>
+              <Flex
+                alignItems="center"
+                justify={'center'}
+                py={2}
+                px={3}
+                bg="yellow.500"
+                _dark={{ bg: "gray.700" }}
+              >
+                <chakra.span
+                  fontWeight="bold"
+                  color="gray.200"
+                  _dark={{ color: "gray.200" }}
+                >
+                  {ContadorTramite.length}
+                </chakra.span>
+              </Flex>
+            </Box>
+            <Box
+              w={'100%'}
+              bg="white"
+              _dark={{ bg: "gray.800", borderWidth: "1px" }}
+              shadow="lg"
+              rounded="lg"
+              overflow="hidden"
+              textAlign={'center'}
             >
-              INCIDENCIAS ATENDIDAS
-            </chakra.h3>
-            <Flex
-              alignItems="center"
-              justify={'center'}
-              py={2}
-              px={3}
-              bg="green.500"
-              _dark={{ bg: "gray.700" }}
-            >
-              <chakra.span
+              <chakra.h3
+                py={2}
+                textAlign="center"
                 fontWeight="bold"
-                color="white"
-                _dark={{ color: "gray.200" }}
+                textTransform="uppercase"
+                color="green.500"
+                _dark={{ color: "white" }}
               >
-                {ContadorAtendidas.length}
-              </chakra.span>
-            </Flex>
-          </Box>
-          <Box
-            w={'100%'}
-            bg="white"
-            _dark={{ bg: "gray.800", borderWidth: "1px" }}
-            shadow="lg"
-            rounded="lg"
-            overflow="hidden"
-            textAlign={'center'}
-          >
-            <chakra.h3
-              py={2}
-              textAlign="center"
-              fontWeight="bold"
-              textTransform="uppercase"
-              color="gray.600"
-              _dark={{ color: "white" }}
+                INCIDENCIAS ATENDIDAS
+              </chakra.h3>
+              <Flex
+                alignItems="center"
+                justify={'center'}
+                py={2}
+                px={3}
+                bg="green.500"
+                _dark={{ bg: "gray.700" }}
+              >
+                <chakra.span
+                  fontWeight="bold"
+                  color="white"
+                  _dark={{ color: "gray.200" }}
+                >
+                  {ContadorAtendidas.length}
+                </chakra.span>
+              </Flex>
+            </Box>
+            <Box
+              w={'100%'}
+              bg="white"
+              _dark={{ bg: "gray.800", borderWidth: "1px" }}
+              shadow="lg"
+              rounded="lg"
+              overflow="hidden"
+              textAlign={'center'}
             >
-              TOTAL DE INCIDENCIAS
-            </chakra.h3>
-            <Flex
-              alignItems="center"
-              justify={'center'}
-              py={2}
-              px={3}
-              bg="gray.600"
-              _dark={{ bg: "gray.700" }}
-            >
-              <chakra.span
+              <chakra.h3
+                py={2}
+                textAlign="center"
                 fontWeight="bold"
-                color="white"
-                _dark={{ color: "gray.200" }}
+                textTransform="uppercase"
+                color="gray.600"
+                _dark={{ color: "white" }}
               >
-                {data.length}
-              </chakra.span>
-            </Flex>
-          </Box>
-        </SimpleGrid>
-      </Box>
-      <Box
-        borderWidth="1px"
-        borderRadius="lg"
-        overflow="hidden"
-        boxShadow={'md'}
-        bg={useColorModeValue('white', 'gray.900')}
-        paddingBottom={4}
-      >
-        <HStack
-          spacing="24px"
-          width={'100%'}
-          justifyContent={'space-between'}
-          verticalAlign={'center'}
-          pt={4}
-          px={4}
+                TOTAL DE INCIDENCIAS
+              </chakra.h3>
+              <Flex
+                alignItems="center"
+                justify={'center'}
+                py={2}
+                px={3}
+                bg="gray.600"
+                _dark={{ bg: "gray.700" }}
+              >
+                <chakra.span
+                  fontWeight="bold"
+                  color="white"
+                  _dark={{ color: "gray.200" }}
+                >
+                  {data.length}
+                </chakra.span>
+              </Flex>
+            </Box>
+          </SimpleGrid>
+        </Box>
+        <Box
+          borderWidth="1px"
+          borderRadius="lg"
+          overflow="hidden"
+          boxShadow={'md'}
+          bg={bg}
+          paddingBottom={4}
         >
-          <Box>
-            <Text fontSize="lg" fontWeight="600">
-              TABLA DE INCIDENCIAS ASIGNADAS
-            </Text>
-          </Box>
-          <Box>
-            <Stack direction={'row'} spacing={1}>
-              <IconButton
-                size={'sm'} mr={2}
-                icon={<RepeatIcon boxSize={4} />}
-                colorScheme={'facebook'}
-
-                onClick={refreshTable} />
-              <Menu size={'xs'}>
-                <MenuButton as={'menu'} style={{ cursor: 'pointer' }}>
-                  <HStack spacing={2}>
-                    <Text fontSize="sm" fontWeight={'semibold'}>
-                      FILTRAR POR ESTADO
-                    </Text>
-                    <IconButton colorScheme={'twitter'} icon={<FaFilter />} size="sm" />
-                  </HStack>
-                </MenuButton>
-                <MenuList zIndex={2} fontSize="sm">
-                  <MenuItem onClick={handleClickFilterPendientes} icon={<AiFillFilter color='red' size={'20px'} />}>PENDIENTES</MenuItem>
-                  <MenuItem onClick={handleClickFilterTramite} icon={<AiFillFilter color='#d69e2e' size={'20px'} />}>EN TRAMITE</MenuItem>
-                  <MenuItem onClick={handleClickFilterAtendidas} icon={<AiFillFilter color='green' size={'20px'} />}>ATENDIDAS</MenuItem>
-                  <MenuItem icon={<AiFillFilter size={'20px'} />} onClick={refreshTable}>TODOS</MenuItem>
-                </MenuList>
-              </Menu>
-            </Stack>
-
-          </Box>
-        </HStack>
-        <DataTableExtensions columns={columns} data={tableRowsData} print={false}>
-          <DataTable
-            theme={useColorModeValue('default', 'solarized')}
-            pagination
-            ignoreRowClick={true}
-            responsive={true}
-            paginationPerPage={10}
-            noDataComponent={
-              <Text fontSize="sm" textAlign="center" color="gray.600">
-                NO HAY DATOS PARA MOSTRAR, REFRESCAR LA TABLA
+          <HStack
+            spacing="24px"
+            width={'100%'}
+            justifyContent={'space-between'}
+            verticalAlign={'center'}
+            pt={4}
+            px={4}
+          >
+            <Box>
+              <Text fontSize="lg" fontWeight="600">
+                TABLA DE INCIDENCIAS ASIGNADAS
               </Text>
-            }
-            paginationRowsPerPageOptions={[10, 15, 20, 30]}
-            fixedHeader
-            fixedHeaderScrollHeight="550px"
-            paginationComponentOptions={{
-              rowsPerPageText: 'Filas por página:',
-              rangeSeparatorText: 'de',
-              selectAllRowsItem: true,
-              selectAllRowsItemText: 'Todos',
-            }}
-            customStyles={customStyles}
-            key={tableRowsData.map((item) => { return item.idIncidencia })}
-          />
-        </DataTableExtensions>
-      </Box>
-    </>
-  );
+            </Box>
+            <Box>
+              <Stack direction={'row'} spacing={1}>
+                <IconButton
+                  size={'sm'} mr={2}
+                  icon={<RepeatIcon boxSize={4} />}
+                  colorScheme={'facebook'}
+  
+                  onClick={refreshTable} />
+                <Menu size={'xs'}>
+                  <MenuButton as={'menu'} style={{ cursor: 'pointer' }}>
+                    <HStack spacing={2}>
+                      <Text fontSize="sm" fontWeight={'semibold'}>
+                        FILTRAR POR ESTADO
+                      </Text>
+                      <IconButton colorScheme={'twitter'} icon={<FaFilter />} size="sm" />
+                    </HStack>
+                  </MenuButton>
+                  <MenuList zIndex={2} fontSize="sm">
+                    <MenuItem onClick={handleClickFilterPendientes} icon={<AiFillFilter color='red' size={'20px'} />}>PENDIENTES</MenuItem>
+                    <MenuItem onClick={handleClickFilterTramite} icon={<AiFillFilter color='#d69e2e' size={'20px'} />}>EN TRAMITE</MenuItem>
+                    <MenuItem onClick={handleClickFilterAtendidas} icon={<AiFillFilter color='green' size={'20px'} />}>ATENDIDAS</MenuItem>
+                    <MenuItem icon={<AiFillFilter size={'20px'} />} onClick={refreshTable}>TODOS</MenuItem>
+                  </MenuList>
+                </Menu>
+              </Stack>
+  
+            </Box>
+          </HStack>
+          <DataTableExtensions columns={columns} data={tableRowsData.reverse()} print={false}>
+            <DataTable
+              theme={theme}
+              pagination
+              ignoreRowClick={true}
+              responsive={true}
+              paginationPerPage={10}
+              noDataComponent={
+                <Text fontSize="sm" textAlign="center" color="gray.600">
+                  NO HAY DATOS PARA MOSTRAR, REFRESCAR LA TABLA
+                </Text>
+              }
+              paginationRowsPerPageOptions={[10, 15, 20, 30]}
+              paginationComponentOptions={{
+                rowsPerPageText: 'Filas por página:',
+                rangeSeparatorText: 'de',
+                selectAllRowsItem: true,
+                selectAllRowsItemText: 'Todos',
+              }}
+              customStyles={customStyles}
+              key={tableRowsData.map((item) => { return item.idIncidencia })}
+            />
+          </DataTableExtensions>
+        </Box>
+      </>
+    );
+  }
+
 }
 
 

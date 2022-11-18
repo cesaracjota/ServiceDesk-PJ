@@ -1,45 +1,46 @@
-import React, { useEffect, useState } from 'react'
-import { Box, Flex, Link, chakra, Image, Text, Heading, Stack, Button, Avatar, Skeleton, SkeletonText, SkeletonCircle } from "@chakra-ui/react"
+import React from 'react'
+import { Box, Flex, Image, Text, Heading, Stack, Button } from "@chakra-ui/react"
 import { NavLink } from 'react-router-dom';
 import { CgChevronDoubleDown } from 'react-icons/cg';
 import ModalMensajes from './ModalMensajes';
 
 const HomeSoporte = () => {
 
-    const [fraseDia, setFraseDia] = useState('');
-    const [autorFrase, setAutorFrase] = useState('');
-    const [isLoaded, setIsLoaded] = useState(false);
+    // const [fraseDia, setFraseDia] = useState('');
+    // const [autorFrase, setAutorFrase] = useState('');
+    // const [isLoaded, setIsLoaded] = useState(false);
 
-    const fetchFraseRandom = async() => {
-        try {
-            const response = await fetch('https://agyl-frases-api.vercel.app/api/frases/frase/random/', { headers: { 'Allow-Control-Allow-Origin': '*' }});
-            const data = await response.json();
-            setFraseDia(data?.frase?.contenido);
-            setAutorFrase(data?.frase?.autor);
-            setIsLoaded(true);
-        } catch (error) {
-            setFraseDia('No se pudo cargar la frase del día, actualiza la página.');
-            setAutorFrase('Autor Anonimo');
-            setIsLoaded(true);
-            console.log(error);
-        }
-    }
+    // const fetchFraseRandom = async() => {
+    //     try {
+    //         const response = await fetch('https://agyl-frases-api.vercel.app/api/frases/frase/random/', { headers: { 'Allow-Control-Allow-Origin': '*' }});
+    //         const data = await response.json();
+    //         setFraseDia(data?.frase?.contenido);
+    //         setAutorFrase(data?.frase?.autor);
+    //         setIsLoaded(true);
+    //     } catch (error) {
+    //         setFraseDia('No se pudo cargar la frase del día, actualiza la página.');
+    //         setAutorFrase('Autor Anonimo');
+    //         setIsLoaded(true);
+    //         console.log(error);
+    //     }
+    // }
 
-    useEffect(() => {
-        fetchFraseRandom();
-    }, []);
+    // useEffect(() => {
+    //     fetchFraseRandom();
+    // }, []);
 
     return (
         <>
             <ModalMensajes />
             <Flex
                 w="full"
+                h={'full'}
                 alignItems="center"
                 justifyContent="center"
                 mb={4}
             >
-                <Stack spacing={4} w="full" direction={'column'}>
-                    <Box mx="auto" rounded="lg" shadow="md" bgGradient='linear(to-r, green.500, green.800)' color="white" w="full" pt={10} pb={14} px={10}>
+                <Stack spacing={4} w="full" h={'full'} direction={'column'}>
+                    <Box mx="auto" rounded="lg" shadow="md" bgGradient='linear(to-r, green.500, green.800)' color="white" w="full" h="full" py={100} px={10}>
                         <Flex alignItems="center" justifyContent="space-between">
                             <Text fontSize={'2xl'} fontWeight="bold" textTransform="uppercase">{
                                 new Date().getHours() < 12 ? 'Buenos días' : new Date().getHours() < 18 ? 'Buenas tardes' : 'Buenas noches'
@@ -60,20 +61,19 @@ const HomeSoporte = () => {
                                 <Text fontSize={'lg'}>Al Sistema de Gestion de Incidencias - Service Desk - Corte Superior de Justicia Arequipa</Text>
                                 <NavLink to={'/dashboard/soporte/incidencias'}>
                                     <Button 
-                                      colorScheme="blackAlpha" 
-                                      rightIcon={<CgChevronDoubleDown fontSize="20px"/>} 
-                                      variant="solid" 
-                                      size="md" 
-                                      w="full" 
-                                      
-                                      mt={2}>
+                                        colorScheme="blackAlpha" 
+                                        rightIcon={<CgChevronDoubleDown fontSize="20px"/>} 
+                                        variant="solid" 
+                                        size="md" 
+                                        w="full"
+                                        mt={2}>
                                         IR A MIS INCIDENCIAS
                                     </Button>
                                 </NavLink>
                             </Stack>
                         </Flex>
                     </Box>
-                    <Box
+                    {/* <Box
                         mx="auto"
                         rounded="lg"
                         shadow="md"
@@ -172,7 +172,7 @@ const HomeSoporte = () => {
                                 </Flex>
                             </Box>
                         </Box>
-                    </Box>
+                    </Box> */}
                 </Stack>
             </Flex>
         </>

@@ -29,11 +29,11 @@ const Footer = () => {
                             color: "white",
                         }}
                     >
-                        © 2022 AgylCode. All rights reserved
+                        © 2022 Poder Judicial. All rights reserved
                     </Text>
 
                     <Text fontSize="sm" fontWeight="semibold" color="gray.600">
-                        Made with ❤️ by <chakra.a target={'_blank'} href="https://github.com/CesarAcjotaMerma">CesarAcjota</chakra.a>
+                        Made with ❤️ by <chakra.a target={'_blank'} href="https://github.com/cesaracjota">CesarAcjota</chakra.a>
                     </Text>
 
                     <Flex>
@@ -70,7 +70,7 @@ const Footer = () => {
                         </chakra.a>
 
                         <chakra.a
-                            href="https://github.com/CesarAcjotaMerma"
+                            href="https://github.com/cesaracjota"
                             target={'_blank'}
                             mx="2"
                             color="gray.600"

@@ -259,7 +259,7 @@ export default function SegundoReporte() {
                   totalReportes={totalReportes}
                 />
               </TabPanel>
-              <TabPanel>
+              <TabPanel w={'full'}>
                 <ChartReporteUsuarios
                   reportes={reportes}
                   nombreUsuarios={nombreTecnicos}

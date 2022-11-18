@@ -7,7 +7,7 @@ require("highcharts/modules/exporting.js")(Highcharts);
 require("highcharts/modules/export-data.js")(Highcharts);
 require('highcharts/modules/histogram-bellcurve')(Highcharts);
 
-const ChartReporteOne = ({ reportes, nombreTecnicos }) => {
+const ChartReporteTecnicos = ({ reportes, nombreTecnicos }) => {
 
   const data = reportes
   var pendientes = data.map(item => item.pendientes)
@@ -226,7 +226,7 @@ const ChartReporteOne = ({ reportes, nombreTecnicos }) => {
 
   return (
     <>
-      <SimpleGrid columns={1} spacing='40px'>
+      <SimpleGrid spacing='40px'>
         <Box height='100%' borderRadius="xs" boxShadow={'md'} p={2}>
           <HighchartsReact highcharts={Highcharts} options={BellcurveOptions} />
         </Box>
@@ -248,4 +248,4 @@ const ChartReporteOne = ({ reportes, nombreTecnicos }) => {
 
 }
 
-export default ChartReporteOne;
+export default ChartReporteTecnicos;

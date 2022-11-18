@@ -1,11 +1,15 @@
 import React from 'react'
 import Highcharts from 'highcharts'
-import HighchartsReact from 'highcharts-react-official'
-import { Box, SimpleGrid } from '@chakra-ui/react'
+import { Box, SimpleGrid, useColorModeValue } from '@chakra-ui/react'
+import Bellcurve from "highcharts-react-official";
+import BarChart from "highcharts-react-official";
+import ColumnChart from "highcharts-react-official";
+import PieChart from "highcharts-react-official";
+import AreaChart from "highcharts-react-official";
+import LineChart from "highcharts-react-official";
 
 require("highcharts/modules/exporting.js")(Highcharts);
 require("highcharts/modules/export-data.js")(Highcharts);
-require('highcharts/modules/histogram-bellcurve')(Highcharts);
 
 const ChartReporteUsuarios = ({ reportes, nombreUsuarios }) => {
 
@@ -17,12 +21,19 @@ const ChartReporteUsuarios = ({ reportes, nombreUsuarios }) => {
   var total = data.map(item => item.total)
 
   const BellcurveOptions = {
+    chart: {
+      backgroundColor: useColorModeValue('white', '#1A202C'),
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'bellcurve',
+    },
     title: {
       text: 'TOTAL INCIDENCIAS POR USUARIO'
     },
     xAxis: [{
       title: {
-        text: 'Tecnicos'
+        text: 'Usuarios'
       },
       type: 'category',
       alignTicks: false
@@ -34,33 +45,30 @@ const ChartReporteUsuarios = ({ reportes, nombreUsuarios }) => {
       categories : false,
       alignTicks: false
     }],
-    chart: {
-      plotBackgroundColor: true,
-      type: 'bellcurve',
-    },
-    series: {
-      name: 'Total Incidencias',
+    series: [{
+      name: 'total incidencias:',
       data: data.map(item => {
         return {
           name: item.usuario?.nombre,
-          y: item.total
+          y: item.total,
         }
       }),
       exporting: {
         showTable: false,
       },
-    }
+    }]
   }
 
   const BarOptions = {
     chart: {
-      type: 'bar'
+      backgroundColor: useColorModeValue('white', '#1A202C'),
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'bar',
     },
     title: {
       text: 'CHARTS DE BARRAS POR USUARIO'
-    },
-    subtitle: {
-      text: 'Source: <a href="#">Más Detalles</a>'
     },
     xAxis: {
       categories: nombreUsuarios,
@@ -100,6 +108,7 @@ const ChartReporteUsuarios = ({ reportes, nombreUsuarios }) => {
 
   const PieOptions = {
     chart: {
+      backgroundColor: useColorModeValue('white', '#1A202C'),
       plotBackgroundColor: null,
       plotBorderWidth: null,
       plotShadow: false,
@@ -115,9 +124,6 @@ const ChartReporteUsuarios = ({ reportes, nombreUsuarios }) => {
     },
     title: {
       text: 'TOTAL DE INCIDENCIAS POR USUARIO PIECHART'
-    },
-    subtitle: {
-      text: 'Source: <a href="#">Más Detalles</a>'
     },
     xAxis: {
       categories: 'nombreUsuario',
@@ -151,6 +157,13 @@ const ChartReporteUsuarios = ({ reportes, nombreUsuarios }) => {
   }
 
   const AreaOptions = {
+    chart: {
+      backgroundColor: useColorModeValue('white', '#1A202C'),
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'area',
+    },
     title: {
       text: 'INCIDENCIAS POR USUARIO'
     },
@@ -161,7 +174,7 @@ const ChartReporteUsuarios = ({ reportes, nombreUsuarios }) => {
 
     },
     series: [{
-      name: 'Incidencias por usuario',
+      name: 'total incidencias:',
       data: data.map(item => {
         return {
           name: item.usuario.nombre,
@@ -175,18 +188,19 @@ const ChartReporteUsuarios = ({ reportes, nombreUsuarios }) => {
     },
   }
 
-  const Barras = {
+  const ColumnOptions = {
     chart: {
+      backgroundColor: useColorModeValue('white', '#1A202C'),
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
       type: 'column'
     },
     title: {
       text: 'ESTADO POR TIPO DE INCIDENCIAS'
     },
-    subtitle: {
-      text: 'Source: <a href="#">Más Detalles</a>'
-    },
     xAxis: {
-      categories: nombreUsuarios
+      categories: 'nombreUsuarios'
     },
     yAxis: {
       min: 0,
@@ -225,23 +239,88 @@ const ChartReporteUsuarios = ({ reportes, nombreUsuarios }) => {
   ]
   }
 
+  const LineChartOptions = {
+    chart: {
+      backgroundColor: useColorModeValue('white', '#1A202C'),
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'line'
+    },
+    title: {
+      text: 'ESTADO POR TIPO DE INCIDENCIAS'
+    },
+    xAxis: [{
+      title: {
+        text: 'Usuarios'
+      },
+      type: 'category',
+      alignTicks: false
+    }],
+    yAxis: [{
+      title: { 
+        text: 'Incidencias' 
+      },
+      categories : false,
+      alignTicks: false
+    }],
+    series: [
+      {
+        name: 'Pendientes',
+        data: pendientes,
+        color: '#e53e3e'
+      },
+      {
+        name: 'En Trámite',
+        data: tramitadas,
+        color: '#d69e2e'
+      },
+      {
+        name: 'Atendidas',
+        data: atendidas,
+        color: '#38a169'
+      },
+    ],
+  }
+
   return (
     <>
-      <SimpleGrid columns={1} spacing='40px'>
-        <Box height='100%' borderRadius="xs" boxShadow={'md'} p={2}>
-          <HighchartsReact highcharts={Highcharts} options={BellcurveOptions} />
+      <SimpleGrid spacing='40px'>
+        <Box height='100%' borderRadius="xs" boxShadow={'md'}>
+          <Bellcurve 
+            highcharts={Highcharts}
+            options={BellcurveOptions}
+          />
         </Box>
         <Box height='100%' borderRadius="xs" boxShadow={'md'} p={2}>
-          <HighchartsReact highcharts={Highcharts} options={Barras} />
+          <ColumnChart 
+            highcharts={Highcharts} 
+            options={ColumnOptions} 
+          />
         </Box>
         <Box height='100%' borderRadius="xs" boxShadow={'md'} p={2}>
-          <HighchartsReact highcharts={Highcharts} options={BarOptions} />
+          <BarChart 
+            highcharts={Highcharts} 
+            options={BarOptions} 
+          />
         </Box>
         <Box height='100%' borderRadius="xs" boxShadow={'md'} p={2}>
-          <HighchartsReact highcharts={Highcharts} options={PieOptions} />
+          <PieChart 
+            highcharts={Highcharts} 
+            options={PieOptions} 
+          />
         </Box>
         <Box height='100%' borderRadius="xs" boxShadow={'md'} p={2}>
-          <HighchartsReact highcharts={Highcharts} options={AreaOptions} />
+          <AreaChart 
+            highcharts={Highcharts} 
+            options={AreaOptions} 
+          />
+        </Box>
+        <Box height='100%' borderRadius="xs" boxShadow={'md'} p={2}>
+          <LineChart 
+            highcharts={Highcharts} 
+            options={LineChartOptions} 
+          />
         </Box>
       </SimpleGrid>
     </>

@@ -171,13 +171,10 @@ const IncidenciaAtender = ({rowId, descripcionIncidencia}) => {
                 <FormLabel fontWeight="semibold">DESCRIPCIÓN DE LA ATENCIÓN</FormLabel>
                 <ReactQuill
                   theme="snow"
-                  style={{
-                    textTransform: 'uppercase',
-                  }}
                   placeholder="Ingrese la descripción de la atención"
                   modules={modules}
                   formats={formats}
-                  onChange={(e) => setIndice({ ...indice, descripcion: e.valueOf().toUpperCase() })}
+                  onChange={(e) => setIndice({ ...indice, descripcion: e.valueOf() })}
                 />
               </FormControl>
               <FormControl mt={4}>

@@ -2,19 +2,11 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Box,
-  Button,
   useColorModeValue,
-  AlertDialogBody,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
-  AlertDialogFooter,
-  AlertDialog,
   Text,
   HStack,
   Badge,
   IconButton,
-  AlertDialogCloseButton,
   SimpleGrid,
   chakra,
   Flex,
@@ -33,10 +25,8 @@ import {
   Portal,
   Progress,
   Tooltip,
-  FormLabel,
-  FormControl,
 } from '@chakra-ui/react';
-import { CalendarIcon, RepeatIcon } from '@chakra-ui/icons';
+import { RepeatIcon } from '@chakra-ui/icons';
 
 import { store } from '../../../../store/store';
 
@@ -47,7 +37,7 @@ import 'react-data-table-component-extensions/dist/index.css';
 import IncidenciaAgregar from '../IncidenciaAgregar';
 import IncidenciaDetalles from '../IncidenciaDetalles';
 import IncidenciaAtender from './IncidenciaAtender';
-import { createDescripcionTramite, fetchIncidenciaSoporte } from '../../../../actions/incidencia';
+import { fetchIncidenciaSoporte } from '../../../../actions/incidencia';
 import { getIncidenciasAsignadasSoporte } from './incidencia';
 import Moment from 'moment';
 import IncidenciaViewFileSoporte from './IncidenciaViewFile';
@@ -58,27 +48,27 @@ import IncidenciaViewFile from '../conocimiento/IncidenciaViewFile';
 import { ModalReAsignarTecnico } from '../asistente/TableIncidenciaAsignadas';
 import { loadConfiguracionBotones } from '../../../../actions/configurarBotones';
 import { getConfiguracionBotones } from '../asistente/incidencia';
-import ReactQuill from 'react-quill';
-import { formats, modules } from '../../../../helpers/quillConfig';
 import { customStyles } from '../../../../helpers/customStyle';
+import IncidenciaTramitar from './IncidenciaTramitar';
+import { SpinnerComponent } from '../../../../helpers/spinner';
 
 export default function TableIncidenciaSoporte() {
-  const [openAlert, setOpenAlert] = useState(false);
   const [progress, setProgress] = useState(false);
   const { identificador } = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
-  const [indiceIncidenciaPersonaNotifica, setIncidenciaPersonaNotifica] = useState(identificador);
-
-  const data = store.getState().incidenciasAsignadasSoporte.rows;
+  var data = store.getState().incidenciasAsignadasSoporte.rows;
 
   const dataConfiguracionValue = store.getState().configuracionBotones.rows;
 
   const dataBotonAgregar = dataConfiguracionValue.filter((item) => item.slug === "botonagregar" );
-  const dataBotonReAsignar = dataConfiguracionValue.filter( (item) => item.slug === "botonreasignar");
+  const dataBotonReAsignar = dataConfiguracionValue.filter((item) => item.slug === "botonreasignar");
 
   const [tableRowsData, setTableRowsData] = useState(data);
-  const [descripcion, setDescripcion] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+
+  let bg = useColorModeValue('white', 'gray.900');
+  let theme = useColorModeValue('default', 'solarized');
 
   const ContadorPendientes = data.filter(row => row.historialIncidencia.filter(pendiente => pendiente.estadoIncidencia === "P" && pendiente.estado === "A").length > 0);
   const ContadorTramite = data.filter(row => row.historialIncidencia.filter(tramite => tramite.estadoIncidencia === "T" && tramite.estado === "A").length > 0);
@@ -102,47 +92,6 @@ export default function TableIncidenciaSoporte() {
   const changeSetProgressFalse = () => {
     setProgress(false);
   }
-
-  const [indice, setIndice] = useState({
-    idIncidencia: null,
-    historialIncidencia: {
-      persona_registro: {
-        idpersona: Number(identificador)
-      },
-      persona_asignado: {
-        idpersona: Number(identificador)
-      },
-      persona_notifica: {
-        idpersona: indiceIncidenciaPersonaNotifica ? Number(indiceIncidenciaPersonaNotifica) : Number(identificador),
-      }
-    }
-  });
-
-  const ActualizarIncidenciaEnTramite = () => {
-    var detallesObservacion = {
-      incidencia: indice.idIncidencia,
-      descripcion: descripcion,
-      archivo: null
-    }
-    dispatch(createDescripcionTramite(detallesObservacion))
-      .then(() => {
-        fetchDataIncidencias();
-        setOpenAlert(false);
-      }).catch((error) => {
-        console.log(error);
-      });
-  }
-
-  const handleClickOpenAlert = (index) => {
-    setIndice({ ...indice, idIncidencia: index.idIncidencia });
-    setIncidenciaPersonaNotifica(index.historialIncidencia.filter(pendiente => pendiente.estadoIncidencia === "P" && pendiente.estado === "A")[0].persona_notifica.idpersona);
-    setOpenAlert(true);
-  };
-
-  const handleCloseAlert = () => {
-    setDescripcion('');
-    setOpenAlert(false);
-  };
 
   const refreshTable = () => {
     fetchDataIncidencias();
@@ -260,18 +209,7 @@ export default function TableIncidenciaSoporte() {
                     setProgressFalse={() => changeSetProgressFalse()}
                   />
                 ) : (null)}
-                <Tooltip hasArrow placement="auto" label="Cambiar a Trámite el Estado" aria-label="A tooltip">
-                  <IconButton
-                    icon={<CalendarIcon />}
-                    variant={'outline'}
-                    colorScheme={'yellow'}
-                    onClick={() => handleClickOpenAlert(row)}
-                    size={'sm'}
-                    fontSize={'20px'}
-                    ml={1}
-                    
-                  />
-                </Tooltip>
+                <IncidenciaTramitar row={row} />
                 {dataBotonReAsignar[0]?.activo === "S" ? (
                   <ModalReAsignarTecnico row={row} refreshData={() => refreshTable()} />
                 ) : null}
@@ -356,44 +294,6 @@ export default function TableIncidenciaSoporte() {
                 </>
               )
             )}
-            <AlertDialog isOpen={openAlert} onClose={handleCloseAlert} size={'4xl'}>
-              <AlertDialogOverlay>
-                <AlertDialogContent>
-                  <AlertDialogHeader fontSize="xl" fontWeight="bold">
-                    ¿DESEA CAMBIAR EL ESTADO, EN TRÁMITE?
-                  </AlertDialogHeader>
-                  <AlertDialogCloseButton  />
-                  <AlertDialogBody>
-                    <FormControl isRequired>
-                      <FormLabel fontWeight="semibold">AGREGAR UNA OBSERVACIÓN</FormLabel>
-                      <ReactQuill
-                        theme="snow"
-                        style={{
-                          textTransform: 'uppercase',
-                        }}
-                        placeholder="Ingrese una observación"
-                        modules={modules}
-                        formats={formats}
-                        onChange={(e) => setDescripcion(e.valueOf().toUpperCase())}
-                      />
-                </FormControl>
-                  </AlertDialogBody>
-                  <AlertDialogFooter>
-                    <Button onClick={handleCloseAlert}  colorScheme="red" variant="outline">CANCELAR</Button>
-                    <Button
-                      bg={'yellow.500'}
-                      _hover={{ bg: 'yellow.600' }}
-                      color={'white'}
-                      ml={3}
-                      disabled={(descripcion.length < 5 || descripcion === '') ? true : false}
-                      onClick={() => ActualizarIncidenciaEnTramite()}
-                    >
-                      CONFIRMAR
-                    </Button>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialogOverlay>
-            </AlertDialog>
           </div>
         );
       },
@@ -422,241 +322,250 @@ export default function TableIncidenciaSoporte() {
     },
   });
 
-  return (
-    <>
-      <Box
-        borderWidth="1px"
-        borderRadius="lg"
-        overflow="hidden"
-        boxShadow={'md'}
-        mb={4}
-        p={2}
-        fontSize={['6px', '9px', '10px', '12px']}
-        bg={useColorModeValue('gray.100', 'gray.900')}>
-        <SimpleGrid columns={4} spacing={5} textColor={'white'}>
-          <Box
-            w={'100%'}
-            bg="white"
-            _dark={{ bg: "gray.800", borderWidth: "1px" }}
-            shadow="lg"
-            rounded="lg"
-            overflow="hidden"
-            textAlign={'center'}
-          >
-            <chakra.h3
-              py={2}
-              textAlign="center"
-              fontWeight="bold"
-              textTransform="uppercase"
-              color="red.500"
-              _dark={{ color: "white" }}
-            >
-              INCIDENCIAS PENDIENTES
-            </chakra.h3>
-            <Flex
-              alignItems="center"
-              justify={'center'}
-              py={2}
+  setTimeout(() => {
+    setIsLoading(false);
+  }, 3000);
+  
+  if(isLoading === true){
+    return <SpinnerComponent />
+  }else{
+    return (
+      <>
+        <Box
+          borderWidth="1px"
+          borderRadius="lg"
+          overflow="hidden"
+          boxShadow={'md'}
+          mb={4}
+          p={2}
+          fontSize={['6px', '9px', '10px', '12px']}
+          bg={bg}>
+          <SimpleGrid columns={4} spacing={5} textColor={'white'}>
+            <Box
               w={'100%'}
-              bg="red.500"
-              _dark={{ bg: "gray.700" }}
+              bg="white"
+              _dark={{ bg: "gray.800", borderWidth: "1px" }}
+              shadow="lg"
+              rounded="lg"
+              overflow="hidden"
+              textAlign={'center'}
             >
-              <chakra.span
+              <chakra.h3
+                py={2}
+                textAlign="center"
                 fontWeight="bold"
-                color="white"
-                _dark={{ color: "gray.200" }}
+                textTransform="uppercase"
+                color="red.500"
+                _dark={{ color: "white" }}
               >
-                {ContadorPendientes.length}
-              </chakra.span>
-            </Flex>
-          </Box>
-          <Box
-            w={'100%'}
-            bg="white"
-            _dark={{ bg: "gray.800", borderWidth: "1px" }}
-            shadow="lg"
-            rounded="lg"
-            overflow="hidden"
-            textAlign={'center'}
-          >
-            <chakra.h3
-              py={2}
-              textAlign="center"
-              fontWeight="bold"
-              textTransform="uppercase"
-              color="yellow.500"
-              _dark={{ color: "white" }}
+                INCIDENCIAS PENDIENTES
+              </chakra.h3>
+              <Flex
+                alignItems="center"
+                justify={'center'}
+                py={2}
+                w={'100%'}
+                bg="red.500"
+                _dark={{ bg: "gray.700" }}
+              >
+                <chakra.span
+                  fontWeight="bold"
+                  color="white"
+                  _dark={{ color: "gray.200" }}
+                >
+                  {ContadorPendientes.length}
+                </chakra.span>
+              </Flex>
+            </Box>
+            <Box
+              w={'100%'}
+              bg="white"
+              _dark={{ bg: "gray.800", borderWidth: "1px" }}
+              shadow="lg"
+              rounded="lg"
+              overflow="hidden"
+              textAlign={'center'}
             >
-              Incidencias en Tramite
-            </chakra.h3>
-            <Flex
-              alignItems="center"
-              justify={'center'}
-              py={2}
-              px={3}
-              bg="yellow.500"
-              _dark={{ bg: "gray.700" }}
-            >
-              <chakra.span
+              <chakra.h3
+                py={2}
+                textAlign="center"
                 fontWeight="bold"
-                color="gray.200"
-                _dark={{ color: "gray.200" }}
+                textTransform="uppercase"
+                color="yellow.500"
+                _dark={{ color: "white" }}
               >
-                {ContadorTramite.length}
-              </chakra.span>
-            </Flex>
-          </Box>
-          <Box
-            w={'100%'}
-            bg="white"
-            _dark={{ bg: "gray.800", borderWidth: "1px" }}
-            shadow="lg"
-            rounded="lg"
-            overflow="hidden"
-            textAlign={'center'}
-          >
-            <chakra.h3
-              py={2}
-              textAlign="center"
-              fontWeight="bold"
-              textTransform="uppercase"
-              color="green.500"
-              _dark={{ color: "white" }}
+                Incidencias en Tramite
+              </chakra.h3>
+              <Flex
+                alignItems="center"
+                justify={'center'}
+                py={2}
+                px={3}
+                bg="yellow.500"
+                _dark={{ bg: "gray.700" }}
+              >
+                <chakra.span
+                  fontWeight="bold"
+                  color="gray.200"
+                  _dark={{ color: "gray.200" }}
+                >
+                  {ContadorTramite.length}
+                </chakra.span>
+              </Flex>
+            </Box>
+            <Box
+              w={'100%'}
+              bg="white"
+              _dark={{ bg: "gray.800", borderWidth: "1px" }}
+              shadow="lg"
+              rounded="lg"
+              overflow="hidden"
+              textAlign={'center'}
             >
-              INCIDENCIAS ATENDIDAS
-            </chakra.h3>
-            <Flex
-              alignItems="center"
-              justify={'center'}
-              py={2}
-              px={3}
-              bg="green.500"
-              _dark={{ bg: "gray.700" }}
-            >
-              <chakra.span
+              <chakra.h3
+                py={2}
+                textAlign="center"
                 fontWeight="bold"
-                color="white"
-                _dark={{ color: "gray.200" }}
+                textTransform="uppercase"
+                color="green.500"
+                _dark={{ color: "white" }}
               >
-                {ContadorAtendidas.length}
-              </chakra.span>
-            </Flex>
-          </Box>
-          <Box
-            w={'100%'}
-            bg="white"
-            _dark={{ bg: "gray.800", borderWidth: "1px" }}
-            shadow="lg"
-            rounded="lg"
-            overflow="hidden"
-            textAlign={'center'}
-          >
-            <chakra.h3
-              py={2}
-              textAlign="center"
-              fontWeight="bold"
-              textTransform="uppercase"
-              color="gray.600"
-              _dark={{ color: "white" }}
+                INCIDENCIAS ATENDIDAS
+              </chakra.h3>
+              <Flex
+                alignItems="center"
+                justify={'center'}
+                py={2}
+                px={3}
+                bg="green.500"
+                _dark={{ bg: "gray.700" }}
+              >
+                <chakra.span
+                  fontWeight="bold"
+                  color="white"
+                  _dark={{ color: "gray.200" }}
+                >
+                  {ContadorAtendidas.length}
+                </chakra.span>
+              </Flex>
+            </Box>
+            <Box
+              w={'100%'}
+              bg="white"
+              _dark={{ bg: "gray.800", borderWidth: "1px" }}
+              shadow="lg"
+              rounded="lg"
+              overflow="hidden"
+              textAlign={'center'}
             >
-              TOTAL DE INCIDENCIAS
-            </chakra.h3>
-            <Flex
-              alignItems="center"
-              justify={'center'}
-              py={2}
-              px={3}
-              bg="gray.600"
-              _dark={{ bg: "gray.700" }}
-            >
-              <chakra.span
+              <chakra.h3
+                py={2}
+                textAlign="center"
                 fontWeight="bold"
-                color="white"
-                _dark={{ color: "gray.200" }}
+                textTransform="uppercase"
+                color="gray.600"
+                _dark={{ color: "white" }}
               >
-                {data.length}
-              </chakra.span>
-            </Flex>
-          </Box>
-        </SimpleGrid>
-      </Box>
-      <Box
-        borderWidth="1px"
-        borderRadius="lg"
-        overflow="hidden"
-        boxShadow={'md'}
-        bg={useColorModeValue('white', 'gray.900')}
-        paddingBottom={4}
-      >
-        <HStack
-          spacing="24px"
-          width={'100%'}
-          justifyContent={'space-between'}
-          verticalAlign={'center'}
-          px={4}
-          mt={4}
+                TOTAL DE INCIDENCIAS
+              </chakra.h3>
+              <Flex
+                alignItems="center"
+                justify={'center'}
+                py={2}
+                px={3}
+                bg="gray.600"
+                _dark={{ bg: "gray.700" }}
+              >
+                <chakra.span
+                  fontWeight="bold"
+                  color="white"
+                  _dark={{ color: "gray.200" }}
+                >
+                  {data.length}
+                </chakra.span>
+              </Flex>
+            </Box>
+          </SimpleGrid>
+        </Box>
+        <Box
+          borderWidth="1px"
+          borderRadius="lg"
+          overflow="hidden"
+          boxShadow={'md'}
+          bg={bg}
+          paddingBottom={4}
         >
-          <Box>
-            <Text fontSize="lg" fontWeight="600">
-              INCIDENCIAS ASIGNADAS A MI PERSONA
-            </Text>
-          </Box>
-          <Box>
-            <Stack direction={'row'} spacing={4}>
-              <IconButton
-                size={'sm'}
-                icon={<RepeatIcon boxSize={4} />}
-                colorScheme={'facebook'}
-                
-                onClick={refreshTable}
-              />
-              <Menu size={'xs'}>
-                <MenuButton as={'menu'} style={{ cursor: 'pointer' }}>
-                  <HStack spacing={2}>
-                    <Text fontSize="sm" fontWeight={'semibold'}>
-                      FILTRAR POR ESTADO
-                    </Text>
-                    <IconButton colorScheme={'twitter'} icon={<FaFilter />} size="sm" />
-                  </HStack>
-                </MenuButton>
-                <MenuList zIndex={2} fontSize="sm">
-                  <MenuItem onClick={handleClickFilterPendientes} icon={<AiFillFilter color='red' size={'20px'} />}>PENDIENTES</MenuItem>
-                  <MenuItem onClick={handleClickFilterTramite} icon={<AiFillFilter color='#d69e2e' size={'20px'} />}>EN TRAMITE</MenuItem>
-                  <MenuItem onClick={handleClickFilterAtendidas} icon={<AiFillFilter color='green' size={'20px'} />}>ATENDIDAS</MenuItem>
-                  <MenuItem icon={<AiFillFilter size={'20px'} />} onClick={refreshTable}>TODOS</MenuItem>
-                </MenuList>
-              </Menu>
-              {dataBotonAgregar[0]?.activo === "S" ? (
-                <IncidenciaAgregar />
-              ) : null}
-            </Stack>
-          </Box>
-        </HStack>
-        <Progress mt={2} size="xs" value={progress} colorScheme="purple" hidden={progress === false} isIndeterminate={progress === true} mb={2} />
-        <DataTableExtensions columns={columns} data={tableRowsData} print={false}>
-          <DataTable
-            defaultSortAsc={false}
-            theme={useColorModeValue('default', 'solarized')}
-            pagination
-            responsive={true}
-            paginationPerPage={10}
-            noDataComponent={
-              <Text fontSize="sm" textAlign="center" color="gray.600">
-                NO HAY DATOS PARA MOSTRAR, REFRESCAR LA TABLA
+          <HStack
+            spacing="24px"
+            width={'100%'}
+            justifyContent={'space-between'}
+            verticalAlign={'center'}
+            px={4}
+            mt={4}
+          >
+            <Box>
+              <Text fontSize="lg" fontWeight="600">
+                INCIDENCIAS ASIGNADAS A MI PERSONA
               </Text>
-            }
-            paginationRowsPerPageOptions={[10, 15, 20, 30]}
-            paginationComponentOptions={{
-              rowsPerPageText: 'Filas por página:',
-              rangeSeparatorText: 'de',
-              selectAllRowsItem: true,
-              selectAllRowsItemText: 'Todos',
-            }}
-            customStyles={customStyles}
-            key={tableRowsData.map((item) => { return item.idIncidencia })}
-          />
-        </DataTableExtensions>
-      </Box>
-    </>
-  );
+            </Box>
+            <Box>
+              <Stack direction={'row'} spacing={4}>
+                <IconButton
+                  size={'sm'}
+                  icon={<RepeatIcon boxSize={4} />}
+                  colorScheme={'facebook'}
+                  
+                  onClick={refreshTable}
+                />
+                <Menu size={'xs'}>
+                  <MenuButton as={'menu'} style={{ cursor: 'pointer' }}>
+                    <HStack spacing={2}>
+                      <Text fontSize="sm" fontWeight={'semibold'}>
+                        FILTRAR POR ESTADO
+                      </Text>
+                      <IconButton colorScheme={'twitter'} icon={<FaFilter />} size="sm" />
+                    </HStack>
+                  </MenuButton>
+                  <MenuList zIndex={2} fontSize="sm">
+                    <MenuItem onClick={handleClickFilterPendientes} icon={<AiFillFilter color='red' size={'20px'} />}>PENDIENTES</MenuItem>
+                    <MenuItem onClick={handleClickFilterTramite} icon={<AiFillFilter color='#d69e2e' size={'20px'} />}>EN TRAMITE</MenuItem>
+                    <MenuItem onClick={handleClickFilterAtendidas} icon={<AiFillFilter color='green' size={'20px'} />}>ATENDIDAS</MenuItem>
+                    <MenuItem icon={<AiFillFilter size={'20px'} />} onClick={refreshTable}>TODOS</MenuItem>
+                  </MenuList>
+                </Menu>
+                {dataBotonAgregar[0]?.activo === "S" ? (
+                  <IncidenciaAgregar />
+                ) : null}
+              </Stack>
+            </Box>
+          </HStack>
+          <Progress mt={2} size="xs" value={progress} colorScheme="purple" hidden={progress === false} isIndeterminate={progress === true} mb={2} />
+          <DataTableExtensions columns={columns} data={tableRowsData.reverse()} print={false}>
+            <DataTable
+              defaultSortAsc={false}
+              theme={theme}
+              pagination
+              responsive={true}
+              paginationPerPage={10}
+              noDataComponent={
+                <Text fontSize="sm" textAlign="center" color="gray.600">
+                  NO HAY DATOS PARA MOSTRAR, REFRESCAR LA TABLA
+                </Text>
+              }
+              paginationRowsPerPageOptions={[10, 15, 20, 30]}
+              paginationComponentOptions={{
+                rowsPerPageText: 'Filas por página:',
+                rangeSeparatorText: 'de',
+                selectAllRowsItem: true,
+                selectAllRowsItemText: 'Todos',
+              }}
+              customStyles={customStyles}
+              key={tableRowsData.map((item) => { return item.idIncidencia })}
+            />
+          </DataTableExtensions>
+        </Box>
+      </>
+    );
+  }
+
 }
