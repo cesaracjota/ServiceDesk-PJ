@@ -27,6 +27,9 @@ public class Mensaje {
     @Column(name = "s_mensaje", columnDefinition = "TEXT")
     private String mensaje;
 
+    @Column(name ="s_persona")
+    private String persona;
+
     @Column(name = "d_fecha_hasta")
     private LocalDate fechaHasta;
 
