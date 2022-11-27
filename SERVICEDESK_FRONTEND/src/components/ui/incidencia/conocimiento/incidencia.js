@@ -5,6 +5,8 @@ import { fetchIncidencias, fetchIncidenciasPersonas } from '../../../../actions/
 import { types } from '../../../../types/types';
 import TableConocimiento from './TableConocimiento';
 import Dashboard from '../../base/layout/Dashboard';
+import { fetchSedes } from '../../../../actions/sede';
+import { getSede } from '../../sede/sede';
 
 export const IncidenciaConocimiento = () => {
   
@@ -22,12 +24,20 @@ export const IncidenciaConocimiento = () => {
     dispatch(getIncidenciaId(response));    
   }
 
+  const fetchDataSede = async () => {
+    const response = await fetchSedes();
+    dispatch(getSede(response));
+  }
+
   useEffect(() => {
     if(store.getState().incidencia.checking){
       fetchDataIncidencias();
     }
     if(store.getState().incidenciaId.checking){
       fetchDataMisIncidencias();
+    }
+    if(store.getState().sede.checking){
+      fetchDataSede();
     }
   });
 

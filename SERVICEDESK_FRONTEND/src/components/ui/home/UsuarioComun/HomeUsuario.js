@@ -2,6 +2,7 @@ import React from 'react'
 import { Box, Flex, Image, Text, Heading, Stack, Button } from "@chakra-ui/react"
 import { NavLink } from 'react-router-dom';
 import { CgChevronDoubleDown } from 'react-icons/cg';
+import ModalMensajes from '../SoporteTecnico/ModalMensajes';
 
 const HomeUsuario = () => {
 
@@ -28,8 +29,14 @@ const HomeUsuario = () => {
     //     fetchFraseRandom();
     // }, []);
 
+    let usuario = [
+        'USUARIO_COMUN',
+        'AMBOS'
+    ]
+
     return (
         <>
+            <ModalMensajes usuario = { usuario } />
             <Flex
                 w="full"
                 alignItems="center"

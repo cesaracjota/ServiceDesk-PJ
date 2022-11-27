@@ -26,8 +26,9 @@ import {
   MenuItem,
   Stack,
   Tooltip,
+  Input,
 } from '@chakra-ui/react';
-import { AiFillFilter, AiOutlineUserAdd } from 'react-icons/ai'
+import { AiFillFilter, AiOutlineFileSearch, AiOutlineUserAdd } from 'react-icons/ai'
 import { store } from '../../../../store/store';
 import DataTable, { createTheme } from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
@@ -38,23 +39,30 @@ import { asignarIncidencia, fetchIncidenciasNoAsignadas, fetchMisIncidencias } f
 import IncidenciaDetalles from '../IncidenciaDetalles';
 import IncidenciaAsignarme from '../soporte/incidenciaAsignarme';
 import { FaFilter } from 'react-icons/fa';
-import { RepeatIcon } from '@chakra-ui/icons';
+import { RepeatIcon, SearchIcon } from '@chakra-ui/icons';
 import { getIncidenciaNoAsignadas, getMisIncidencias } from './incidencia';
 import { customStyles } from '../../../../helpers/customStyle';
 
 export default function TableIncidenciaNoAsignados() {
   const dispatch = useDispatch();
   const { identificador } = useSelector(state => state.auth);
+  const usuario = store.getState().auth;
 
   const data = store.getState().incidenciasNoAsignadas.rows;
+  const dataSede = store.getState().sede.rows;
 
   const [tableRowsData, setTableRowsData] = useState(data);
+  const [tableRowsDataSede, setTableRowsDataSede] = useState([]);
+
+  let bg = useColorModeValue('white', 'gray.900');
+  let theme = useColorModeValue('default', 'solarized');
+  let fechaDesde = Moment().startOf('month').format('yyyy-MM-DD');
+  let fechaHasta = Moment(new Date()).format('yyyy-MM-DD');
 
   const ContadorPendientes = data.filter(row => row.historialIncidencia.filter(pendiente => pendiente.estadoIncidencia === "P" && pendiente.estado === "A").length > 0);
   const ContadorTramite = data.filter(row => row.historialIncidencia.filter(tramite => tramite.estadoIncidencia === "T" && tramite.estado === "A").length > 0);
   const ContadorAtendidas = data.filter(row => row.historialIncidencia.filter(atendida => atendida.estadoIncidencia === "A" && atendida.estado === "A").length > 0);
 
-  const usuario = store.getState().auth;
 
   const fetchDataIncidenciasNoAsignadas = async () => {
     await fetchIncidenciasNoAsignadas().then((res) => {
@@ -80,6 +88,23 @@ export default function TableIncidenciaNoAsignados() {
 
   const handleClickFilterAtendidas = async () => {
     const dataFilter = data.filter(row => row.historialIncidencia.filter(pendiente => pendiente.estadoIncidencia === "A" && pendiente.estado === "A").length > 0);
+    setTableRowsData(dataFilter);
+  }
+
+  const handleSelectSede = (value) => {
+    if(value !== null){
+      setTableRowsDataSede(value.map(item => item.value));
+    }else{
+      return 'SELECCIONE UNA SEDE';
+    }
+  }
+
+  /**
+   * Function to filter data by sede
+   */
+
+  const handleClickFilterBySede = () => {
+    const dataFilter = tableRowsData.filter(row => tableRowsDataSede.includes(row?.oficina?.organo?.sede?.idSede));
     setTableRowsData(dataFilter);
   }
 
@@ -207,7 +232,7 @@ export default function TableIncidenciaNoAsignados() {
         mb={4}
         p={2}
         fontSize={['6px', '9px', '10px', '12px']}
-        bg={useColorModeValue('gray.100', 'gray.900')} >
+        bg={bg} >
         <SimpleGrid columns={4} spacing={5} textColor={'white'}>
           <Box
             w={'100%'}
@@ -360,11 +385,10 @@ export default function TableIncidenciaNoAsignados() {
         borderRadius="lg"
         overflow="hidden"
         boxShadow={'md'}
-        bg={useColorModeValue('white', 'gray.900')}
+        bg={bg}
         paddingBottom={4}
       >
         <HStack
-          spacing="24px"
           width={'100%'}
           justifyContent={'space-between'}
           verticalAlign={'center'}
@@ -373,16 +397,32 @@ export default function TableIncidenciaNoAsignados() {
         >
           <Box>
             <Text fontSize="lg" fontWeight="600">
-              TABLA DE INCIDENCIAS NO ASIGNADAS
+              INCIDENCIAS NO ASIGNADAS
             </Text>
+            <Stack direction="row" spacing={4} mt={4} alignItems={'baseline'}>
+              <Text fontSize="sm" fontWeight="600">
+                DESDE
+              </Text>
+              <Input type={'date'} defaultValue={fechaDesde} />
+              <Text fontSize="sm" fontWeight="600">
+                HASTA
+              </Text>
+              <Input type={'date'} defaultValue={fechaHasta} />
+              <IconButton 
+                aria-label="Search database"
+                icon={<SearchIcon />}
+                size="md"
+                colorScheme="teal"
+                disabled={true}
+              />
+            </Stack>
           </Box>
           <Box>
-            <Stack direction={'row'} spacing={1}>
+            <Stack direction={'row'} spacing={1} justifyContent="space-between">
               <IconButton
                 size={'sm'} mr={2}
                 icon={<RepeatIcon boxSize={4} />}
                 colorScheme={'facebook'}
-                
                 onClick={refreshTable} />
               <Menu size={'xs'}>
                 <MenuButton as={'menu'} style={{ cursor: 'pointer' }}>
@@ -401,23 +441,60 @@ export default function TableIncidenciaNoAsignados() {
                 </MenuList>
               </Menu>
             </Stack>
+            <Stack direction={'row'} spacing={2} mt={2} fontSize="sm" justifyContent={'space-between'}>
+              <Select
+                styles={{
+                  control: (provided) => ({
+                    ...provided,
+                    width: '427px',
+                    minHeight: '42px',
+                  }),
+                  menuList: (provided) => ({
+                    ...provided,
+                    maxHeight: '200px',
+                    color: 'black',
+                  }),
+                }}
+                options={
+                  dataSede.map((sede) => ({
+                    value: sede.idSede,
+                    label: sede.sede,
+                  }))
+                }
+                onChange={handleSelectSede}
+                placeholder="FILTRAR POR SEDES"
+                isMulti
+                isClearable
+                isSearchable
+              />
+              <IconButton
+                onClick={handleClickFilterBySede}
+                disabled={tableRowsDataSede.length === 0}
+                colorScheme="red"
+                icon={<AiOutlineFileSearch fontSize={24} />}
+              />
+            </Stack>
           </Box>
         </HStack>
-        <DataTableExtensions columns={columns} data={tableRowsData.reverse()} print={false}>
+        <DataTableExtensions 
+            columns={columns} 
+            data={tableRowsData} 
+            print={false}
+            filterPlaceholder="BUSCAR"
+            fileName={'INCIDENCIAS_NO_ASIGNADAS'}
+          >
           <DataTable
-            theme={useColorModeValue('default', 'solarized')}
+            theme={theme}
             pagination
             ignoreRowClick={true}
             responsive={true}
             paginationPerPage={10}
             noDataComponent={
-              <Text fontSize="sm" textAlign="center" color="gray.600">
+              <Text fontSize="sm" py={16} textAlign="center" color="gray.600">
                 NO HAY DATOS PARA MOSTRAR, REFRESCAR LA TABLA
               </Text>
             }
             paginationRowsPerPageOptions={[10, 15, 20, 30]}
-            fixedHeader
-            fixedHeaderScrollHeight="550px"
             paginationComponentOptions={{
               rowsPerPageText: 'Filas por página:',
               rangeSeparatorText: 'de',
@@ -534,7 +611,6 @@ const ModalAsignarTecnico = ({ row, refreshTable }) => {
             <Button
               disabled={indiceTecnico === null ? true : false}
               colorScheme="facebook"
-              
               mr={3}
               onClick={() => AsignacionIncidencia()}
             >

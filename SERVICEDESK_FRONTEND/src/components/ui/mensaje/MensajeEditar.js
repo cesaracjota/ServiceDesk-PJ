@@ -29,6 +29,7 @@ export const MensajeEditar = ({ row }) => {
     const [indice, setIndice] = useState({
         idMensaje: null,
         asunto: "",
+        persona: "",
         mensaje: "",
         fechaHasta: "",
         activo: "",
@@ -126,6 +127,17 @@ export const MensajeEditar = ({ row }) => {
                                 </Select>
                             </FormControl>
                         </Stack>
+                        <FormControl isRequired mt={2}>
+                            <FormLabel fontWeight="semibold">PERSONA</FormLabel>
+                            <Select
+                                defaultValue={indice ? indice.persona : ''}
+                                onChange={(e) => { setIndice({ ...indice, persona: (e.target.value) }) }}
+                            >
+                                <option value='AMBOS'>AMBOS</option>
+                                <option value='USUARIO_COMUN'>USUARIO COMÚN</option>
+                                <option value='SOPORTE_TECNICO'>SOPORTE TÉCNICO</option>
+                            </Select>
+                        </FormControl>
                     </ModalBody>
                     <ModalFooter>
                         <Button

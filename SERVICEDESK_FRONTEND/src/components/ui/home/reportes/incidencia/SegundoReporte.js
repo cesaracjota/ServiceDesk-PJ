@@ -41,6 +41,7 @@ export default function SegundoReporte() {
   const [reportes, setReportes] = useState([]);
   const [nombreTecnicos, setNombreTecnicos] = useState([]);
   const [totalReportes, setTotalReportes] = useState([]);
+  // const [sedeUsuarios, setSedeUsuarios] = useState([]);
 
   const BuscarFiltros = () => {
     var data = {
@@ -50,6 +51,12 @@ export default function SegundoReporte() {
     }
     fetchReporteUsuario(data).then((res) => {
       setReportes(res.data);
+      // res.data.map(element => {
+      //   fetchHistorialPersona(element.usuario.idpersona).then((res) => {
+      //     console.log(res.data);
+      //     setSedeUsuarios(sedeUsuarios => [...sedeUsuarios, res.data.oficina.organo.sede.idSede]);
+      //   })
+      // });
     })
       .then(() => {
         setNombreTecnicos(reportes.map(item => item.usuario?.nombre));
@@ -187,6 +194,12 @@ export default function SegundoReporte() {
                 value: sede.idSede,
                 label: sede.sede,
               }))}
+              styles={{
+                menuList: (provided) => ({
+                    ...provided,
+                    color: 'black',
+                }),
+              }}
               onChange={handleChangeSede}
               isClearable
               isSearchable

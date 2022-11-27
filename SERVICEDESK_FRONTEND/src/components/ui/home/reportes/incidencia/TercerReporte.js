@@ -210,6 +210,12 @@ export default function TercerReporte() {
                 value: sede.idSede,
                 label: sede.sede,
               }))}
+              styles={{
+                menuList: (provided) => ({
+                    ...provided,
+                    color: 'black',
+                }),
+              }}
               onChange={handleChangeSede}
               isClearable
               isSearchable

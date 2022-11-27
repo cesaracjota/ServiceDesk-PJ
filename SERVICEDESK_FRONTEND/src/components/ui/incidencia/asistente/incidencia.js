@@ -18,6 +18,8 @@ import { fetchOrigen } from '../../../../actions/origenIncidencia';
 import Configuraciones from './Configuraciones';
 import { loadConfiguracionBotones } from '../../../../actions/configurarBotones';
 import Dashboard from '../../base/layout/Dashboard';
+import { getSede } from '../../sede/sede';
+import { fetchSedes } from '../../../../actions/sede';
 
 export const MisIncidencias = () => {
 
@@ -45,6 +47,11 @@ export const MisIncidencias = () => {
     dispatch(getOrigenes(response));
   }
 
+  const fetchDataSede = async () => {
+    const response = await fetchSedes();
+    dispatch(getSede(response));
+  }
+
   useEffect(() => {
     if (store.getState().misIncidencias.checking) {
       fetchDataMisIncidencias();
@@ -57,6 +64,9 @@ export const MisIncidencias = () => {
     }
     if(store.getState().origenIncidencia.checking){
       fetchDataOrigenes();
+    }
+    if(store.getState().sede.checking){
+      fetchDataSede();
     }
   });
 

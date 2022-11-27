@@ -11,6 +11,7 @@ export const createMensaje = (data) => {
             {
                 asunto: data.asunto,
                 mensaje: data.mensaje,
+                persona: data.persona,
                 fechaHasta: data.fechaHasta,
                 activo: data.activo,
             },
@@ -69,6 +70,7 @@ export const updateMensaje = (data) => {
             {
                 idMensaje: data.idMensaje,
                 asunto: data.asunto,
+                persona: data.persona,
                 mensaje: data.mensaje,
                 fechaHasta: data.fechaHasta,
                 activo: data.activo,

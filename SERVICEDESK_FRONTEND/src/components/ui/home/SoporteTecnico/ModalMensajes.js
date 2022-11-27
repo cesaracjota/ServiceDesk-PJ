@@ -17,13 +17,13 @@ import { store } from '../../../../store/store';
 import { AiFillNotification } from 'react-icons/ai';
 import Moment from 'moment';
 
-const ModalMensajes = () => {
+const ModalMensajes = ({ usuario }) => {
 
     const data = store.getState().mensaje.rows;
 
     const dateNow = Moment(new Date()).format('YYYY-MM-DD');
 
-    var filterData = data.filter(item => item.activo === 'S' && new Date(item.fechaHasta) >= new Date(dateNow));
+    var filterData = data.filter(item => item.activo === 'S' && new Date(item.fechaHasta) >= new Date(dateNow) && usuario.includes(item.persona));
 
     filterData.sort((a, b) => new Date(a.fechaHasta) - new Date(b.fechaHasta));
 
@@ -85,7 +85,7 @@ const ModalMensajes = () => {
                     backdropBlur='4px'
                 />
                 <ModalContent py={4} borderRadius="sm">
-                    <ModalHeader textAlign={'center'} fontWeight="black" color="purple.500">MENSAJES PARA SOPORTES TÉCNICOS</ModalHeader>
+                    <ModalHeader textAlign={'center'} fontWeight="black" color="purple.500">MENSAJES PARA EL PERSONAL DE CSJA</ModalHeader>
                     <ModalBody>
                         <Flex
                             w="full"

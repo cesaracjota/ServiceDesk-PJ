@@ -35,6 +35,7 @@ export const CrearMensaje = () => {
     const initialValues = {
         asunto: "",
         mensaje: "",
+        persona: "",
         fechaHasta: "",
         activo: "",
     }
@@ -45,8 +46,9 @@ export const CrearMensaje = () => {
         var data = {
             asunto: indice.asunto,
             mensaje: indice.mensaje,
+            persona: indice.persona === "" ? "AMBOS" : indice.persona,
             fechaHasta: indice.fechaHasta,
-            activo: indice.activo,
+            activo: indice.activo === "" ? "S" : indice.activo,
         }
         dispatch(createMensaje(data))
             .then(() => {
@@ -65,7 +67,7 @@ export const CrearMensaje = () => {
                 isOpen={openCreate}
                 onClose={handleCloseModal}
                 closeOnOverlayClick={true}
-                size='4xl'
+                size='5xl'
                 scrollBehavior="inside"
             >
                 <ModalOverlay />
@@ -106,14 +108,23 @@ export const CrearMensaje = () => {
                             <FormControl isRequired>
                                 <FormLabel fontWeight="semibold">ESTADO</FormLabel>
                                 <Select
-                                    defaultValue={indice.activo = 'S'}
-                                    onChange={(e) => { setIndice({ ...indice, activo: (e.target.value) }) }}
+                                    onChange={e => setIndice({ ...indice, activo: e.target.value })}
                                 >
                                     <option value='S'>ACTIVO</option>
                                     <option value='N'>INACTIVO</option>
                                 </Select>
                             </FormControl>
                         </Stack>
+                        <FormControl isRequired mt={2}>
+                            <FormLabel fontWeight="semibold">PERSONA</FormLabel>
+                            <Select
+                                onChange={e => setIndice({ ...indice, persona: e.target.value })}
+                            >
+                                <option value='AMBOS'>AMBOS</option>
+                                <option value='USUARIO_COMUN'>USUARIO COMÚN</option>
+                                <option value='SOPORTE_TECNICO'>SOPORTE TÉCNICO</option>
+                            </Select>
+                        </FormControl>
                     </ModalBody>
                     <ModalFooter>
                         <Button 

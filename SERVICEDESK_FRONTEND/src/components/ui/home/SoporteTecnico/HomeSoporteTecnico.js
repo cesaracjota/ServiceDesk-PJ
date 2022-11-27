@@ -29,9 +29,14 @@ const HomeSoporte = () => {
     //     fetchFraseRandom();
     // }, []);
 
+    let usuario = [
+        'SOPORTE_TECNICO',
+        'AMBOS'
+    ]
+
     return (
         <>
-            <ModalMensajes />
+            <ModalMensajes usuario = { usuario } />
             <Flex
                 w="full"
                 h={'full'}

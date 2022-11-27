@@ -9,6 +9,8 @@ import { fetchOrigen } from '../../../actions/origenIncidencia';
 import Dashboard from '../base/layout/Dashboard';
 import { useHistory } from 'react-router-dom';
 import { ROLES } from '../../../helpers/roles';
+import { fetchSedes } from '../../../actions/sede';
+import { getSede } from '../sede/sede';
 
 export const Incidencia = () => {
   
@@ -44,6 +46,11 @@ export const Incidencia = () => {
     dispatch(getOrigenes(response));
   }
 
+  const fetchDataSede = async () => {
+    const response = await fetchSedes();
+    dispatch(getSede(response));
+  }
+
   useEffect(() => {
     if(store.getState().incidenciaId.checking){
       fetchDataIncidenciasPersonas();
@@ -56,6 +63,9 @@ export const Incidencia = () => {
     }
     if(store.getState().origenIncidencia.checking){
       fetchDataOrigenes();
+    }
+    if(store.getState().sede.checking){
+      fetchDataSede();
     }
   });
 

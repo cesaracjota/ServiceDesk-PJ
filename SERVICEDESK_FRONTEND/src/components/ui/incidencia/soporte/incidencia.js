@@ -10,6 +10,8 @@ import { getMotivos, getOrigenes } from '../incidencia';
 import { loadConfiguracionBotones } from '../../../../actions/configurarBotones';
 import { getConfiguracionBotones } from '../asistente/incidencia';
 import Dashboard from '../../base/layout/Dashboard';
+import { fetchSedes } from '../../../../actions/sede';
+import { getSede } from '../../sede/sede';
 
 export const IncidenciaSoporte = () => {
 
@@ -47,6 +49,11 @@ export const IncidenciaSoporte = () => {
     dispatch(getConfiguracionBotones(response));
   }
 
+  const fetchDataSede = async () => {
+    const response = await fetchSedes();
+    dispatch(getSede(response));
+  }
+
   useEffect(() => {    
     if(store.getState().tecnicoDisponible.checking){
       fetchDataTecnicoDisponible();
@@ -65,6 +72,9 @@ export const IncidenciaSoporte = () => {
     }
     if (store.getState().configuracionBotones.checking) {
       fetchConfiguracionBotones();
+    }
+    if(store.getState().sede.checking){
+      fetchDataSede();
     }
   });
 
