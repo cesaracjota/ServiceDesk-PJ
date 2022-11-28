@@ -59,9 +59,9 @@ export default function TableIncidenciaNoAsignados() {
   let fechaDesde = Moment().startOf('month').format('yyyy-MM-DD');
   let fechaHasta = Moment(new Date()).format('yyyy-MM-DD');
 
-  const ContadorPendientes = data.filter(row => row.historialIncidencia.filter(pendiente => pendiente.estadoIncidencia === "P" && pendiente.estado === "A").length > 0);
-  const ContadorTramite = data.filter(row => row.historialIncidencia.filter(tramite => tramite.estadoIncidencia === "T" && tramite.estado === "A").length > 0);
-  const ContadorAtendidas = data.filter(row => row.historialIncidencia.filter(atendida => atendida.estadoIncidencia === "A" && atendida.estado === "A").length > 0);
+  const ContadorPendientes = tableRowsData.filter(row => row.historialIncidencia.filter(pendiente => pendiente.estadoIncidencia === "P" && pendiente.estado === "A").length > 0);
+  const ContadorTramite = tableRowsData.filter(row => row.historialIncidencia.filter(tramite => tramite.estadoIncidencia === "T" && tramite.estado === "A").length > 0);
+  const ContadorAtendidas = tableRowsData.filter(row => row.historialIncidencia.filter(atendida => atendida.estadoIncidencia === "A" && atendida.estado === "A").length > 0);
 
 
   const fetchDataIncidenciasNoAsignadas = async () => {
@@ -374,7 +374,7 @@ export default function TableIncidenciaNoAsignados() {
                 color="white"
                 _dark={{ color: "gray.200" }}
               >
-                {data.length}
+                {tableRowsData.length}
               </chakra.span>
             </Flex>
           </Box>

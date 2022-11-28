@@ -95,6 +95,11 @@ export const IncidenciaAsistenteAsignados = () => {
     dispatch(getTecnicosDisponibles(response));
   }
 
+  const fetchDataSede = async () => {
+    const response = await fetchSedes();
+    dispatch(getSede(response));
+  }
+
   useEffect(() => {
     if (store.getState().incidenciasAsignadas.checking) {
       fetchDataIncidenciasAsignadas();
@@ -104,6 +109,9 @@ export const IncidenciaAsistenteAsignados = () => {
     }
     if (store.getState().tecnicoDisponible.checking) {
       fetchDataTecnicoDisponible();
+    }
+    if(store.getState().sede.checking){
+      fetchDataSede();
     }
   });
 
@@ -133,6 +141,11 @@ export const IncidenciaAsistenteNoAsignados = () => {
     dispatch(getTecnicosDisponibles(response));
   }
 
+  const fetchDataSede = async () => {
+    const response = await fetchSedes();
+    dispatch(getSede(response));
+  }
+
   useEffect(() => {
     if (store.getState().tecnicoDisponible.checking) {
       fetchDataTecnicoDisponible();
@@ -142,6 +155,9 @@ export const IncidenciaAsistenteNoAsignados = () => {
     }
     if (store.getState().incidenciasNoAsignadas.checking) {
       fetchDataIncidenciasNoAsignadas();
+    }
+    if(store.getState().sede.checking){
+      fetchDataSede();
     }
   });
 

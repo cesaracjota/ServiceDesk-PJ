@@ -496,7 +496,7 @@ export default function TableIncidenciaSoporte() {
                 color="white"
                 _dark={{ color: "gray.200" }}
               >
-                {data.length}
+                {tableRowsData.length}
               </chakra.span>
             </Flex>
           </Box>
