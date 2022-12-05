@@ -6,6 +6,8 @@ import com.cmms.servicedesk.model.Persona;
 import com.cmms.servicedesk.repository.IHistorialIncidenciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,13 +50,13 @@ public class HistorialIncidenciaService implements IHistorialIncidenciaService {
     }
 
     @Override
-    public List<HistorialIncidencia> findByPersona_asignadoIsNull() {
-        return historialIncidenciaRepository.findByPersona_asignadoIsNull();
+    public List<HistorialIncidencia> findByPersona_asignadoIsNull(LocalDate startDate, LocalDate endDate) {
+        return historialIncidenciaRepository.findByPersona_asignadoIsNull(startDate, endDate);
     }
 
     @Override
-    public List<HistorialIncidencia> findByPersona_asignadoIsNotNull() {
-        return historialIncidenciaRepository.findByPersona_asignadoIsNotNull();
+    public List<HistorialIncidencia> findByPersona_asignadoIsNotNull(LocalDate startDate, LocalDate endDate) {
+        return historialIncidenciaRepository.findByPersona_asignadoIsNotNull(startDate, endDate);
     }
 
     @Override

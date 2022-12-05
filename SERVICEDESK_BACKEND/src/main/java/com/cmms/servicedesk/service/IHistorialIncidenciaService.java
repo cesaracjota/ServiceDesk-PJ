@@ -4,6 +4,7 @@ import com.cmms.servicedesk.model.HistorialIncidencia;
 import com.cmms.servicedesk.model.Incidencia;
 import com.cmms.servicedesk.model.Persona;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,9 +22,9 @@ public interface IHistorialIncidenciaService {
 
     List<HistorialIncidencia> findByPersonaAsignado(Persona persona);
 
-    List<HistorialIncidencia> findByPersona_asignadoIsNull();
+    List<HistorialIncidencia> findByPersona_asignadoIsNull(LocalDate startDate, LocalDate endDate);
 
-    List<HistorialIncidencia> findByPersona_asignadoIsNotNull();
+    List<HistorialIncidencia> findByPersona_asignadoIsNotNull(LocalDate startDate, LocalDate endDate);
 
     List<HistorialIncidencia> findByIncidencia(Incidencia incidencia);
 

@@ -4,7 +4,7 @@ import com.cmms.servicedesk.model.Incidencia;
 import com.cmms.servicedesk.model.Persona;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +22,11 @@ public interface IIncidenciaService {
 
     void delete(Integer id);
 
-    List<Incidencia> findByAllDataBetween(Date startDate, Date endDate );
+    List<Incidencia> findByAllDataBetween(LocalDate startDate, LocalDate endDate );
+
+    List<Incidencia> findByFechaBetweenForUserTecnico(LocalDate startDate, LocalDate endDate, Integer idPersona);
+
+    List<Incidencia> findByFechaBetweenForUserComun(LocalDate startDate, LocalDate endDate, Integer idPersona);
 
     String findCountIncidencias(Integer idTecnicoAsignado);
 

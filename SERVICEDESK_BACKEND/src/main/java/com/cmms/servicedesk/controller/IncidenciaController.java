@@ -6,6 +6,7 @@ import com.cmms.servicedesk.model.*;
 import com.cmms.servicedesk.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,8 +19,10 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -66,9 +69,22 @@ public class IncidenciaController {
         EmailService = emailService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Incidencia>> findAll() {
-        List<Incidencia> incidencias = incidenciaService.findAll();
+    @PostMapping("/all")
+    @ResponseBody
+    public ResponseEntity<List<Incidencia>> findAll(@RequestBody ReporteTecnicoBody reporteTecnicoBody) {
+        List<Incidencia> incidenciaList = incidenciaService.findAll();
+        incidenciaList.forEach(incidencia -> {
+            List<HistorialIncidencia> historialIncidenciaList = historialIncidenciaService.findByIncidencia(incidencia);
+            historialIncidenciaList.forEach(historialIncidencia -> {
+                if(historialIncidencia.getEstado() == 'A' && historialIncidencia.getEstadoIncidencia() != 'A'){
+                    if(reporteTecnicoBody.getStartDate().compareTo(historialIncidencia.getIncidencia().getFecha().toLocalDate()) > 0){
+                        reporteTecnicoBody.setStartDate(historialIncidencia.getIncidencia().getFecha().toLocalDate());
+                    }
+                }
+            });
+        });
+
+        List<Incidencia> incidencias = incidenciaService.findByAllDataBetween(reporteTecnicoBody.getStartDate(), reporteTecnicoBody.getEndDate());
         incidencias.forEach(incidencia -> {
             List<HistorialIncidencia> historialIncidencia = historialIncidenciaService.findByIncidencia(incidencia);
             List<DescripcionIncidencia> descripcionIncidencia = descripcionIncidenciaService.findByIncidencia(incidencia);
@@ -127,11 +143,24 @@ public class IncidenciaController {
         return ResponseEntity.ok(incidencias);
     }
 
-    @GetMapping("/persona/asignado/{id}")
-    public ResponseEntity<List<Incidencia>> findByPersonaAsignado(@PathVariable("id") Integer idPersona){
+    @PostMapping("/persona/asignado/{id}")
+    @ResponseBody
+    public ResponseEntity<List<Incidencia>> findByPersonaAsignado(@PathVariable("id") Integer idPersona, @RequestBody ReporteTecnicoBody reporteTecnicoBody){
         Persona persona = personaService.findById(idPersona).get();
         List<HistorialIncidencia> historialIncidencia = historialIncidenciaService.findByPersonaAsignado(persona);
-        List<Incidencia> incidencia = historialIncidencia.stream().map(HistorialIncidencia::getIncidencia).collect(java.util.stream.Collectors.toList());
+        List<Incidencia> incidenciaList = historialIncidencia.stream().map(HistorialIncidencia::getIncidencia).collect(java.util.stream.Collectors.toList());
+        incidenciaList.forEach(incidencia -> {
+            List<HistorialIncidencia> historialIncidenciaList = historialIncidenciaService.findByIncidencia(incidencia);
+            historialIncidenciaList.forEach(historialIncidenciaItem -> {
+                if(historialIncidenciaItem.getEstado() == 'A' && historialIncidenciaItem.getEstadoIncidencia() != 'A'){
+                    if(reporteTecnicoBody.getStartDate().compareTo(historialIncidenciaItem.getIncidencia().getFecha().toLocalDate()) > 0){
+                        reporteTecnicoBody.setStartDate(historialIncidenciaItem.getIncidencia().getFecha().toLocalDate());
+                    }
+                }
+            });
+        });
+
+        List<Incidencia> incidencia = incidenciaService.findByFechaBetweenForUserTecnico(reporteTecnicoBody.getStartDate(), reporteTecnicoBody.getEndDate(), idPersona);
         incidencia.stream().forEach(i -> {
             List<HistorialIncidencia> historialIncidencia1 = historialIncidenciaService.findByIncidencia(i);
             historialIncidencia1.forEach(historial -> {
@@ -149,9 +178,22 @@ public class IncidenciaController {
         return ResponseEntity.ok(incidencia);
     }
 
-    @GetMapping("/persona/asignados")
-    public ResponseEntity<List<Incidencia>> findByPersonaAsignados(){
-        List<HistorialIncidencia> historialIncidencia = historialIncidenciaService.findByPersona_asignadoIsNotNull();
+    @PostMapping("/persona/asignados")
+    @ResponseBody
+    public ResponseEntity<List<Incidencia>> findByPersonaAsignados(@RequestBody ReporteTecnicoBody reporteTecnicoBody){
+        List<Incidencia> incidenciaList = incidenciaService.findAll();
+        incidenciaList.forEach(incidencia -> {
+            List<HistorialIncidencia> historialIncidenciaList = historialIncidenciaService.findByIncidencia(incidencia);
+            historialIncidenciaList.forEach(historialIncidencia -> {
+                if(historialIncidencia.getEstado() == 'A' && historialIncidencia.getEstadoIncidencia() != 'A'){
+                    if(reporteTecnicoBody.getStartDate().compareTo(historialIncidencia.getIncidencia().getFecha().toLocalDate()) > 0){
+                        reporteTecnicoBody.setStartDate(historialIncidencia.getIncidencia().getFecha().toLocalDate());
+                    }
+                }
+            });
+        });
+
+        List<HistorialIncidencia> historialIncidencia = historialIncidenciaService.findByPersona_asignadoIsNotNull(reporteTecnicoBody.getStartDate(), reporteTecnicoBody.getEndDate());
         List<Incidencia> incidencia = historialIncidencia.stream().map(HistorialIncidencia::getIncidencia).collect(java.util.stream.Collectors.toList());
         incidencia.stream().forEach(i -> {
             List<HistorialIncidencia> historialIncidencia1 = historialIncidenciaService.findByIncidencia(i);
@@ -169,12 +211,22 @@ public class IncidenciaController {
         return ResponseEntity.ok(incidencia);
     }
 
-    @GetMapping("/persona/noasignados")
-    public ResponseEntity<List<Incidencia>> findByPersonaNoAsignados(){
-        List<HistorialIncidencia> historialIncidencia = historialIncidenciaService.findByPersona_asignadoIsNull();
-        if (historialIncidencia.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }else {
+    @PostMapping("/persona/noasignados")
+    @ResponseBody
+    public ResponseEntity<List<Incidencia>> findByPersonaNoAsignados(@RequestBody ReporteTecnicoBody reporteTecnicoBody){
+        List<Incidencia> incidenciaList = incidenciaService.findAll();
+        incidenciaList.forEach(incidencia -> {
+            List<HistorialIncidencia> historialIncidenciaList = historialIncidenciaService.findByIncidencia(incidencia);
+            historialIncidenciaList.forEach(historialIncidencia -> {
+                if(historialIncidencia.getEstado() == 'A' && historialIncidencia.getEstadoIncidencia() != 'A'){
+                    if(reporteTecnicoBody.getStartDate().compareTo(historialIncidencia.getIncidencia().getFecha().toLocalDate()) > 0){
+                        reporteTecnicoBody.setStartDate(historialIncidencia.getIncidencia().getFecha().toLocalDate());
+                    }
+                }
+            });
+        });
+
+        List<HistorialIncidencia> historialIncidencia = historialIncidenciaService.findByPersona_asignadoIsNull(reporteTecnicoBody.getStartDate(), reporteTecnicoBody.getEndDate());
             List<Incidencia> incidencia = historialIncidencia.stream().map(HistorialIncidencia::getIncidencia).collect(java.util.stream.Collectors.toList());
             incidencia.forEach(i -> {
                 List<HistorialIncidencia> historialIncidencia1 = historialIncidenciaService.findByIncidencia(i);
@@ -190,7 +242,6 @@ public class IncidenciaController {
                 i.setHistorialIncidencia(historialIncidencia1);
             });
             return ResponseEntity.ok(incidencia);
-        }
     }
 
     @Value("${directorio.temporal}")

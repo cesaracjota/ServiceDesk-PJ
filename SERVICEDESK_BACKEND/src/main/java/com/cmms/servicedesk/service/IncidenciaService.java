@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,8 +86,18 @@ public class IncidenciaService implements IIncidenciaService{
     }
 
     @Override
-    public List<Incidencia> findByAllDataBetween(Date startDate, Date endDate) {
+    public List<Incidencia> findByAllDataBetween(LocalDate startDate, LocalDate endDate) {
         return incidenciaRepository.findByFechaBetween(startDate, endDate);
+    }
+
+    @Override
+    public List<Incidencia> findByFechaBetweenForUserTecnico(LocalDate startDate, LocalDate endDate, Integer idPersona) {
+        return incidenciaRepository.findByFechaBetweenForUserTecnico(startDate, endDate, idPersona);
+    }
+
+    @Override
+    public List<Incidencia> findByFechaBetweenForUserComun(LocalDate startDate, LocalDate endDate, Integer idPersona) {
+        return incidenciaRepository.findByFechaBetweenForUserComun(startDate, endDate, idPersona);
     }
 
     @Override

@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/reporte/incidencia")
@@ -28,6 +30,9 @@ public class ReporteController {
 
     @Autowired
     private EstadoUsuarioComunService estadoUsuarioComunService;
+
+    @Autowired
+    private HistorialPersonaService historialPersonaService;
 
     @PostMapping("/tecnico")
     public ResponseEntity<List<ReporteTecnico>> getTecnico(@RequestBody ReporteTecnicoBody reporteTecnicoBody) {
@@ -49,14 +54,21 @@ public class ReporteController {
 
         List<EstadoTecnico> listaTecnico = estadoTecnicoService.findAll();
 
-        for (EstadoTecnico estadoTecnico : listaTecnico) {
-            ReporteTecnico reporteTecnico = new ReporteTecnico(estadoTecnico.getPersona() , 0  , 0  , 0 ,  0);
-            reporteTecnicos.add(reporteTecnico);
-        }
+        incidencias2.forEach(getIncidencia -> {
+            if(getIncidencia.getHistorialIncidencia().get(0).getPersona_asignado() != null){
+                ReporteTecnico reporteTecnico = new ReporteTecnico(getIncidencia.getHistorialIncidencia().get(0).getPersona_asignado(), 0  , 0  , 0 ,  0);
+                reporteTecnicos.add(reporteTecnico);
+            }
+        });
+
+//        for (EstadoTecnico estadoTecnico : listaTecnico) {
+//            ReporteTecnico reporteTecnico = new ReporteTecnico(estadoTecnico.getPersona(), 0  , 0  , 0 ,  0);
+//            reporteTecnicos.add(reporteTecnico);
+//        }
 
         for (ReporteTecnico reporteTecnico : reporteTecnicos) {
             for (Incidencia incidencia : incidencias2) {
-                if (incidencia.getHistorialIncidencia().get(0).getPersona_asignado() == reporteTecnico.getUsuario()){
+                if (incidencia.getHistorialIncidencia().get(0).getPersona_asignado() != null && incidencia.getHistorialIncidencia().get(0).getPersona_asignado() == reporteTecnico.getUsuario()){
                     reporteTecnico.setTotal(reporteTecnico.getTotal() + 1);
                     if (incidencia.getHistorialIncidencia().get(0).getEstadoIncidencia() == 'P' ){
                         reporteTecnico.setPendientes(reporteTecnico.getPendientes() + 1);
@@ -85,7 +97,7 @@ public class ReporteController {
             historialIncidencia.get(0).setIncidencia(null);
             incidencia.setHistorialIncidencia(historialIncidencia);
             reporteTecnicoBody.getSede().forEach(sede -> {
-                if (incidencia.getOficina().getOrgano().getSede().getIdSede() == sede.getIdSede()){
+                if ( incidencia.getOficina().getOrgano().getSede().getIdSede() == sede.getIdSede()){
                     incidencias2.add(incidencia);
                 }
             });
@@ -93,14 +105,14 @@ public class ReporteController {
 
         List<ReporteTecnico> reporteTecnicos = new ArrayList<ReporteTecnico>();
 
-        List<UsuarioComun> usuarioComun = new ArrayList<>();
+//        List<UsuarioComun> usuarioComun = new ArrayList<>();
+//
+//        List<EstadoUsuarioComun> listaTecnico = estadoUsuarioComunService.findAll();
 
-        List<EstadoUsuarioComun> listaTecnico = estadoUsuarioComunService.findAll();
-
-        for (EstadoUsuarioComun estadoTecnico : listaTecnico) {
-            ReporteTecnico reporteTecnico = new ReporteTecnico(estadoTecnico.getPersona() , 0  , 0  , 0 ,  0);
+        incidencias2.forEach(getIncidencia -> {
+            ReporteTecnico reporteTecnico = new ReporteTecnico(getIncidencia.getPersona(), 0  , 0  , 0 ,  0);
             reporteTecnicos.add(reporteTecnico);
-        }
+        });
 
         for (ReporteTecnico reporteTecnico : reporteTecnicos) {
             for (Incidencia incidencia : incidencias2) {
