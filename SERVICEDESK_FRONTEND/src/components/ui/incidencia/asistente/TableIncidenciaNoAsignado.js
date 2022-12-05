@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
@@ -35,12 +35,12 @@ import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import Moment from 'moment';
 import Select from 'react-select';
-import { asignarIncidencia, fetchIncidenciasNoAsignadas, fetchMisIncidencias } from '../../../../actions/incidencia';
+import { asignarIncidencia, fetchIncidenciasAsignadas, fetchIncidenciasNoAsignadas, fetchMisIncidencias } from '../../../../actions/incidencia';
 import IncidenciaDetalles from '../IncidenciaDetalles';
 import IncidenciaAsignarme from '../soporte/incidenciaAsignarme';
 import { FaFilter } from 'react-icons/fa';
 import { RepeatIcon, SearchIcon } from '@chakra-ui/icons';
-import { getIncidenciaNoAsignadas, getMisIncidencias } from './incidencia';
+import { getIncidenciaAsignadas, getIncidenciaNoAsignadas, getMisIncidencias } from './incidencia';
 import { customStyles } from '../../../../helpers/customStyle';
 
 export default function TableIncidenciaNoAsignados() {
@@ -53,22 +53,45 @@ export default function TableIncidenciaNoAsignados() {
 
   const [tableRowsData, setTableRowsData] = useState(data);
   const [tableRowsDataSede, setTableRowsDataSede] = useState([]);
+  const [fechaDesdeValue, setFechaDesdeValue] = useState(null);
+  const [fechaHastaValue, setFechaHastaValue] = useState(null);
 
   let bg = useColorModeValue('white', 'gray.900');
   let theme = useColorModeValue('default', 'solarized');
   let fechaDesde = Moment().startOf('month').format('yyyy-MM-DD');
   let fechaHasta = Moment(new Date()).format('yyyy-MM-DD');
 
+  // ✅ Get Min date
+  const minDate = new Date(
+    Math.min(
+      ...tableRowsData.map(element => {
+        return new Date(element.fecha);
+      }
+      ),
+    ),
+  );
+
+  let fechaMinima = Moment(minDate).format('yyyy-MM-DD');
+
+  const dataForm = {
+    startDate: fechaDesdeValue === null ? fechaDesde : fechaDesdeValue,
+    endDate: fechaHastaValue === null ? fechaHasta : fechaHastaValue,
+  }
+
+  const fetchDataIncidenciasNoAsignadas = async () => {
+    const response = await fetchIncidenciasNoAsignadas(dataForm);
+    dispatch(getIncidenciaNoAsignadas(response));
+  }
+
+  useEffect(() => {
+    if (store.getState().incidenciasNoAsignadas.checking) {
+      fetchDataIncidenciasNoAsignadas();
+    }
+  })
+
   const ContadorPendientes = tableRowsData.filter(row => row.historialIncidencia.filter(pendiente => pendiente.estadoIncidencia === "P" && pendiente.estado === "A").length > 0);
   const ContadorTramite = tableRowsData.filter(row => row.historialIncidencia.filter(tramite => tramite.estadoIncidencia === "T" && tramite.estado === "A").length > 0);
   const ContadorAtendidas = tableRowsData.filter(row => row.historialIncidencia.filter(atendida => atendida.estadoIncidencia === "A" && atendida.estado === "A").length > 0);
-
-
-  const fetchDataIncidenciasNoAsignadas = async () => {
-    await fetchIncidenciasNoAsignadas().then((res) => {
-      dispatch(getIncidenciaNoAsignadas(res));
-    });
-  }
 
   const refreshTable = () => {
     fetchDataIncidenciasNoAsignadas();
@@ -92,9 +115,9 @@ export default function TableIncidenciaNoAsignados() {
   }
 
   const handleSelectSede = (value) => {
-    if(value !== null){
+    if (value !== null) {
       setTableRowsDataSede(value.map(item => item.value));
-    }else{
+    } else {
       return 'SELECCIONE UNA SEDE';
     }
   }
@@ -189,11 +212,13 @@ export default function TableIncidenciaNoAsignados() {
             {usuario.rol === '[SOPORTE TECNICO]' ? (
               <IncidenciaAsignarme
                 rowData={row}
+                dataForm={dataForm}
                 identificador={identificador}
               />
             ) : (
               <ModalAsignarTecnico
                 row={row}
+                dataForm={dataForm}
                 refreshTable={() => refreshTable()}
               />
             )}
@@ -399,21 +424,30 @@ export default function TableIncidenciaNoAsignados() {
             <Text fontSize="lg" fontWeight="600">
               INCIDENCIAS NO ASIGNADAS
             </Text>
-            <Stack direction="row" spacing={4} mt={4} alignItems={'baseline'}>
+            <Stack direction="row" spacing={2} mt={4} alignItems={'baseline'}>
               <Text fontSize="sm" fontWeight="600">
                 DESDE
               </Text>
-              <Input type={'date'} defaultValue={fechaDesde} />
+              <Input
+                type={'date'} 
+                defaultValue={fechaMinima <= fechaDesde ? fechaMinima : fechaDesde }
+                onChange={(e) => setFechaDesdeValue(e.target.value)}
+              />
+
               <Text fontSize="sm" fontWeight="600">
                 HASTA
               </Text>
-              <Input type={'date'} defaultValue={fechaHasta} />
+              <Input 
+                type={'date'} 
+                defaultValue={fechaHasta}
+                onChange={(e) => setFechaHastaValue(e.target.value)}
+              />
               <IconButton 
                 aria-label="Search database"
                 icon={<SearchIcon />}
                 size="md"
                 colorScheme="teal"
-                disabled={true}
+                onClick={fetchDataIncidenciasNoAsignadas}
               />
             </Stack>
           </Box>
@@ -476,13 +510,13 @@ export default function TableIncidenciaNoAsignados() {
             </Stack>
           </Box>
         </HStack>
-        <DataTableExtensions 
-            columns={columns} 
-            data={tableRowsData} 
-            print={false}
-            filterPlaceholder="BUSCAR"
-            fileName={'INCIDENCIAS_NO_ASIGNADAS'}
-          >
+        <DataTableExtensions
+          columns={columns}
+          data={tableRowsData}
+          print={false}
+          filterPlaceholder="BUSCAR"
+          fileName={'INCIDENCIAS_NO_ASIGNADAS'}
+        >
           <DataTable
             theme={theme}
             pagination
@@ -510,7 +544,7 @@ export default function TableIncidenciaNoAsignados() {
   );
 }
 
-const ModalAsignarTecnico = ({ row, refreshTable }) => {
+const ModalAsignarTecnico = ({ row, refreshTable, dataForm }) => {
   const [openModal, setOpenModal] = useState(false);
   const dispatch = useDispatch();
   const { identificador } = useSelector(state => state.auth);
@@ -521,8 +555,18 @@ const ModalAsignarTecnico = ({ row, refreshTable }) => {
   const [incidenciaPersonaNotifica, setIncidenciaPersonaNotifica] = useState(null);
 
   const fetchDataMisIncidencias = async () => {
-    const response = await fetchMisIncidencias(identificador);
+    const response = await fetchMisIncidencias(identificador, dataForm);
     dispatch(getMisIncidencias(response));
+  }
+
+  const fetchDataIncidenciasAsignadas = async () => {
+    const response = await fetchIncidenciasAsignadas(dataForm);
+    dispatch(getIncidenciaAsignadas(response));
+  }
+
+  const fetchDataIncidenciasNoAsignadas = async () => {
+    const response = await fetchIncidenciasNoAsignadas(dataForm);
+    dispatch(getIncidenciaNoAsignadas(response));
   }
 
   const refreshTableMisIncidencias = () => {
@@ -550,6 +594,8 @@ const ModalAsignarTecnico = ({ row, refreshTable }) => {
         setOpenModal(false);
         refreshTable();
         refreshTableMisIncidencias();
+        fetchDataIncidenciasAsignadas();
+        fetchDataIncidenciasNoAsignadas();
       }).catch((error) => {
         console.log(error);
       })
@@ -587,12 +633,12 @@ const ModalAsignarTecnico = ({ row, refreshTable }) => {
       <Modal
         isOpen={openModal}
         onClose={handleCloseModal}
-        size={'2xl'}
+        size={'4xl'}
       >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>ASIGNAR A UN SOPORTE UN USUARIO O SOPORTE TÉCNICO</ModalHeader>
-          <ModalCloseButton  />
+          <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl isRequired>
               <FormLabel fontWeight="semibold">USUARIOS DISPONIBLES PARA ASIGNAR</FormLabel>
@@ -616,7 +662,7 @@ const ModalAsignarTecnico = ({ row, refreshTable }) => {
             >
               ASIGNAR
             </Button>
-            <Button onClick={handleCloseModal}  colorScheme="red" variant="outline">CANCELAR</Button>
+            <Button onClick={handleCloseModal} colorScheme="red" variant="outline">CANCELAR</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

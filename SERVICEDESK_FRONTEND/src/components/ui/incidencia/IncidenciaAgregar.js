@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Button,
   Modal,
@@ -46,12 +46,13 @@ import {
 import { notification } from '../../../helpers/alert';
 
 import Select from "react-select";
+import Moment from 'moment';
 
 import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 
 import { store } from '../../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { buscarUsuarioDni } from '../../../actions/incidencia';
+import { buscarUsuarioDni, fetchIncidencias, fetchIncidenciasAsignadas, fetchIncidenciasNoAsignadas } from '../../../actions/incidencia';
 
 import {
   createIncidencia, fetchIncidenciaSoporte
@@ -67,6 +68,8 @@ import 'react-quill/dist/quill.snow.css';
 import { formats, modules } from '../../../helpers/quillConfig';
 import { createMotivo1, fetchMotivos } from '../../../actions/motivo';
 import { createOrigen1, fetchOrigen } from '../../../actions/origenIncidencia';
+import { getIncidenciaAsignadas, getIncidenciaNoAsignadas } from './asistente/incidencia';
+import { getIncidencias } from './incidencia';
 
 const IncidenciaAgregar = () => {
   const dispatch = useDispatch();
@@ -192,13 +195,39 @@ const IncidenciaAgregar = () => {
     setUsuarioNotificaId(null);
   };
 
-  const fetchDataSoporteIncidencias = async () => {
-    await fetchIncidenciaSoporte(identificador).then((res) => {
-      dispatch(getIncidenciasAsignadasSoporte(res));
-    }).catch((err) => {
-      // console.log("WARN " + err);
-    });
+  let fechaDesde = Moment().startOf('month').format('yyyy-MM-DD');
+  let fechaHasta = Moment(new Date()).format('yyyy-MM-DD');
+
+  const dataForm = {
+    startDate: fechaDesde,
+    endDate: fechaHasta,
   }
+
+  const fetchDataIncidencias = async () => {
+    const response = await fetchIncidencias(dataForm);
+    dispatch(getIncidencias(response));
+  }
+
+  const fetchDataSoporteIncidencias = async () => {
+    const response = await fetchIncidenciaSoporte(identificador, dataForm);
+    dispatch(getIncidenciasAsignadasSoporte(response))
+  }
+
+  const fetchDataIncidenciasAsignadas = async () => {
+    const response = await fetchIncidenciasAsignadas(dataForm);
+    dispatch(getIncidenciaAsignadas(response));
+  }
+
+  const fetchDataIncidenciasNoAsignadas = async () => {
+    const response = await fetchIncidenciasNoAsignadas(dataForm);
+    dispatch(getIncidenciaNoAsignadas(response));
+  }
+
+  useEffect(() => {
+    if(store.getState().incidenciaId.checking && store.getState().incidenciaId.length > 0) {
+      fetchDataSoporteIncidencias();
+    }
+  })
 
   const crearIncidencia = () => {
     var incidencia = {
@@ -232,14 +261,16 @@ const IncidenciaAgregar = () => {
       }],
       archivo: incidenciaArchivos,
     }
-    dispatch(createIncidencia(incidencia))
-      .then(() => {
-        fetchDataSoporteIncidencias();
-        handleCloseModal(true);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    dispatch(createIncidencia(incidencia)).then(() => {
+      fetchDataSoporteIncidencias();
+      fetchDataIncidenciasAsignadas();
+      fetchDataIncidenciasNoAsignadas();
+      fetchDataIncidencias();
+      handleCloseModal(true);
+    }).catch(err => {
+      console.log(err);
+      fetchDataSoporteIncidencias();
+    })
   };
 
   const buscarPorDni = async () => {

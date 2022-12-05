@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
@@ -51,7 +51,7 @@ import IncidenciaViewFileConocimiento from './conocimiento/IncidenciaViewFile';
 import IncidenciaDetalles from './IncidenciaDetalles';
 import IncidenciaAgregar from './IncidenciaAgregar';
 import { RepeatIcon, SearchIcon } from '@chakra-ui/icons';
-import { fetchIncidencias, resetEstadoIncidencia } from '../../../actions/incidencia';
+import { fetchIncidencias, fetchIncidenciasAsignadas, resetEstadoIncidencia } from '../../../actions/incidencia';
 import { getIncidencias } from './incidencia';
 import { BsArrowDown } from 'react-icons/bs';
 import { MdSettingsBackupRestore } from 'react-icons/md';
@@ -59,9 +59,10 @@ import { FaFilter } from 'react-icons/fa';
 import { AiFillFileText, AiFillFilter, AiOutlineFileSearch } from 'react-icons/ai';
 // import { SpinnerComponent } from '../../../helpers/spinner';
 import { customStyles } from '../../../helpers/customStyle';
+import { getIncidenciaAsignadas } from './asistente/incidencia';
 
 
-export default function TableIncidencia() {
+export default function TableIncidencia() {	
 
   const [openAlert, setOpenAlert] = useState(false);
   const [progress, setProgress] = useState(false);
@@ -75,6 +76,48 @@ export default function TableIncidencia() {
   const [tableRowsDataSede, setTableRowsDataSede] = useState([]);
   // const [isLoading, setIsLoading] = useState(true);
 
+  let bg = useColorModeValue('white', 'gray.900');
+  let theme = useColorModeValue('default', 'solarized');
+
+  let fechaDesde = Moment().startOf('month').format('yyyy-MM-DD');
+  let fechaHasta = Moment(new Date()).format('yyyy-MM-DD');
+  
+  // ✅ Get Min date
+  const minDate = new Date(
+    Math.min(
+      ...tableRowsData.map(element => {
+          return new Date(element.fecha);
+        }
+      ),
+    ),
+  );
+
+  let fechaMinima = Moment(minDate).format('yyyy-MM-DD');
+
+  const [fechaDesdeValue, setFechaDesdeValue] = useState(null);
+  const [fechaHastaValue, setFechaHastaValue] = useState(null);
+
+  const dataForm = {
+    startDate: fechaDesdeValue === null ? fechaDesde : fechaDesdeValue,
+    endDate: fechaHastaValue === null ? fechaHasta : fechaHastaValue,
+  }
+
+  const fetchDataIncidencias = async () => {
+    const response = await fetchIncidencias(dataForm);
+    dispatch(getIncidencias(response));
+  }
+
+  const fetchDataIncidenciasAsignadas = async () => {
+    const response = await fetchIncidenciasAsignadas(dataForm);
+    dispatch(getIncidenciaAsignadas(response));
+  }
+
+  useEffect(() => {
+    if(store.getState().incidencia.checking){
+      fetchDataIncidencias();
+    }
+  });
+
   //Contadores de incidencia
   const ContadorPendientes = tableRowsData.filter(row => row.historialIncidencia.filter(pendiente => pendiente.estadoIncidencia === "P" && pendiente.estado === "A").length > 0);
   const ContadorTramite = tableRowsData.filter(row => row.historialIncidencia.filter(tramite => tramite.estadoIncidencia === "T" && tramite.estado === "A").length > 0);
@@ -84,12 +127,11 @@ export default function TableIncidencia() {
   const [indiceIncidenciaPersonaAsignada, setIncidenciaPersonaAsignada] = useState(null);
   const [incidenciaPersonaNotifica, setIncidenciaPersonaNotifica] = useState(null);
 
-  const fetchDataIncidencias = async () => {
-    const response = await fetchIncidencias();
-    dispatch(getIncidencias(response));
+  const refreshTable = () => {
+    fetchDataIncidencias();
   }
 
-  const refreshTable = () => {
+  const handleSearchDataIncidencias = () => {
     fetchDataIncidencias();
   }
 
@@ -113,7 +155,7 @@ export default function TableIncidencia() {
   }
 
   const ResetAsignacionIncidencia = () => {
-    
+
     var incidencia = {
       idIncidencia: indiceIncidencia.idIncidencia,
       historialIncidencia: [{
@@ -132,6 +174,7 @@ export default function TableIncidencia() {
       .then(() => {
         setOpenAlert(false);
         fetchDataIncidencias();
+        fetchDataIncidenciasAsignadas();
       }).catch((error) => {
         console.log(error);
       })
@@ -379,12 +422,6 @@ export default function TableIncidencia() {
     },
   });
 
-  let bg = useColorModeValue('white', 'gray.900');
-  let theme = useColorModeValue('default', 'solarized');
-
-  let fechaDesde = Moment().startOf('month').format('yyyy-MM-DD');
-  let fechaHasta = Moment(new Date()).format('yyyy-MM-DD');
-
   return (
     <>
       <Box borderWidth="1px"
@@ -560,21 +597,30 @@ export default function TableIncidencia() {
             <Text fontSize="lg" fontWeight="600">
               TODAS LAS INCIDENCIAS
             </Text>
-            <Stack direction="row" spacing={4} mt={4} alignItems={'baseline'}>
+            <Stack direction="row" spacing={2} mt={4} alignItems={'baseline'}>
               <Text fontSize="sm" fontWeight="600">
                 DESDE
               </Text>
-              <Input type={'date'} defaultValue={fechaDesde} />
+              <Input
+                type={'date'} 
+                defaultValue={fechaMinima <= fechaDesde ? fechaMinima : fechaDesde }
+                onChange={(e) => setFechaDesdeValue(e.target.value)}
+              />
+
               <Text fontSize="sm" fontWeight="600">
                 HASTA
               </Text>
-              <Input type={'date'} defaultValue={fechaHasta} />
+              <Input 
+                type={'date'} 
+                defaultValue={fechaHasta}
+                onChange={(e) => setFechaHastaValue(e.target.value)}
+              />
               <IconButton 
                 aria-label="Search database"
                 icon={<SearchIcon />}
                 size="md"
                 colorScheme="teal"
-                disabled={true}
+                onClick={handleSearchDataIncidencias}
               />
             </Stack>
           </Box>
@@ -601,7 +647,7 @@ export default function TableIncidencia() {
                   <MenuItem icon={<AiFillFilter size={'20px'} />} onClick={refreshTable}>TODOS</MenuItem>
                 </MenuList>
               </Menu>
-              <IncidenciaAgregar />
+              <IncidenciaAgregar dataForm = { dataForm } />
             </Stack>
             <Stack direction={'row'} spacing={2} mt={2} fontSize="sm" justifyContent={'space-between'}>
               <Select

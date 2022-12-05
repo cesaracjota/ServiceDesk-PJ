@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   useColorModeValue,
@@ -41,7 +41,6 @@ import IncidenciaDetalles from '../IncidenciaDetalles';
 import AtencionViewFile from '../conocimiento/AtencionViewFile';
 import IncidenciaViewFile from '../conocimiento/IncidenciaViewFile';
 import { customStyles } from '../../../../helpers/customStyle';
-import { SpinnerComponent } from '../../../../helpers/spinner';
 
 // import parse from 'html-react-parser';
 
@@ -55,25 +54,27 @@ export default function TableIncidencia() {
 
   const [tableRowsData, setTableRowsData] = useState(data);
   const [progress, setProgress] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
   let bg = useColorModeValue('white', 'gray.900');
   let theme = useColorModeValue('default', 'solarized');
+
+  const fetchDataMisIncidencias = async () => {
+    const response = await fetchIncidenciasPersonas(identificador);
+    dispatch(getIncidenciaId(response));
+  }
+
+  useEffect(() => {
+    if(store.getState().incidenciaId.checking){
+      fetchDataMisIncidencias();
+    }
+  });
 
   const ContadorPendientes = data.filter(row => row.historialIncidencia.filter(pendiente => pendiente.estadoIncidencia === "P" && pendiente.estado === "A").length > 0);
   const ContadorTramite = data.filter(row => row.historialIncidencia.filter(tramite => tramite.estadoIncidencia === "T" && tramite.estado === "A").length > 0);
   const ContadorAtendidas = data.filter(row => row.historialIncidencia.filter(atendida => atendida.estadoIncidencia === "A" && atendida.estado === "A").length > 0);
 
-  const fetchDataId = async () => {
-    await fetchIncidenciasPersonas(identificador).then((res) => {
-      dispatch(getIncidenciaId(res));
-    }).catch((err) => {
-      // console.log("WARN " + err);
-    });
-  }
-
   const refreshTable = () => {
-    fetchDataId();
+    fetchDataMisIncidencias();
   }
 
   // filtros por estado
@@ -249,14 +250,6 @@ export default function TableIncidencia() {
     },
   });
 
-  // setTimeout(() => {
-  //   setIsLoading(false);
-  // }, 2000);
-  
-  // if(isLoading === true){
-  //   return <SpinnerComponent />
-  // }else{
-  // }
 
   return (
     <>

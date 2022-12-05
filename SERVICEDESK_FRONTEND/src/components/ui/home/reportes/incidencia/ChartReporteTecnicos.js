@@ -136,7 +136,7 @@ const ChartReporteTecnicos = ({ reportes, nombreTecnicos }) => {
       colorByPoint: true,
       data: data.map(item => {
         return {
-          name: item.usuario.nombre,
+          name: item.usuario?.nombre,
           y: item.total,
           p: item.pendientes,
           t: item.tramitadas,
@@ -163,7 +163,7 @@ const ChartReporteTecnicos = ({ reportes, nombreTecnicos }) => {
       name: 'Incidencias por técnico',
       data: data.map(item => {
         return {
-          name: item.usuario.nombre,
+          name: item.usuario?.nombre,
           y: item.total,
         }
       }),

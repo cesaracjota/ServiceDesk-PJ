@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../../../../store/store';
-import { fetchIncidenciasPersonas, fetchIncidenciaSoporte, fetchTecnicosDisponibles } from '../../../../actions/incidencia'; 
+import { fetchIncidenciasPersonas, fetchTecnicosDisponibles } from '../../../../actions/incidencia'; 
 import { types } from '../../../../types/types';
 import TableIncidenciaSoporte from './TableIncidencia';
 import { fetchMotivos } from '../../../../actions/motivo';
@@ -18,11 +18,6 @@ export const IncidenciaSoporte = () => {
   const dispatch = useDispatch();
 
   const { identificador } = useSelector(state => state.auth);
-
-  const fetchIncidenciaSoporteData = async () => {
-    const response = await fetchIncidenciaSoporte(identificador);
-    dispatch(getIncidenciasAsignadasSoporte(response));
-  }
 
   const fetchDataPersonas = async ()=> {
     const response = await fetchIncidenciasPersonas(identificador);
@@ -60,9 +55,6 @@ export const IncidenciaSoporte = () => {
     }
     if(store.getState().incidenciaId.checking){
       fetchDataPersonas();
-    }
-    if(store.getState().incidenciasAsignadasSoporte.checking){
-      fetchIncidenciaSoporteData();
     }
     if(store.getState().motivo.checking){
       fetchDataMotivos();

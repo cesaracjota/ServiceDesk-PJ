@@ -16,6 +16,8 @@ import {
 
 import { CalendarIcon } from '@chakra-ui/icons';
 
+import Moment from 'moment';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { createDescripcionTramite, fetchIncidenciaSoporte } from '../../../../actions/incidencia';
 import { getIncidenciasAsignadasSoporte } from './incidencia';
@@ -59,8 +61,16 @@ const IncidenciaTramitar = ({row}) => {
     setOpenAlert(true);
   };
 
+  let fechaDesde = Moment().startOf('month').format('yyyy-MM-DD');
+  let fechaHasta = Moment(new Date()).format('yyyy-MM-DD');
+
+  const dataForm = {
+    startDate: fechaDesde,
+    endDate: fechaHasta,
+  }
+
   const fetchDataIncidencias = async () => {
-    await fetchIncidenciaSoporte(identificador).then((res) => {
+    await fetchIncidenciaSoporte(identificador, dataForm).then((res) => {
       dispatch(getIncidenciasAsignadasSoporte(res));
     });
   }

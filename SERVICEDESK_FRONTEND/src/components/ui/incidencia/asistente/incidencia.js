@@ -2,11 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../../../../store/store';
 import { 
-  fetchIncidenciasPersonas, 
-  fetchIncidenciasAsignadas, 
-  fetchIncidenciasNoAsignadas, 
-  fetchTecnicosDisponibles, 
-  fetchMisIncidencias 
+  fetchIncidenciasPersonas,
+  fetchTecnicosDisponibles,
 } from '../../../../actions/incidencia';
 import { types } from '../../../../types/types';
 import TableIncidenciaAsignados from './TableIncidenciaAsignadas';
@@ -24,13 +21,6 @@ import { fetchSedes } from '../../../../actions/sede';
 export const MisIncidencias = () => {
 
   const dispatch = useDispatch();
-
-  const { identificador } = useSelector(state => state.auth);
-
-  const fetchDataMisIncidencias = async () => {
-    const response = await fetchMisIncidencias(identificador);
-    dispatch(getMisIncidencias(response));
-  }
 
   const fetchDataTecnicoDisponible = async () => {
     const response = await fetchTecnicosDisponibles();
@@ -53,9 +43,6 @@ export const MisIncidencias = () => {
   }
 
   useEffect(() => {
-    if (store.getState().misIncidencias.checking) {
-      fetchDataMisIncidencias();
-    }
     if (store.getState().tecnicoDisponible.checking) {
       fetchDataTecnicoDisponible();
     }
@@ -80,12 +67,7 @@ export const IncidenciaAsistenteAsignados = () => {
 
   const { identificador } = useSelector(state => state.auth);
 
-  const fetchDataIncidenciasAsignadas = async () => {
-    const response = await fetchIncidenciasAsignadas();
-    dispatch(getIncidenciaAsignadas(response));
-  }
-
-  const fetchDataIncidenciasPersonas = async () => {
+  const fetchDataIncidenciasUsuarioComun = async () => {
     const response = await fetchIncidenciasPersonas(identificador);
     dispatch(getIncidenciaPersonas(response));
   }
@@ -101,11 +83,8 @@ export const IncidenciaAsistenteAsignados = () => {
   }
 
   useEffect(() => {
-    if (store.getState().incidenciasAsignadas.checking) {
-      fetchDataIncidenciasAsignadas();
-    }
     if (store.getState().incidenciaId.checking) {
-      fetchDataIncidenciasPersonas();
+      fetchDataIncidenciasUsuarioComun();
     }
     if (store.getState().tecnicoDisponible.checking) {
       fetchDataTecnicoDisponible();
@@ -126,12 +105,7 @@ export const IncidenciaAsistenteNoAsignados = () => {
 
   const { identificador } = useSelector(state => state.auth);
 
-  const fetchDataIncidenciasNoAsignadas = async () => {
-    const response = await fetchIncidenciasNoAsignadas();
-    dispatch(getIncidenciaNoAsignadas(response));
-  }
-
-  const fetchDataIncidenciasPersonas = async () => {
+  const fetchDataIncidenciasUsuarioComun = async () => {
     const response = await fetchIncidenciasPersonas(identificador);
     dispatch(getIncidenciaPersonas(response));
   }
@@ -151,10 +125,7 @@ export const IncidenciaAsistenteNoAsignados = () => {
       fetchDataTecnicoDisponible();
     }
     if (store.getState().incidenciaId.checking) {
-      fetchDataIncidenciasPersonas();
-    }
-    if (store.getState().incidenciasNoAsignadas.checking) {
-      fetchDataIncidenciasNoAsignadas();
+      fetchDataIncidenciasUsuarioComun();
     }
     if(store.getState().sede.checking){
       fetchDataSede();
@@ -183,7 +154,6 @@ export const Configuracion = () => {
   return (<Dashboard componente={<Configuraciones />} />)
 
 }
-
 
 export const getIncidenciaAsignadas = incidenciasAsignadas => ({
   type: types.eventLoadedIncidenciasAsignadas,

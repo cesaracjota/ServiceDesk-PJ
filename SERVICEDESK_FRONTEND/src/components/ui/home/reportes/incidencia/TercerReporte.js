@@ -36,9 +36,8 @@ export default function TercerReporte() {
   const [selectedFechaFinal, setSelectedFechaFinal] = useState(null);
 
 
-  const fechaInicio = Moment().startOf('month').format('yyyy-MM-DDTHH:mm:ss');
-  const fechaActual = Moment(new Date()).format('yyyy-MM-DDTHH:mm:ss');
-  const fechaActualizada = Moment(fechaActual).add(5 , 'hours').format('yyyy-MM-DDTHH:mm:ss');
+  const fechaInicio = Moment().startOf('month').format('yyyy-MM-DD');
+  const fechaActual = Moment(new Date()).format('yyyy-MM-DD');
 
   const [reportes, setReportes] = useState([]);
   const [nombreTecnicos, setNombreTecnicos] = useState([]);
@@ -46,7 +45,7 @@ export default function TercerReporte() {
   const BuscarFiltros = () => {
     var data = {
       fechaInicio: selectedFechaIncio === null ? fechaInicio : selectedFechaIncio,
-      fechaActual: selectedFechaFinal === null ? fechaActualizada : Moment(selectedFechaFinal).add(5, 'hours').format('yyyy-MM-DDTHH:mm:ss'),
+      fechaActual: selectedFechaFinal === null ? fechaActual : selectedFechaFinal,
       sede: [selectedSedeId]
     }
     fetchReporteTiempo(data).then((res) => {
@@ -182,7 +181,7 @@ export default function TercerReporte() {
           <FormControl>
             <FormLabel fontSize={'xs'}>FECHA INICIO</FormLabel>
             <Input
-              type={'datetime-local'}
+              type={'date'}
               size={'sm'}
               defaultValue={selectedFechaIncio === null ? fechaInicio : selectedFechaIncio}
               onChange={(e) => {
@@ -194,7 +193,7 @@ export default function TercerReporte() {
           <FormControl>
             <FormLabel fontSize={'xs'}>FECHA FINAL</FormLabel>
             <Input
-              type={'datetime-local'}
+              type={'date'}
               size={'sm'}
               defaultValue={fechaActual}
               onChange={(e) => {

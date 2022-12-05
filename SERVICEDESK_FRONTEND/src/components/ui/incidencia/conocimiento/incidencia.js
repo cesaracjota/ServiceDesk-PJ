@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../../../../store/store';
-import { fetchIncidencias, fetchIncidenciasPersonas } from '../../../../actions/incidencia'; 
+import { fetchIncidenciasPersonas } from '../../../../actions/incidencia'; 
 import { types } from '../../../../types/types';
 import TableConocimiento from './TableConocimiento';
 import Dashboard from '../../base/layout/Dashboard';
@@ -14,12 +14,7 @@ export const IncidenciaConocimiento = () => {
 
   const { identificador } = useSelector(state => state.auth);
 
-  const fetchDataIncidencias = async () => {
-    const response = await fetchIncidencias();
-    dispatch(getIncidencias(response));
-  }
-
-  const fetchDataMisIncidencias = async () => {
+  const fetchDataIncidenciaUsuarioComun = async () => {
     const response = await fetchIncidenciasPersonas(identificador);
     dispatch(getIncidenciaId(response));    
   }
@@ -30,11 +25,8 @@ export const IncidenciaConocimiento = () => {
   }
 
   useEffect(() => {
-    if(store.getState().incidencia.checking){
-      fetchDataIncidencias();
-    }
     if(store.getState().incidenciaId.checking){
-      fetchDataMisIncidencias();
+      fetchDataIncidenciaUsuarioComun();
     }
     if(store.getState().sede.checking){
       fetchDataSede();

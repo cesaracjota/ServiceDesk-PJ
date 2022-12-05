@@ -58,6 +58,9 @@ const IncidenciaAtender = ({rowId, descripcionIncidencia}) => {
 
   const [incidenciaArchivos, setIncidenciaArchivos] = useState(null);
 
+  let fechaDesde = moment().startOf('month').format('yyyy-MM-DD');
+  let fechaHasta = moment(new Date()).format('yyyy-MM-DD');
+
   const handleClickOpenModal = () => {
     setOpenCreate(true);
   };
@@ -77,14 +80,19 @@ const IncidenciaAtender = ({rowId, descripcionIncidencia}) => {
     setOpenAlert(true);
   }
 
+  const dataForm = {
+    startDate: fechaDesde,
+    endDate: fechaHasta,
+  }
+
   const fetchDataIncidencias = async () => {
-    await fetchIncidenciaSoporte(identificador).then((res) => {
+    await fetchIncidenciaSoporte(identificador, dataForm).then((res) => {
       dispatch(getIncidenciasAsignadasSoporte(res));
     });
   }
 
   const fetchDataMisIncidencias = async () => {
-    const response = await fetchMisIncidencias(identificador);
+    const response = await fetchMisIncidencias(identificador, dataForm);
     dispatch(getMisIncidencias(response));
   }
 

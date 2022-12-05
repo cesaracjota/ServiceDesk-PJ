@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
     Box,
@@ -77,20 +77,48 @@ export default function TableMisIncidencias() {
     const [tableRowsData, setTableRowsData] = useState(data);
     const [tableRowsDataSede, setTableRowsDataSede] = useState([]);
     const [descripcion, setDescripcion] = useState('');
-    // const [isLoading, setIsLoading] = useState(true);
+    const [fechaDesdeValue, setFechaDesdeValue] = useState(null);
+    const [fechaHastaValue, setFechaHastaValue] = useState(null);
 
     let bg = useColorModeValue('white', 'gray.900');
     let theme = useColorModeValue('default', 'solarized');
     let fechaDesde = Moment().startOf('month').format('yyyy-MM-DD');
     let fechaHasta = Moment(new Date()).format('yyyy-MM-DD');
 
+    // ✅ Get Min date
+    const minDate = new Date(
+        Math.min(
+            ...tableRowsData.map(element => {
+                return new Date(element.fecha);
+            }
+            ),
+        ),
+    );
+
+    let fechaMinima = Moment(minDate).format('yyyy-MM-DD');
+
     const ContadorPendientes = tableRowsData.filter(row => row.historialIncidencia.filter(pendiente => pendiente.estadoIncidencia === "P" && pendiente.estado === "A").length > 0);
     const ContadorTramite = tableRowsData.filter(row => row.historialIncidencia.filter(tramite => tramite.estadoIncidencia === "T" && tramite.estado === "A").length > 0);
     const ContadorAtendidas = tableRowsData.filter(row => row.historialIncidencia.filter(atendida => atendida.estadoIncidencia === "A" && atendida.estado === "A").length > 0);
 
+    const dataForm = {
+        startDate: fechaDesdeValue === null ? fechaDesde : fechaDesdeValue,
+        endDate: fechaHastaValue === null ? fechaHasta : fechaHastaValue,
+    }
+
     const fetchDataMisIncidencias = async () => {
-        const response = await fetchMisIncidencias(identificador);
+        const response = await fetchMisIncidencias(identificador, dataForm);
         dispatch(getMisIncidencias(response));
+    }
+
+    useEffect(() => {
+        if (store.getState().misIncidencias.checking || store.getState().misIncidencias.length > 0) {
+            fetchDataMisIncidencias();
+        }
+    });
+
+    const handleSearchDataMisIncidencias = () => {
+        fetchDataMisIncidencias();
     }
 
     const changeSetProgressTrue = () => {
@@ -603,21 +631,30 @@ export default function TableMisIncidencias() {
                         <Text fontSize="lg" fontWeight="600">
                             MIS INCIDENCIAS ASIGNADAS
                         </Text>
-                        <Stack direction="row" spacing={4} mt={4} alignItems={'baseline'}>
+                        <Stack direction="row" spacing={2} mt={4} alignItems={'baseline'}>
                             <Text fontSize="sm" fontWeight="600">
                                 DESDE
                             </Text>
-                            <Input type={'date'} defaultValue={fechaDesde} />
+                            <Input
+                                type={'date'}
+                                defaultValue={fechaMinima <= fechaDesde ? fechaMinima : fechaDesde}
+                                onChange={(e) => setFechaDesdeValue(e.target.value)}
+                            />
+
                             <Text fontSize="sm" fontWeight="600">
                                 HASTA
                             </Text>
-                            <Input type={'date'} defaultValue={fechaHasta} />
+                            <Input
+                                type={'date'}
+                                defaultValue={fechaHasta}
+                                onChange={(e) => setFechaHastaValue(e.target.value)}
+                            />
                             <IconButton
                                 aria-label="Search database"
                                 icon={<SearchIcon />}
                                 size="md"
                                 colorScheme="teal"
-                                disabled={true}
+                                onClick={handleSearchDataMisIncidencias}
                             />
                         </Stack>
                     </Box>

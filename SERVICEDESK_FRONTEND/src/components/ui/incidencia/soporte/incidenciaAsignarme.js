@@ -14,9 +14,12 @@ import {
 
 import { VscAdd } from 'react-icons/vsc'
 
+import Moment from 'moment';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchIncidenciaSoporte, asignarIncidencia } from '../../../../actions/incidencia';
+import { fetchIncidenciaSoporte, asignarIncidencia, fetchIncidenciasNoAsignadas } from '../../../../actions/incidencia';
 import { getIncidenciasAsignadasSoporte } from './incidencia';
+import { getIncidenciaNoAsignadas } from '../asistente/incidencia';
 
 const IncidenciaAsignarme = ({rowData}) => {
 
@@ -37,10 +40,23 @@ const IncidenciaAsignarme = ({rowData}) => {
         setOpenAlert(true);
     }
 
+    let fechaDesde = Moment().startOf('month').format('yyyy-MM-DD');
+    let fechaHasta = Moment(new Date()).format('yyyy-MM-DD');
+  
+    const dataForm = {
+      startDate: fechaDesde,
+      endDate: fechaHasta,
+    }
+
     const fetchDataIncidencias = async () => {
-        await fetchIncidenciaSoporte(identificador).then((res) => {
+        await fetchIncidenciaSoporte(identificador, dataForm).then((res) => {
             dispatch(getIncidenciasAsignadasSoporte(res));
         });
+    }
+
+    const fetchDataIncidenciasNoAsignadas = async () => {
+        const response = await fetchIncidenciasNoAsignadas(dataForm);
+        dispatch(getIncidenciaNoAsignadas(response));
     }
 
     const AsignarmeIncidencia = () => {
@@ -62,6 +78,7 @@ const IncidenciaAsignarme = ({rowData}) => {
           .then(() => {
             setOpenAlert(false);
             fetchDataIncidencias();
+            fetchDataIncidenciasNoAsignadas();
           }).catch((error) => {
             console.log(error);
           })
@@ -99,7 +116,6 @@ const IncidenciaAsignarme = ({rowData}) => {
                             <Button
                                 colorScheme="facebook"
                                 ml={3}
-                                
                                 onClick={() => AsignarmeIncidencia()}
                             >
                                 CONFIRMAR

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     Box,
@@ -60,6 +60,8 @@ export default function TableConocimiento() {
     const [tableRowsData, setTableRowsData] = useState(data);
     const [tableRowsDataSede, setTableRowsDataSede] = useState([]);
     const [progress, setProgress] = useState(false);
+    const [fechaDesdeValue, setFechaDesdeValue] = useState(null);
+    const [fechaHastaValue, setFechaHastaValue] = useState(null);
 
     let bg = useColorModeValue('white', 'gray.900');
     let theme = useColorModeValue('default', 'solarized');
@@ -71,11 +73,33 @@ export default function TableConocimiento() {
     const ContadorTramite = tableRowsData.filter(row => row.historialIncidencia.filter(tramite => tramite.estadoIncidencia === "T" && tramite.estado === "A").length > 0);
     const ContadorAtendidas = tableRowsData.filter(row => row.historialIncidencia.filter(atendida => atendida.estadoIncidencia === "A" && atendida.estado === "A").length > 0);
 
-    const fetchDataIncidencias = async () => {
-        await fetchIncidencias().then((res) => {
-            dispatch(getIncidencias(res));
-        });
+    // ✅ Get Min date
+    const minDate = new Date(
+        Math.min(
+            ...tableRowsData.map(element => {
+                return new Date(element.fecha);
+            }
+            ),
+        ),
+    );
+
+    let fechaMinima = Moment(minDate).format('yyyy-MM-DD');
+
+    const dataForm = {
+        startDate: fechaDesdeValue === null ? fechaDesde : fechaDesdeValue,
+        endDate: fechaHastaValue === null ? fechaHasta : fechaHastaValue,
     }
+
+    const fetchDataIncidencias = async () => {
+        const response = await fetchIncidencias(dataForm);
+        dispatch(getIncidencias(response));
+    }
+
+    useEffect(() => {
+        if (store.getState().incidencia.checking) {
+            fetchDataIncidencias();
+        }
+    })
 
     const refreshTable = () => {
         fetchDataIncidencias();
@@ -455,21 +479,30 @@ export default function TableConocimiento() {
                         <Text fontSize="lg" fontWeight="600">
                             TABLA DE CONOCIMIENTO
                         </Text>
-                        <Stack direction="row" spacing={4} mt={4} alignItems={'baseline'}>
+                        <Stack direction="row" spacing={2} mt={4} alignItems={'baseline'}>
                             <Text fontSize="sm" fontWeight="600">
                                 DESDE
                             </Text>
-                            <Input type={'date'} defaultValue={fechaDesde} />
+                            <Input
+                                type={'date'}
+                                defaultValue={fechaMinima <= fechaDesde ? fechaMinima : fechaDesde}
+                                onChange={(e) => setFechaDesdeValue(e.target.value)}
+                            />
+
                             <Text fontSize="sm" fontWeight="600">
                                 HASTA
                             </Text>
-                            <Input type={'date'} defaultValue={fechaHasta} />
+                            <Input
+                                type={'date'}
+                                defaultValue={fechaHasta}
+                                onChange={(e) => setFechaHastaValue(e.target.value)}
+                            />
                             <IconButton
-                                aria-label="Search database"
+                                aria-label="Find Query"
                                 icon={<SearchIcon />}
                                 size="md"
                                 colorScheme="teal"
-                                disabled={true}
+                                onClick={fetchDataIncidencias}
                             />
                         </Stack>
                     </Box>

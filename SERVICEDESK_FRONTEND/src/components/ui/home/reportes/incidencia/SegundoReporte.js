@@ -34,9 +34,8 @@ export default function SegundoReporte() {
   const [selectedFechaFinal, setSelectedFechaFinal] = useState(null);
 
 
-  const fechaInicio = Moment().startOf('month').format('yyyy-MM-DDTHH:mm:ss');
-  const fechaActual = Moment(new Date()).format('yyyy-MM-DDTHH:mm:ss');
-  const fechaOficial = Moment(fechaActual).add(5 , 'hours').format('yyyy-MM-DDTHH:mm:ss');
+  const fechaInicio = Moment().startOf('month').format('yyyy-MM-DD');
+  const fechaActual = Moment(new Date()).format('yyyy-MM-DD');
 
   const [reportes, setReportes] = useState([]);
   const [nombreTecnicos, setNombreTecnicos] = useState([]);
@@ -46,17 +45,26 @@ export default function SegundoReporte() {
   const BuscarFiltros = () => {
     var data = {
       fechaInicio: selectedFechaIncio === null ? fechaInicio : selectedFechaIncio,
-      fechaActual: selectedFechaFinal === null ? fechaOficial : Moment(selectedFechaFinal).add(5, 'hours').format('yyyy-MM-DDTHH:mm:ss'),
+      fechaActual: selectedFechaFinal === null ? fechaActual : selectedFechaFinal,
       sede: [selectedSedeId]
     }
     fetchReporteUsuario(data).then((res) => {
-      setReportes(res.data);
-      // res.data.map(element => {
-      //   fetchHistorialPersona(element.usuario.idpersona).then((res) => {
-      //     console.log(res.data);
-      //     setSedeUsuarios(sedeUsuarios => [...sedeUsuarios, res.data.oficina.organo.sede.idSede]);
-      //   })
-      // });
+      const result = [];
+      const map = new Map();
+      for (const item of res.data) {
+          if(!map.has(item.usuario?.idpersona)){
+              map.set(item.usuario?.idpersona, true);    // set any value to Map
+              result.push({
+                  id: item.usuario?.idpersona,
+                  usuario: item.usuario,
+                  pendientes: item.pendientes,
+                  tramitadas: item.tramitadas,
+                  atendidas: item.atendidas,
+                  total: item.total
+              });
+          }
+      }
+      setReportes(result);
     })
       .then(() => {
         setNombreTecnicos(reportes.map(item => item.usuario?.nombre));
@@ -166,7 +174,7 @@ export default function SegundoReporte() {
           <FormControl>
             <FormLabel fontSize={'xs'}>FECHA INICIO</FormLabel>
             <Input
-              type={'datetime-local'}
+              type={'date'}
               size={'sm'}
               defaultValue={selectedFechaIncio === null ? fechaInicio : selectedFechaIncio}
               onChange={(e) => {
@@ -178,7 +186,7 @@ export default function SegundoReporte() {
           <FormControl>
             <FormLabel fontSize={'xs'}>FECHA FINAL</FormLabel>
             <Input
-              type={'datetime-local'}
+              type={'date'}
               size={'sm'}
               defaultValue={fechaActual}
               onChange={(e) => {

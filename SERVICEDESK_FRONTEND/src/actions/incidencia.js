@@ -1,7 +1,7 @@
 import { fetchIncidencia, fetchToken } from '../helpers/fetch';
 import { notification } from '../helpers/alert';
-import { getIncidencias } from '../components/ui/incidencia/incidencia';
-import { getIncidenciaNoAsignadas, getIncidenciaAsignadas } from '../components/ui/incidencia/asistente/incidencia';
+// import { getIncidencias } from '../components/ui/incidencia/incidencia';
+// import { getIncidenciaNoAsignadas, getIncidenciaAsignadas } from '../components/ui/incidencia/asistente/incidencia';
 
 // CREATE PERSONA
 
@@ -29,15 +29,15 @@ export const createIncidencia = (data) => {
     }
     const response = await fetchIncidencia(`incidencias/usuariocomun`, formData, 'POST');
     if (response.status === 200) {
-      dispatch(getIncidenciaAsignadas(await fetchIncidenciasAsignadas()));
-      dispatch(getIncidenciaNoAsignadas(await fetchIncidenciasNoAsignadas()));
-      dispatch(getIncidencias(await fetchIncidencias()));
+      // dispatch(getIncidenciaAsignadas(await fetchIncidenciasAsignadas()));
+      // dispatch(getIncidenciaNoAsignadas(await fetchIncidenciasNoAsignadas()));
+      // dispatch(getIncidencias(await fetchIncidencias()));
       const body = await response.json();
       notification('INCIDENCIA CREADA', `LA INCIDENCIA HA SIDO CREADA CORRECTAMENTE \n \n NUMERO DE COLA EN ESPERA = ${body}`, 'success');
     } else if (response.status === 201) {
-      dispatch(getIncidenciaAsignadas(await fetchIncidenciasAsignadas()));
-      dispatch(getIncidenciaNoAsignadas(await fetchIncidenciasNoAsignadas()));
-      dispatch(getIncidencias(await fetchIncidencias()));
+      // dispatch(getIncidenciaAsignadas(await fetchIncidenciasAsignadas()));
+      // dispatch(getIncidenciaNoAsignadas(await fetchIncidenciasNoAsignadas()));
+      // dispatch(getIncidencias(await fetchIncidencias()));
       notification('INCIDENCIA CREADA', 'LA INCIDENCIA HA SIDO CREADA CORRECTAMENTE', 'success');
     }else {
       notification('ERROR DE REGISTRO', 'NO SE LOGRÓ REGISTRAR LA INCIDENCIA', 'error');
@@ -90,8 +90,8 @@ export const asignarIncidencia = (data) => {
     );
 
     if (response.status === 200 || response.status === 201) {
-      dispatch(getIncidenciaAsignadas(await fetchIncidenciasAsignadas()));
-      dispatch(getIncidenciaNoAsignadas(await fetchIncidenciasNoAsignadas()));
+      // dispatch(getIncidenciaAsignadas(await fetchIncidenciasAsignadas()));
+      // dispatch(getIncidenciaNoAsignadas(await fetchIncidenciasNoAsignadas()));
       notification('INCIDENCIA ASIGNADA', 'LA INCIDENCIA HA SIDO ASIGNADA CORRECTAMENTE', 'success');
     }
     else {
@@ -124,7 +124,6 @@ export const reAsignarIncidencia = (data) => {
     // const body = await response.json();
 
     if (response.status === 200 || response.status === 201) {
-      dispatch(getIncidenciaAsignadas(await fetchIncidenciasAsignadas()));
       notification('INCIDENCIA RE-ASIGNADA', 'LA INCIDENCIA HA SIDO RE-ASIGNADA CORRECTAMENTE', 'success');
     }
     else {
@@ -156,7 +155,6 @@ export const resetEstadoIncidencia = (data) => {
     );
 
     if (response.status === 200 || response.status === 201) {
-      dispatch(getIncidenciaAsignadas(await fetchIncidenciasAsignadas()));
       notification('ESTADO ACTUALIZADA', 'EL ESTADO DE LA INCIDENCIA HA SIDO RESETEADA CORRECTAMENTE', 'success');
     }
     else {
@@ -218,8 +216,8 @@ export const createDescripcionAtendido = (data) => {
   };
 };
 
-export const fetchIncidencias = async () => {
-  const response = await fetchToken('incidencias');
+export const fetchIncidencias = async (data) => {
+  const response = await fetchToken('incidencias/all', data, 'POST');
   if (!response.ok) {
     throw new Error(response.statusText);
   } else {
@@ -258,8 +256,8 @@ export const fetchIncidenciaDetalles = async (id) => {
 
 // MOSTRAR INCIDENCIAS ASIGNADAS
 
-export const fetchIncidenciasAsignadas = async () => {
-  const response = await fetchToken('incidencias/persona/asignados');
+export const fetchIncidenciasAsignadas = async (data) => {
+  const response = await fetchToken('incidencias/persona/asignados', data, 'POST');
   if (!response.ok) {
     throw new Error(response.status);
   } else {
@@ -272,13 +270,11 @@ export const fetchIncidenciasAsignadas = async () => {
 
 // LISTAR INCIDENCIAS NO ASIGNADAS
 
-export const fetchIncidenciasNoAsignadas = async () => {
-  const response = await fetchToken('incidencias/persona/noasignados');
-  if (response.status === 404) {
-    const IncidenciaNoAsignados = {};
-    IncidenciaNoAsignados.data = [];
-    return IncidenciaNoAsignados;
-  } else if (response.ok) {
+export const fetchIncidenciasNoAsignadas = async (data) => {
+  const response = await fetchToken('incidencias/persona/noasignados', data, 'POST');
+  if (!response.ok) {
+    throw new Error(response.status);
+  } else {
     const data = await response.json();
     const IncidenciaNoAsignados = {};
     IncidenciaNoAsignados.data = data;
@@ -288,8 +284,8 @@ export const fetchIncidenciasNoAsignadas = async () => {
 
 //LISTAR INCIDENCIAS ASIGNADOS AL USUARIO
 
-export const fetchIncidenciaSoporte = async (id) => {
-  const response = await fetchToken(`incidencias/persona/asignado/${id}`);
+export const fetchIncidenciaSoporte = async (id, data) => {
+  const response = await fetchToken(`incidencias/persona/asignado/${id}`, data, 'POST');
   if (!response.ok) {
     throw new Error(response.status);
   } else {
@@ -302,8 +298,8 @@ export const fetchIncidenciaSoporte = async (id) => {
 
 // INCIDENCIAS ASIGNADAS A COORDINADORES Y ASISTENTES INFORMATICOS
 
-export const fetchMisIncidencias = async (id) => {
-  const response = await fetchToken(`incidencias/persona/asignado/${id}`);
+export const fetchMisIncidencias = async (id, data) => {
+  const response = await fetchToken(`incidencias/persona/asignado/${id}`, data, 'POST');
   if (!response.ok) {
     throw new Error(response.status);
   } else {
@@ -425,17 +421,17 @@ export const fetchDetallesIncidenciaAtendida = async (id) => {
 
 // DELETE 
 
-export const deleteIncidencia = (id) => {
-  return async dispatch => {
-    const response = await fetchToken(`incidencias/${id}`, '', 'DELETE');
-    if (response.status === 200) {
-      dispatch(getIncidencias(await loadIncidencias()));
-      notification('INCIDENCIA ELIMINADA', 'LA INCIDENCIA HA SIDO ELIMINADA CORRECTAMENTE', 'success');
-    } else {
-      notification('ERROR DE ELIMINACIÓN', 'NO SE LOGRÓ ELIMINAR LA INCIDENCIA', 'error');
-    }
-  };
-};
+// export const deleteIncidencia = (id) => {
+//   return async dispatch => {
+//     const response = await fetchToken(`incidencias/${id}`, '', 'DELETE');
+//     if (response.status === 200) {
+//       dispatch(getIncidencias(await loadIncidencias()));
+//       notification('INCIDENCIA ELIMINADA', 'LA INCIDENCIA HA SIDO ELIMINADA CORRECTAMENTE', 'success');
+//     } else {
+//       notification('ERROR DE ELIMINACIÓN', 'NO SE LOGRÓ ELIMINAR LA INCIDENCIA', 'error');
+//     }
+//   };
+// };
 
 // Refrescar la tabla
 

@@ -33,9 +33,8 @@ export default function IncidenciaReportes() {
   const [selectedFechaIncio, setSelectedFechaInicio] = useState(null);
   const [selectedFechaFinal, setSelectedFechaFinal] = useState(null);
 
-  const fechaInicio = Moment().startOf('month').format('yyyy-MM-DDTHH:mm:ss');
-  const fechaActual = Moment(new Date()).format('yyyy-MM-DDTHH:mm:ss');
-  const fechaActualizada = Moment(fechaActual).add(5, 'hours').format('yyyy-MM-DDTHH:mm:ss');
+  const fechaInicio = Moment().startOf('month').format('yyyy-MM-DD');
+  const fechaActual = Moment(new Date()).format('yyyy-MM-DD');
 
   const [reportes, setReportes] = useState([]);
   const [nombreTecnicos, setNombreTecnicos] = useState([]);
@@ -44,19 +43,39 @@ export default function IncidenciaReportes() {
   const BuscarFiltros = () => {
     var data = {
       fechaInicio: selectedFechaIncio === null ? fechaInicio : selectedFechaIncio,
-      fechaActual: selectedFechaFinal === null ? fechaActualizada : Moment(selectedFechaFinal).add(5, 'hours').format('yyyy-MM-DDTHH:mm:ss'),
+      fechaActual: selectedFechaFinal === null ? fechaActual : selectedFechaFinal,
       sede: [selectedSedeId]
     }
     fetchReporteTecnicos(data).then((response) => {
-      var respuesta = response.data;
-      var nombreTecnicos = [], totalReportes = [];
-      respuesta.map(element => {
-        nombreTecnicos.push(element.usuario.nombre);
-        totalReportes.push(element.total);
-      })
-      setReportes(response.data);
-      setNombreTecnicos(nombreTecnicos);
-      setTotalReportes(totalReportes);
+      console.log(response);
+      const result = [];
+      const map = new Map();
+      for (const item of response.data) {
+          if(!map.has(item.usuario?.idpersona)){
+              map.set(item.usuario?.idpersona, true);    // set any value to Map
+              result.push({
+                  id: item.usuario?.idpersona,
+                  usuario: item.usuario,
+                  pendientes: item.pendientes,
+                  tramitadas: item.tramitadas,
+                  atendidas: item.atendidas,
+                  total: item.total
+              });
+              setNombreTecnicos(result.map(item => item.usuario?.nombre));
+              setTotalReportes(result.map(item => item.total));
+          }
+      }
+
+      console.log(result);
+
+      // var respuesta = result;
+
+      // var nombreTecnicos = [], totalReportes = [];
+      // respuesta.map(element => {
+      //   nombreTecnicos.push(element.usuario?.nombre);
+      //   totalReportes.push(element.total);
+      // })
+      setReportes(result);
     })
     timerNotification('FILTRANDO REGISTROS DE TÉCNICOS...', 'info', 2000);
   }
@@ -118,7 +137,7 @@ export default function IncidenciaReportes() {
 
   const csvReport = {
     headers: ["TECNICO", "PENDIENTES", "EN TRAMITE", "ATENDIDOS", "TOTAL"],
-    data: reportes.map(row => [row.usuario.nombre + ' ' + row.usuario.apellido, row.pendientes, row.tramitadas, row.atendidas, row.total]),
+    data: reportes.map(row => [row.usuario?.nombre + ' ' + row.usuario?.apellido, row.pendientes, row.tramitadas, row.atendidas, row.total]),
     filename: 'ReporteTecnico.csv',
     separator: ';',
   };
@@ -159,7 +178,7 @@ export default function IncidenciaReportes() {
           <FormControl>
             <FormLabel fontSize={'xs'}>FECHA INICIO</FormLabel>
             <Input
-              type={'datetime-local'}
+              type={'date'}
               size={'sm'}
               defaultValue={selectedFechaIncio === null ? fechaInicio : selectedFechaIncio}
               onChange={(e) => {
@@ -171,7 +190,7 @@ export default function IncidenciaReportes() {
           <FormControl>
             <FormLabel fontSize={'xs'}>FECHA FINAL</FormLabel>
             <Input
-              type={'datetime-local'}
+              type={'date'}
               size={'sm'}
               defaultValue={fechaActual}
               onChange={(e) => {
