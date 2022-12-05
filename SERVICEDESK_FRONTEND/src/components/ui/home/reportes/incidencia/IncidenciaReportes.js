@@ -47,7 +47,6 @@ export default function IncidenciaReportes() {
       sede: [selectedSedeId]
     }
     fetchReporteTecnicos(data).then((response) => {
-      console.log(response);
       const result = [];
       const map = new Map();
       for (const item of response.data) {
@@ -65,16 +64,6 @@ export default function IncidenciaReportes() {
               setTotalReportes(result.map(item => item.total));
           }
       }
-
-      console.log(result);
-
-      // var respuesta = result;
-
-      // var nombreTecnicos = [], totalReportes = [];
-      // respuesta.map(element => {
-      //   nombreTecnicos.push(element.usuario?.nombre);
-      //   totalReportes.push(element.total);
-      // })
       setReportes(result);
     })
     timerNotification('FILTRANDO REGISTROS DE TÉCNICOS...', 'info', 2000);
