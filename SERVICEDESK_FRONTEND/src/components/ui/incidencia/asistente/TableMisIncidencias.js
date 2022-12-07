@@ -61,7 +61,7 @@ import { ModalReAsignarTecnico } from './TableIncidenciaAsignadas';
 import { formats, modules } from '../../../../helpers/quillConfig';
 import ReactQuill from 'react-quill';
 import { customStyles } from '../../../../helpers/customStyle';
-// import { SpinnerComponent } from '../../../../helpers/spinner';
+import { SpinnerComponent } from '../../../../helpers/spinner';
 
 export default function TableMisIncidencias() {
     const [openAlert, setOpenAlert] = useState(false);
@@ -188,6 +188,11 @@ export default function TableMisIncidencias() {
 
     const handleClickFilterAtendidas = async () => {
         const dataFilter = data.filter(row => row.historialIncidencia.filter(pendiente => pendiente.estadoIncidencia === "A" && pendiente.estado === "A").length > 0);
+        setTableRowsData(dataFilter);
+    }
+
+    const handleClickFilterTodos = async () => {
+        const dataFilter = data.filter(row => row.historialIncidencia.filter(pendiente => pendiente.estado === "A").length > 0);
         setTableRowsData(dataFilter);
     }
 
@@ -392,7 +397,7 @@ export default function TableMisIncidencias() {
                                 </>
                             )
                         )}
-                        <AlertDialog isOpen={openAlert} onClose={handleCloseAlert} size={'4xl'}>
+                        <AlertDialog isOpen={openAlert} onClose={handleCloseAlert} size={'6xl'}>
                             <AlertDialogOverlay>
                                 <AlertDialogContent>
                                     <AlertDialogHeader fontSize="xl" fontWeight="bold">
@@ -455,302 +460,308 @@ export default function TableMisIncidencias() {
         },
     });
 
-    return (
-        <>
-            <Box
-                borderWidth="1px"
-                borderRadius="lg"
-                overflow="hidden"
-                boxShadow={'md'}
-                mb={4}
-                p={2}
-                fontSize={['6px', '9px', '10px', '12px']}
-                bg={bg}>
-                <SimpleGrid columns={4} spacing={5} textColor={'white'}>
-                    <Box
-                        w={'100%'}
-                        bg="white"
-                        _dark={{ bg: "gray.800", borderWidth: "1px" }}
-                        shadow="lg"
-                        rounded="lg"
-                        overflow="hidden"
-                        textAlign={'center'}
-                    >
-                        <chakra.h3
-                            py={2}
-                            textAlign="center"
-                            fontWeight="bold"
-                            textTransform="uppercase"
-                            color="red.500"
-                            _dark={{ color: "white" }}
-                        >
-                            INCIDENCIAS PENDIENTES
-                        </chakra.h3>
-                        <Flex
-                            alignItems="center"
-                            justify={'center'}
-                            py={2}
+    if (store.getState().misIncidencias.checking === true) {
+        return (
+            <SpinnerComponent />
+        )
+    } else {
+        return (
+            <>
+                <Box
+                    borderWidth="1px"
+                    borderRadius="lg"
+                    overflow="hidden"
+                    boxShadow={'md'}
+                    mb={4}
+                    p={2}
+                    fontSize={['6px', '9px', '10px', '12px']}
+                    bg={bg}>
+                    <SimpleGrid columns={4} spacing={5} textColor={'white'}>
+                        <Box
                             w={'100%'}
-                            bg="red.500"
-                            _dark={{ bg: "gray.700" }}
+                            bg="white"
+                            _dark={{ bg: "gray.800", borderWidth: "1px" }}
+                            shadow="lg"
+                            rounded="lg"
+                            overflow="hidden"
+                            textAlign={'center'}
                         >
-                            <chakra.span
+                            <chakra.h3
+                                py={2}
+                                textAlign="center"
                                 fontWeight="bold"
-                                color="white"
-                                _dark={{ color: "gray.200" }}
+                                textTransform="uppercase"
+                                color="red.500"
+                                _dark={{ color: "white" }}
                             >
-                                {ContadorPendientes.length}
-                            </chakra.span>
-                        </Flex>
-                    </Box>
-                    <Box
-                        w={'100%'}
-                        bg="white"
-                        _dark={{ bg: "gray.800", borderWidth: "1px" }}
-                        shadow="lg"
-                        rounded="lg"
-                        overflow="hidden"
-                        textAlign={'center'}
-                    >
-                        <chakra.h3
-                            py={2}
-                            textAlign="center"
-                            fontWeight="bold"
-                            textTransform="uppercase"
-                            color="yellow.500"
-                            _dark={{ color: "white" }}
+                                INCIDENCIAS PENDIENTES
+                            </chakra.h3>
+                            <Flex
+                                alignItems="center"
+                                justify={'center'}
+                                py={2}
+                                w={'100%'}
+                                bg="red.500"
+                                _dark={{ bg: "gray.700" }}
+                            >
+                                <chakra.span
+                                    fontWeight="bold"
+                                    color="white"
+                                    _dark={{ color: "gray.200" }}
+                                >
+                                    {ContadorPendientes.length}
+                                </chakra.span>
+                            </Flex>
+                        </Box>
+                        <Box
+                            w={'100%'}
+                            bg="white"
+                            _dark={{ bg: "gray.800", borderWidth: "1px" }}
+                            shadow="lg"
+                            rounded="lg"
+                            overflow="hidden"
+                            textAlign={'center'}
                         >
-                            Incidencias en Tramite
-                        </chakra.h3>
-                        <Flex
-                            alignItems="center"
-                            justify={'center'}
-                            py={2}
-                            px={3}
-                            bg="yellow.500"
-                            _dark={{ bg: "gray.700" }}
-                        >
-                            <chakra.span
+                            <chakra.h3
+                                py={2}
+                                textAlign="center"
                                 fontWeight="bold"
-                                color="gray.200"
-                                _dark={{ color: "gray.200" }}
+                                textTransform="uppercase"
+                                color="yellow.500"
+                                _dark={{ color: "white" }}
                             >
-                                {ContadorTramite.length}
-                            </chakra.span>
-                        </Flex>
-                    </Box>
-                    <Box
-                        w={'100%'}
-                        bg="white"
-                        _dark={{ bg: "gray.800", borderWidth: "1px" }}
-                        shadow="lg"
-                        rounded="lg"
-                        overflow="hidden"
-                        textAlign={'center'}
-                    >
-                        <chakra.h3
-                            py={2}
-                            textAlign="center"
-                            fontWeight="bold"
-                            textTransform="uppercase"
-                            color="green.500"
-                            _dark={{ color: "white" }}
+                                Incidencias en Tramite
+                            </chakra.h3>
+                            <Flex
+                                alignItems="center"
+                                justify={'center'}
+                                py={2}
+                                px={3}
+                                bg="yellow.500"
+                                _dark={{ bg: "gray.700" }}
+                            >
+                                <chakra.span
+                                    fontWeight="bold"
+                                    color="gray.200"
+                                    _dark={{ color: "gray.200" }}
+                                >
+                                    {ContadorTramite.length}
+                                </chakra.span>
+                            </Flex>
+                        </Box>
+                        <Box
+                            w={'100%'}
+                            bg="white"
+                            _dark={{ bg: "gray.800", borderWidth: "1px" }}
+                            shadow="lg"
+                            rounded="lg"
+                            overflow="hidden"
+                            textAlign={'center'}
                         >
-                            INCIDENCIAS ATENDIDAS
-                        </chakra.h3>
-                        <Flex
-                            alignItems="center"
-                            justify={'center'}
-                            py={2}
-                            px={3}
-                            bg="green.500"
-                            _dark={{ bg: "gray.700" }}
-                        >
-                            <chakra.span
+                            <chakra.h3
+                                py={2}
+                                textAlign="center"
                                 fontWeight="bold"
-                                color="white"
-                                _dark={{ color: "gray.200" }}
+                                textTransform="uppercase"
+                                color="green.500"
+                                _dark={{ color: "white" }}
                             >
-                                {ContadorAtendidas.length}
-                            </chakra.span>
-                        </Flex>
-                    </Box>
-                    <Box
-                        w={'100%'}
-                        bg="white"
-                        _dark={{ bg: "gray.800", borderWidth: "1px" }}
-                        shadow="lg"
-                        rounded="lg"
-                        overflow="hidden"
-                        textAlign={'center'}
-                    >
-                        <chakra.h3
-                            py={2}
-                            textAlign="center"
-                            fontWeight="bold"
-                            textTransform="uppercase"
-                            color="gray.600"
-                            _dark={{ color: "white" }}
+                                INCIDENCIAS ATENDIDAS
+                            </chakra.h3>
+                            <Flex
+                                alignItems="center"
+                                justify={'center'}
+                                py={2}
+                                px={3}
+                                bg="green.500"
+                                _dark={{ bg: "gray.700" }}
+                            >
+                                <chakra.span
+                                    fontWeight="bold"
+                                    color="white"
+                                    _dark={{ color: "gray.200" }}
+                                >
+                                    {ContadorAtendidas.length}
+                                </chakra.span>
+                            </Flex>
+                        </Box>
+                        <Box
+                            w={'100%'}
+                            bg="white"
+                            _dark={{ bg: "gray.800", borderWidth: "1px" }}
+                            shadow="lg"
+                            rounded="lg"
+                            overflow="hidden"
+                            textAlign={'center'}
                         >
-                            TOTAL DE INCIDENCIAS
-                        </chakra.h3>
-                        <Flex
-                            alignItems="center"
-                            justify={'center'}
-                            py={2}
-                            px={3}
-                            bg="gray.600"
-                            _dark={{ bg: "gray.700" }}
-                        >
-                            <chakra.span
+                            <chakra.h3
+                                py={2}
+                                textAlign="center"
                                 fontWeight="bold"
-                                color="white"
-                                _dark={{ color: "gray.200" }}
+                                textTransform="uppercase"
+                                color="gray.600"
+                                _dark={{ color: "white" }}
                             >
-                                {tableRowsData.length}
-                            </chakra.span>
-                        </Flex>
-                    </Box>
-                </SimpleGrid>
-            </Box>
-            <Box
-                borderWidth="1px"
-                borderRadius="lg"
-                overflow="hidden"
-                boxShadow={'md'}
-                bg={bg}
-                paddingBottom={4}
-            >
-                <HStack
-                    width={'100%'}
-                    justifyContent={'space-between'}
-                    px={4}
-                    mt={4}
+                                TOTAL DE INCIDENCIAS
+                            </chakra.h3>
+                            <Flex
+                                alignItems="center"
+                                justify={'center'}
+                                py={2}
+                                px={3}
+                                bg="gray.600"
+                                _dark={{ bg: "gray.700" }}
+                            >
+                                <chakra.span
+                                    fontWeight="bold"
+                                    color="white"
+                                    _dark={{ color: "gray.200" }}
+                                >
+                                    {tableRowsData.length}
+                                </chakra.span>
+                            </Flex>
+                        </Box>
+                    </SimpleGrid>
+                </Box>
+                <Box
+                    borderWidth="1px"
+                    borderRadius="lg"
+                    overflow="hidden"
+                    boxShadow={'md'}
+                    bg={bg}
+                    paddingBottom={4}
                 >
-                    <Box>
-                        <Text fontSize="lg" fontWeight="600">
-                            MIS INCIDENCIAS ASIGNADAS
-                        </Text>
-                        <Stack direction="row" spacing={2} mt={4} alignItems={'baseline'}>
-                            <Text fontSize="sm" fontWeight="600">
-                                DESDE
+                    <HStack
+                        width={'100%'}
+                        justifyContent={'space-between'}
+                        px={4}
+                        mt={4}
+                    >
+                        <Box>
+                            <Text fontSize="lg" fontWeight="600">
+                                MIS INCIDENCIAS ASIGNADAS
                             </Text>
-                            <Input
-                                type={'date'}
-                                defaultValue={fechaMinima <= fechaDesde ? fechaMinima : fechaDesde}
-                                onChange={(e) => setFechaDesdeValue(e.target.value)}
-                            />
+                            <Stack direction="row" spacing={2} mt={4} alignItems={'baseline'}>
+                                <Text fontSize="sm" fontWeight="600">
+                                    DESDE
+                                </Text>
+                                <Input
+                                    type={'date'}
+                                    defaultValue={fechaMinima <= fechaDesde ? fechaMinima : fechaDesde}
+                                    onChange={(e) => setFechaDesdeValue(e.target.value)}
+                                />
 
-                            <Text fontSize="sm" fontWeight="600">
-                                HASTA
-                            </Text>
-                            <Input
-                                type={'date'}
-                                defaultValue={fechaHasta}
-                                onChange={(e) => setFechaHastaValue(e.target.value)}
-                            />
-                            <IconButton
-                                aria-label="Search database"
-                                icon={<SearchIcon />}
-                                size="md"
-                                colorScheme="teal"
-                                onClick={handleSearchDataMisIncidencias}
-                            />
-                        </Stack>
-                    </Box>
-                    <Box>
-                        <Stack direction={'row'} spacing={4} justifyContent="space-between">
-                            <IconButton
-                                size={'sm'}
-                                icon={<RepeatIcon boxSize={4} />}
-                                colorScheme={'facebook'}
-                                onClick={refreshTable}
-                            />
-                            <Menu size={'xs'}>
-                                <MenuButton as={'menu'} style={{ cursor: 'pointer' }}>
-                                    <HStack spacing={2}>
-                                        <Text fontSize="sm" fontWeight={'semibold'}>
-                                            FILTRAR POR ESTADO
-                                        </Text>
-                                        <IconButton colorScheme={'twitter'} icon={<FaFilter />} size="sm" />
-                                    </HStack>
-                                </MenuButton>
-                                <MenuList zIndex={2} fontSize="sm">
-                                    <MenuItem onClick={handleClickFilterPendientes} icon={<AiFillFilter color='red' size={'20px'} />}>PENDIENTES</MenuItem>
-                                    <MenuItem onClick={handleClickFilterTramite} icon={<AiFillFilter color='#d69e2e' size={'20px'} />}>EN TRAMITE</MenuItem>
-                                    <MenuItem onClick={handleClickFilterAtendidas} icon={<AiFillFilter color='green' size={'20px'} />}>ATENDIDAS</MenuItem>
-                                    <MenuItem icon={<AiFillFilter size={'20px'} />} onClick={refreshTable}>TODOS</MenuItem>
-                                </MenuList>
-                            </Menu>
-                            <IncidenciaAgregar />
-                        </Stack>
-                        <Stack direction={'row'} spacing={2} mt={2} fontSize="sm" justifyContent={'space-between'}>
-                            <Select
-                                styles={{
-                                    control: (provided) => ({
-                                        ...provided,
-                                        width: '427px',
-                                        minHeight: '42px',
-                                    }),
-                                    menuList: (provided) => ({
-                                        ...provided,
-                                        maxHeight: '200px',
-                                        color: 'black',
-                                    }),
-                                }}
-                                options={
-                                    dataSede.map((sede) => ({
-                                        value: sede.idSede,
-                                        label: sede.sede,
-                                    }))
-                                }
-                                onChange={handleSelectSede}
-                                placeholder="FILTRAR POR SEDES"
-                                isMulti
-                                isClearable
-                                isSearchable
-                            />
-                            <IconButton
-                                onClick={handleClickFilterBySede}
-                                disabled={tableRowsDataSede.length === 0}
-                                colorScheme="red"
-                                icon={<AiOutlineFileSearch fontSize={24} />}
-                            />
-                        </Stack>
-                    </Box>
-                </HStack>
-                <Progress mt={2} size="xs" value={progress} colorScheme="purple" hidden={progress === false} isIndeterminate={progress === true} mb={2} />
-                <DataTableExtensions
-                    columns={columns}
-                    data={tableRowsData}
-                    print={false}
-                    filterPlaceholder="BUSCAR"
-                    fileName={'MIS_INCIDENCIAS_ASIGNADAS'}
-                >
-                    <DataTable
-                        defaultSortAsc={false}
-                        theme={theme}
-                        pagination
-                        responsive={true}
-                        paginationPerPage={10}
-                        noDataComponent={
-                            <Text fontSize="sm" py={16} textAlign="center" color="gray.600">
-                                NO HAY DATOS PARA MOSTRAR, REFRESCAR LA TABLA
-                            </Text>
-                        }
-                        paginationRowsPerPageOptions={[10, 15, 20, 30]}
-                        paginationComponentOptions={{
-                            rowsPerPageText: 'Filas por página:',
-                            rangeSeparatorText: 'de',
-                            selectAllRowsItem: true,
-                            selectAllRowsItemText: 'Todos',
-                        }}
-                        customStyles={customStyles}
-                        key={tableRowsData.map((item) => { return item.idIncidencia })}
-                    />
-                </DataTableExtensions>
-            </Box>
-        </>
-    );
+                                <Text fontSize="sm" fontWeight="600">
+                                    HASTA
+                                </Text>
+                                <Input
+                                    type={'date'}
+                                    defaultValue={fechaHasta}
+                                    onChange={(e) => setFechaHastaValue(e.target.value)}
+                                />
+                                <IconButton
+                                    aria-label="Search database"
+                                    icon={<SearchIcon />}
+                                    size="md"
+                                    colorScheme="teal"
+                                    onClick={handleSearchDataMisIncidencias}
+                                />
+                            </Stack>
+                        </Box>
+                        <Box>
+                            <Stack direction={'row'} spacing={4} justifyContent="space-between">
+                                <IconButton
+                                    size={'sm'}
+                                    icon={<RepeatIcon boxSize={4} />}
+                                    colorScheme={'facebook'}
+                                    onClick={refreshTable}
+                                />
+                                <Menu size={'xs'}>
+                                    <MenuButton as={'menu'} style={{ cursor: 'pointer' }}>
+                                        <HStack spacing={2}>
+                                            <Text fontSize="sm" fontWeight={'semibold'}>
+                                                FILTRAR POR ESTADO
+                                            </Text>
+                                            <IconButton colorScheme={'twitter'} icon={<FaFilter />} size="sm" />
+                                        </HStack>
+                                    </MenuButton>
+                                    <MenuList zIndex={2} fontSize="sm">
+                                        <MenuItem onClick={handleClickFilterPendientes} icon={<AiFillFilter color='red' size={'20px'} />}>PENDIENTES</MenuItem>
+                                        <MenuItem onClick={handleClickFilterTramite} icon={<AiFillFilter color='#d69e2e' size={'20px'} />}>EN TRAMITE</MenuItem>
+                                        <MenuItem onClick={handleClickFilterAtendidas} icon={<AiFillFilter color='green' size={'20px'} />}>ATENDIDAS</MenuItem>
+                                        <MenuItem icon={<AiFillFilter size={'20px'} />} onClick={handleClickFilterTodos}>TODOS</MenuItem>
+                                    </MenuList>
+                                </Menu>
+                                <IncidenciaAgregar />
+                            </Stack>
+                            <Stack direction={'row'} spacing={2} mt={2} fontSize="sm" justifyContent={'space-between'}>
+                                <Select
+                                    styles={{
+                                        control: (provided) => ({
+                                            ...provided,
+                                            width: '427px',
+                                            minHeight: '42px',
+                                        }),
+                                        menuList: (provided) => ({
+                                            ...provided,
+                                            maxHeight: '200px',
+                                            color: 'black',
+                                        }),
+                                    }}
+                                    options={
+                                        dataSede.map((sede) => ({
+                                            value: sede.idSede,
+                                            label: sede.sede,
+                                        }))
+                                    }
+                                    onChange={handleSelectSede}
+                                    placeholder="FILTRAR POR SEDES"
+                                    isMulti
+                                    isClearable
+                                    isSearchable
+                                />
+                                <IconButton
+                                    onClick={handleClickFilterBySede}
+                                    disabled={tableRowsDataSede.length === 0}
+                                    colorScheme="red"
+                                    icon={<AiOutlineFileSearch fontSize={24} />}
+                                />
+                            </Stack>
+                        </Box>
+                    </HStack>
+                    <Progress mt={2} size="xs" value={progress} colorScheme="purple" hidden={progress === false} isIndeterminate={progress === true} mb={2} />
+                    <DataTableExtensions
+                        columns={columns}
+                        data={tableRowsData}
+                        print={false}
+                        filterPlaceholder="BUSCAR"
+                        fileName={'MIS_INCIDENCIAS_ASIGNADAS'}
+                    >
+                        <DataTable
+                            defaultSortAsc={false}
+                            theme={theme}
+                            pagination
+                            responsive={true}
+                            paginationPerPage={10}
+                            noDataComponent={
+                                <Text fontSize="sm" py={16} textAlign="center" color="gray.600">
+                                    NO HAY DATOS PARA MOSTRAR, REFRESCAR LA TABLA
+                                </Text>
+                            }
+                            paginationRowsPerPageOptions={[10, 15, 20, 30]}
+                            paginationComponentOptions={{
+                                rowsPerPageText: 'Filas por página:',
+                                rangeSeparatorText: 'de',
+                                selectAllRowsItem: true,
+                                selectAllRowsItemText: 'Todos',
+                            }}
+                            customStyles={customStyles}
+                            key={tableRowsData.map((item) => { return item.idIncidencia })}
+                        />
+                    </DataTableExtensions>
+                </Box>
+            </>
+        );
+    }
 
 }

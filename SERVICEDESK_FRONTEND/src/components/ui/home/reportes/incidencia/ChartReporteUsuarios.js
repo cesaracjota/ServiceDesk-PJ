@@ -292,25 +292,25 @@ const ChartReporteUsuarios = ({ reportes, nombreUsuarios }) => {
             options={BellcurveOptions}
           />
         </Box>
-        <Box height='100%' borderRadius="xs" boxShadow={'md'} p={2}>
+        <Box height='100%' borderRadius="xs" boxShadow={'md'}>
           <ColumnChart 
             highcharts={Highcharts} 
             options={ColumnOptions} 
           />
         </Box>
-        <Box height='100%' borderRadius="xs" boxShadow={'md'} p={2}>
+        <Box height='100%' borderRadius="xs" boxShadow={'md'}>
           <BarChart 
             highcharts={Highcharts} 
             options={BarOptions} 
           />
         </Box>
-        <Box height='100%' borderRadius="xs" boxShadow={'md'} p={2}>
+        <Box height='100%' borderRadius="xs" boxShadow={'md'}>
           <PieChart 
             highcharts={Highcharts} 
             options={PieOptions} 
           />
         </Box>
-        <Box height='100%' borderRadius="xs" boxShadow={'md'} p={2}>
+        <Box height='100%' borderRadius="xs" boxShadow={'md'}>
           <AreaChart 
             highcharts={Highcharts} 
             options={AreaOptions} 

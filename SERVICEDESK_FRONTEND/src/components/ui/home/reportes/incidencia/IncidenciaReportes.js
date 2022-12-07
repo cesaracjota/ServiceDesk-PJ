@@ -261,7 +261,6 @@ export default function IncidenciaReportes() {
           width={'100%'}
           textAlign={'center'}
           mt={4}
-          fontSize={'xs'}
         >
           <Tabs isFitted variant='enclosed' colorScheme='green' w={'100%'}>
             <TabList mb='1em'>

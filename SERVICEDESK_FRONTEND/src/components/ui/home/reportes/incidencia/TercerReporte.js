@@ -42,20 +42,15 @@ export default function TercerReporte() {
   const [reportes, setReportes] = useState([]);
   const [nombreTecnicos, setNombreTecnicos] = useState([]);
 
-  const BuscarFiltros = () => {
+  const BuscarFiltros = async () => {
     var data = {
       fechaInicio: selectedFechaIncio === null ? fechaInicio : selectedFechaIncio,
       fechaActual: selectedFechaFinal === null ? fechaActual : selectedFechaFinal,
       sede: [selectedSedeId]
     }
-    fetchReporteTiempo(data).then((res) => {
-      setReportes(res.data);
-    })
-      .then(() => {
-        setNombreTecnicos(reportes.map(item => item.usuarioTecnico?.nombre));
-        // setTotalReportes(reportes.map(item => item?.total));
-      })
-
+    const response = await fetchReporteTiempo(data);
+    setReportes(response.data);
+    setNombreTecnicos(reportes.map(item => item.usuarioTecnico?.nombre));
     timerNotification('FILTRANDO REGISTROS DE TIEMPOS...', 'info', 2000);
   }
 
@@ -229,7 +224,6 @@ export default function TercerReporte() {
               leftIcon={<SearchIcon fontSize={'20px'} />}
               onClick={() => BuscarFiltros()}
               disabled={selectedSedeId === null}
-              
               >
                 BUSCAR REGISTROS
           </Button>
@@ -266,9 +260,7 @@ export default function TercerReporte() {
 
         <HStack
           width={'100%'}
-          textAlign={'center'}
           mt={4}
-          fontSize={'xs'}
         >
           <Tabs isFitted variant='enclosed' colorScheme='green' w={'100%'}>
             <TabList mb='1em'>

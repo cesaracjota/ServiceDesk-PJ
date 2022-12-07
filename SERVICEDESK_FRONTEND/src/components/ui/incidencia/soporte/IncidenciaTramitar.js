@@ -104,7 +104,7 @@ const IncidenciaTramitar = ({row}) => {
         />
       </Tooltip>
 
-      <AlertDialog isOpen={openAlert} onClose={handleCloseAlert} size={'5xl'}>
+      <AlertDialog isOpen={openAlert} onClose={handleCloseAlert} size={'6xl'}>
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="xl" fontWeight="bold">

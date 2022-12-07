@@ -1,12 +1,16 @@
-import React from 'react'
-import Highcharts from 'highcharts'
-import HighchartsReact from 'highcharts-react-official'
-import { Box } from '@chakra-ui/react'
+import React from 'react';
+import Highcharts from 'highcharts';
+import { Box, SimpleGrid, useColorModeValue } from '@chakra-ui/react';
 import moment from 'moment';
+
+import Bellcurve from "highcharts-react-official";
+import ColumnChart from "highcharts-react-official";
+// import PieChart from "highcharts-react-official";
+// import AreaChart from "highcharts-react-official";
+// import LineChart from "highcharts-react-official";
 
 require("highcharts/modules/exporting.js")(Highcharts);
 require("highcharts/modules/export-data.js")(Highcharts);
-require('highcharts/modules/histogram-bellcurve')(Highcharts);
 
 const ChartReporteTiempo = ({ reportes }) => {
 
@@ -33,9 +37,22 @@ const ChartReporteTiempo = ({ reportes }) => {
     let tiempoA = moment(reporte?.registroAtendido);
     let tiempoDiferencia = tiempoA.diff(tiempoR, 'days');
     return tiempoDiferencia;
-  })
+  });
+
+  let HorasMaximasAtendidas = promedioHoras.sort(function (a, b) {  return a - b; });
+
+  HorasMaximasAtendidas = promedioHoras.slice(Math.max(HorasMaximasAtendidas.length - 10, 0));
+
+  let createDate = reportes.map((reporte) => reporte?.usuarioTecnico?.nombre).slice(0, 10);
 
   const ChartMinutos = {
+    chart: {
+      backgroundColor: useColorModeValue('white', '#1A202C'),
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'bellcurve',
+    },
     title: {
       text: 'MINUTOS QUE SE DEMORA UN TECNICO EN ATENDER UNA INCIDENCIA'
     },
@@ -44,7 +61,7 @@ const ChartReporteTiempo = ({ reportes }) => {
         text: 'TECNICOS'
       },
       type: 'category',
-      categories: nombreTecnicos,
+      categories: nombreTecnicos.slice(0, 10),
       alignTicks: false
     }],
     yAxis: [{
@@ -54,21 +71,23 @@ const ChartReporteTiempo = ({ reportes }) => {
       type: 'linear',
       alignTicks: false
     }],
-    chart: {
-      plotBackgroundColor: true,
-      type: 'bellcurve',
-    },
     series: {
       name: 'MINUTOS QUE SE DEMORA',
-      data: promedioMinutos,
+      data: promedioMinutos.slice(0, 10),
       exporting: {
         showTable: false,
       },
     }
   }
 
-
   const ChartHoras = {
+    chart: {
+      backgroundColor: useColorModeValue('white', '#1A202C'),
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'bellcurve',
+    },
     title: {
       text: 'HORAS QUE SE DEMORA UN TECNICO EN ATENDER UNA INCIDENCIA'
     },
@@ -77,7 +96,7 @@ const ChartReporteTiempo = ({ reportes }) => {
         text: 'TECNICOS'
       },
       type: 'category',
-      categories: nombreTecnicos,
+      categories: nombreTecnicos.slice(0, 10),
       alignTicks: false
     }],
     yAxis: [{
@@ -87,13 +106,9 @@ const ChartReporteTiempo = ({ reportes }) => {
       type: 'linear',
       alignTicks: false
     }],
-    chart: {
-      plotBackgroundColor: true,
-      type: 'bellcurve',
-    },
     series: {
       name: 'CUANTAS HORAS SE DEMORA',
-      data: promedioHoras,
+      data: promedioHoras.slice(0, 10),
       exporting: {
         showTable: false,
       },
@@ -101,6 +116,13 @@ const ChartReporteTiempo = ({ reportes }) => {
   }
 
   const ChartDias = {
+    chart: {
+      backgroundColor: useColorModeValue('white', '#1A202C'),
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'bellcurve',
+    },
     title: {
       text: 'DIAS QUE SE DEMORA UN TECNICO EN ATENDER UNA INCIDENCIA'
     },
@@ -108,7 +130,7 @@ const ChartReporteTiempo = ({ reportes }) => {
       title: {
         text: 'TECNICOS'
       },
-      categories: nombreTecnicos,
+      categories: nombreTecnicos.slice(0, 10),
       type: 'category',
       alignTicks: false
     }],
@@ -119,59 +141,93 @@ const ChartReporteTiempo = ({ reportes }) => {
       type: 'time',
       alignTicks: true
     }],
-    chart: {
-      plotBackgroundColor: true,
-      type: 'bellcurve',
-    },
     series: {
       name: 'CUANTOS DIAS SE DEMORA',
-      data: promedioDias,
+      data: promedioDias.slice(0, 10),
       exporting: {
         showTable: false,
       },
     }
   }
 
-  const AreaOptions = {
+  const VariablePie = {
+    chart: {
+      backgroundColor: useColorModeValue('white', '#1A202C'),
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'column',
+      options3d: {
+        enabled: true,
+        alpha: 10,
+        beta: 25,
+        depth: 70
+      }
+    },
     title: {
-      text: 'DIAS QUE SE DEMORA UN TECNICO EN ATENDER UNA INCIDENCIA'
+      text: '10 INCIDENCIAS QUE DEMORARON MÁS HORAS EN SER ATENDIDAS',
+      align: 'center'
+    },
+    plotOptions: {
+      column: {
+        depth: 25
+      }
+    },
+    xAxis: {
+      categories: createDate,
+      labels: {
+        skew3d: true,
+        style: {
+          fontSize: '10px'
+        }
+      }
     },
     yAxis: {
       title: {
-        text: 'DIAS QUE SE DEMORA'
+        text: 'HORAS (horas en atender una incidencia)',
+        margin: 1
       }
-
+    },
+    tooltip: {
+      valueSuffix: ' HORAS EN ATENDER UNA INCIDENCIA'
     },
     series: [{
-      name: 'DIAS QUE SE DEMORA',
-      data: promedioDias,
-      type: "area",
-    }],
-    exporting: {
-      showTable: false,
-    },
+      name: 'NOMBRE DE TÉCNICO RESPONSABLE DE ESA INCIDENCIA',
+      data: HorasMaximasAtendidas
+    }]
   }
 
   return (
-      <Box w="100%" h="100%" p={4} bg="white" borderRadius="md" boxShadow="md">
-        <Box height='100%' borderRadius="xs" py={4}>
-          <HighchartsReact highcharts={Highcharts} options={ChartMinutos}/>
-        </Box>
-
-        <Box mt={4} height='100%' borderRadius="xs" py={4}>
-          <HighchartsReact highcharts={Highcharts} options={ChartHoras}/>
-        </Box>
-
-        <Box mt={4} height='100%' borderRadius="xs" py={4}>
-          <HighchartsReact highcharts={Highcharts} options={ChartDias}/>
-        </Box>
-
-        <Box mt={4} height='100%' borderRadius="xs" py={4}>
-          <HighchartsReact highcharts={Highcharts} options={AreaOptions}/>
-        </Box>
+    <SimpleGrid spacing={4}>
+      <Box h="100%" borderRadius="md" boxShadow="md">
+        <Bellcurve
+          title="MINUTOS QUE SE DEMORA UN TECNICO EN ATENDER UNA INCIDENCIA"
+          highcharts={Highcharts}
+          options={ChartMinutos}
+        />
       </Box>
-  )
-
+      <Box h="100%" borderRadius="md" boxShadow="md">
+        <Bellcurve
+          title="HORAS QUE SE DEMORA UN TECNICO EN ATENDER UNA INCIDENCIA"
+          highcharts={Highcharts}
+          options={ChartHoras}
+        />
+      </Box>
+      <Box h="100%" borderRadius="md" boxShadow="md">
+        <Bellcurve
+          title="DIAS QUE SE DEMORA UN TECNICO EN ATENDER UNA INCIDENCIA"
+          highcharts={Highcharts}
+          options={ChartDias}
+        />
+      </Box>
+      <Box h="100%" borderRadius="md" boxShadow="md">
+        <ColumnChart
+          highcharts={Highcharts}
+          options={VariablePie}
+        />
+      </Box>
+    </SimpleGrid>
+  );
 }
 
 export default ChartReporteTiempo;

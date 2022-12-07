@@ -166,7 +166,7 @@ const IncidenciaAtender = ({rowId, descripcionIncidencia}) => {
         isOpen={openCreate}
         onClose={handleCloseModal}
         closeOnOverlayClick={true}
-        size={'5xl'}
+        size={'6xl'}
       >
         <ModalOverlay />
         <form onSubmit={handleClickOpenAlert}>

@@ -27,6 +27,7 @@ import OficinaAgregar from './OficinaAgregar';
 import { BsArrowDown } from 'react-icons/bs';
 import { OficinaEditar } from './OficinaEditar';
 import { customStyles } from '../../../helpers/customStyle';
+import { SpinnerComponent } from '../../../helpers/spinner';
 
 export default function TableOficina() {
 
@@ -118,46 +119,56 @@ export default function TableOficina() {
     },
   });
 
-  return (
-    <Box
-      borderWidth="1px"
-      borderRadius="lg"
-      overflow="hidden"
-      boxShadow={'md'}
-      bg={useColorModeValue('white', 'gray.900')}
-    >
-      <HStack
-        spacing="24px"
-        width={'100%'}
-        justifyContent={'space-between'}
-        verticalAlign={'center'}
-        p={4}
+  let bg = useColorModeValue('white', 'gray.900');
+  let theme = useColorModeValue('default', 'solarized')
+
+  if (store.getState().sede.checking === true) {
+    return (
+      <SpinnerComponent />
+    )
+  } else {
+    return (
+      <Box
+        borderWidth="1px"
+        borderRadius="lg"
+        overflow="hidden"
+        boxShadow={'md'}
+        bg={bg}
       >
-        <Box>
-          <Text fontSize="lg" fontWeight="600">
-            TABLA DE OFICINAS
-          </Text>
-        </Box>
-        <Box>
-          <OficinaAgregar />
-        </Box>
-      </HStack>
-      <DataTableExtensions {...tableData} print={false}>
-        <DataTable
-          columns={columns}
-          data={data}
-          sortIcon={<BsArrowDown />}
-          theme={useColorModeValue('default', 'solarized')}
-          pagination
-          ignoreRowClick={true}
-          responsive={true}
-          paginationPerPage={10}
-          paginationRowsPerPageOptions={[10, 15, 20, 30]}
-          customStyles={customStyles}
-        />
-      </DataTableExtensions>
-    </Box>
-  );
+        <HStack
+          spacing="24px"
+          width={'100%'}
+          justifyContent={'space-between'}
+          verticalAlign={'center'}
+          p={4}
+        >
+          <Box>
+            <Text fontSize="lg" fontWeight="600">
+              TABLA DE OFICINAS
+            </Text>
+          </Box>
+          <Box>
+            <OficinaAgregar />
+          </Box>
+        </HStack>
+        <DataTableExtensions {...tableData} print={false}>
+          <DataTable
+            columns={columns}
+            data={data}
+            sortIcon={<BsArrowDown />}
+            theme={theme}
+            pagination
+            ignoreRowClick={true}
+            responsive={true}
+            paginationPerPage={10}
+            paginationRowsPerPageOptions={[10, 15, 20, 30]}
+            customStyles={customStyles}
+          />
+        </DataTableExtensions>
+      </Box>
+    );
+  }
+
 }
 
 const ModalEliminarOficina = ({ row }) => {

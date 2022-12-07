@@ -1,7 +1,12 @@
 import React from 'react'
 import Highcharts from 'highcharts'
-import HighchartsReact from 'highcharts-react-official'
-import { Box, SimpleGrid } from '@chakra-ui/react'
+import { Box, SimpleGrid, useColorModeValue } from '@chakra-ui/react'
+
+import Bellcurve from "highcharts-react-official";
+import BarChart from "highcharts-react-official";
+import ColumnChart from "highcharts-react-official";
+import PieChart from "highcharts-react-official";
+import AreaChart from "highcharts-react-official";
 
 require("highcharts/modules/exporting.js")(Highcharts);
 require("highcharts/modules/export-data.js")(Highcharts);
@@ -16,6 +21,13 @@ const ChartReporteTecnicos = ({ reportes, nombreTecnicos }) => {
   var total = data.map(item => item.total)
 
   const BellcurveOptions = {
+    chart: {
+      backgroundColor: useColorModeValue('white', '#1A202C'),
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'bellcurve',
+    },
     title: {
       text: 'TOTAL INCIDENCIAS POR TÉCNICO'
     },
@@ -33,10 +45,6 @@ const ChartReporteTecnicos = ({ reportes, nombreTecnicos }) => {
       type: 'category',
       alignTicks: false
     }],
-    chart: {
-      plotBackgroundColor: true,
-      type: 'bellcurve',
-    },
     series: {
       name: 'Total Incidencias',
       data: data.map(item => {
@@ -53,7 +61,11 @@ const ChartReporteTecnicos = ({ reportes, nombreTecnicos }) => {
 
   const BarOptions = {
     chart: {
-      type: 'bar'
+      backgroundColor: useColorModeValue('white', '#1A202C'),
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'bar',
     },
     title: {
       text: 'CHARTS DE BARRAS POR TÉCNICO'
@@ -99,6 +111,7 @@ const ChartReporteTecnicos = ({ reportes, nombreTecnicos }) => {
 
   const PieOptions = {
     chart: {
+      backgroundColor: useColorModeValue('white', '#1A202C'),
       plotBackgroundColor: null,
       plotBorderWidth: null,
       plotShadow: false,
@@ -150,6 +163,13 @@ const ChartReporteTecnicos = ({ reportes, nombreTecnicos }) => {
   }
 
   const AreaOptions = {
+    chart: {
+      backgroundColor: useColorModeValue('white', '#1A202C'),
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'area',
+    },
     title: {
       text: 'INCIDENCIAS POR TÉCNICO'
     },
@@ -176,6 +196,10 @@ const ChartReporteTecnicos = ({ reportes, nombreTecnicos }) => {
 
   const Barras = {
     chart: {
+      backgroundColor: useColorModeValue('white', '#1A202C'),
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
       type: 'column'
     },
     title: {
@@ -227,20 +251,35 @@ const ChartReporteTecnicos = ({ reportes, nombreTecnicos }) => {
   return (
     <>
       <SimpleGrid spacing='40px'>
-        <Box height='100%' borderRadius="xs" boxShadow={'md'} p={2}>
-          <HighchartsReact highcharts={Highcharts} options={BellcurveOptions} />
+        <Box height='100%' borderRadius="xs" boxShadow={'md'}>
+          <Bellcurve 
+            highcharts={Highcharts}
+            options={BellcurveOptions}
+          />
         </Box>
-        <Box height='100%' borderRadius="xs" boxShadow={'md'} p={2}>
-          <HighchartsReact highcharts={Highcharts} options={Barras} />
+        <Box height='100%' borderRadius="xs" boxShadow={'md'}>
+          <ColumnChart
+            highcharts={Highcharts}
+            options={Barras}
+          />
         </Box>
-        <Box height='100%' borderRadius="xs" boxShadow={'md'} p={2}>
-          <HighchartsReact highcharts={Highcharts} options={BarOptions} />
+        <Box height='100%' borderRadius="xs" boxShadow={'md'}>
+          <BarChart
+            highcharts={Highcharts}
+            options={BarOptions}
+          />
         </Box>
-        <Box height='100%' borderRadius="xs" boxShadow={'md'} p={2}>
-          <HighchartsReact highcharts={Highcharts} options={PieOptions} />
+        <Box height='100%' borderRadius="xs" boxShadow={'md'}>
+          <AreaChart
+            highcharts={Highcharts}
+            options={AreaOptions}
+          />
         </Box>
-        <Box height='100%' borderRadius="xs" boxShadow={'md'} p={2}>
-          <HighchartsReact highcharts={Highcharts} options={AreaOptions} />
+        <Box height='100%' borderRadius="xs" boxShadow={'md'}>
+          <PieChart
+            highcharts={Highcharts}
+            options={PieOptions}
+          />
         </Box>
       </SimpleGrid>
     </>

@@ -114,6 +114,11 @@ export default function TableIncidenciaNoAsignados() {
     setTableRowsData(dataFilter);
   }
 
+  const handleClickFilterTodos = async () => {
+    const dataFilter = data.filter(row => row.historialIncidencia.filter(pendiente => pendiente.estado === "A").length > 0);
+    setTableRowsData(dataFilter);
+  }
+
   const handleSelectSede = (value) => {
     if (value !== null) {
       setTableRowsDataSede(value.map(item => item.value));
@@ -471,7 +476,7 @@ export default function TableIncidenciaNoAsignados() {
                   <MenuItem onClick={handleClickFilterPendientes} icon={<AiFillFilter color='red' size={'20px'} />}>PENDIENTES</MenuItem>
                   <MenuItem onClick={handleClickFilterTramite} icon={<AiFillFilter color='#d69e2e' size={'20px'} />}>EN TRAMITE</MenuItem>
                   <MenuItem onClick={handleClickFilterAtendidas} icon={<AiFillFilter color='green' size={'20px'} />}>ATENDIDAS</MenuItem>
-                  <MenuItem icon={<AiFillFilter size={'20px'} />} onClick={refreshTable}>TODOS</MenuItem>
+                  <MenuItem icon={<AiFillFilter size={'20px'} />} onClick={handleClickFilterTodos}>TODOS</MenuItem>
                 </MenuList>
               </Menu>
             </Stack>
