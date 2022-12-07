@@ -107,6 +107,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <finalName>SERVICEDESK</finalName>
     </build>
-
 </project>

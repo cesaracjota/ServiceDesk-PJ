@@ -2,7 +2,6 @@ package com.cmms.servicedesk.model;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
-import java.util.Date;
 
 public class ReporteFecha {
 

@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/reporte/incidencia")
@@ -23,157 +21,164 @@ public class ReporteController {
     private IncidenciaService incidenciaService;
 
     @Autowired
-    private EstadoTecnicoService estadoTecnicoService;
-
-    @Autowired
     private HistorialIncidenciaService historialIncidenciaService;
-
-    @Autowired
-    private EstadoUsuarioComunService estadoUsuarioComunService;
-
-    @Autowired
-    private HistorialPersonaService historialPersonaService;
 
     @PostMapping("/tecnico")
     public ResponseEntity<List<ReporteTecnico>> getTecnico(@RequestBody ReporteTecnicoBody reporteTecnicoBody) {
-        List<Incidencia> incidencias = incidenciaService.findByAllDataBetween(reporteTecnicoBody.getStartDate(), reporteTecnicoBody.getEndDate());
-        List<Incidencia> incidencias2 = new ArrayList<>();
-        incidencias.forEach(incidencia -> {
+        try {
+            List<Incidencia> incidencias = incidenciaService.findByAllDataBetween(reporteTecnicoBody.getStartDate(), reporteTecnicoBody.getEndDate());
+            List<Incidencia> incidencias2 = new ArrayList<>();
             List<HistorialIncidencia> historialIncidencia = new ArrayList<>();
-            historialIncidencia.add(historialIncidenciaService.findByIncidenciaAndEstado(incidencia, 'A'));
-            historialIncidencia.get(0).setIncidencia(null);
-            incidencia.setHistorialIncidencia(historialIncidencia);
-            reporteTecnicoBody.getSede().forEach(sede -> {
-                if (incidencia.getOficina().getOrgano().getSede().getIdSede() == sede.getIdSede()){
-                    incidencias2.add(incidencia);
-                }
+            List<ReporteTecnico> reporteTecnicos = new ArrayList<> ();
+            // hace un recorrido del array incidencia y va agregando su historial en un nuevo array
+            incidencias.forEach(incidencia -> {
+                historialIncidencia.add(historialIncidenciaService.findByIncidenciaAndEstado(incidencia, 'A'));
+                incidencia.setHistorialIncidencia(historialIncidencia);
+                //  compara las sedes seleccionadas desde frontend con sedes de cada incidencia.
+                reporteTecnicoBody.getSede().forEach(sede -> {
+                    if (incidencia.getOficina().getOrgano().getSede().getIdSede() == sede.getIdSede()){
+                        incidencias2.add(incidencia);
+                        historialIncidencia.forEach(hi -> {
+                            if(hi.getPersona_asignado() != null && incidencia.getIdIncidencia() == hi.getIncidencia().getIdIncidencia()){
+                                ReporteTecnico reporteTecnico = new ReporteTecnico(hi.getPersona_asignado(), 0  , 0  , 0 ,  0);
+                                reporteTecnicos.add(reporteTecnico);
+                            }
+                        });
+                    }
+                });
+
+
             });
-        });
 
-        List<ReporteTecnico> reporteTecnicos = new ArrayList<ReporteTecnico> ();
+            for (ReporteTecnico reporteTecnico : reporteTecnicos) {
+                for (Incidencia incidencia : incidencias2) {
+                    for(HistorialIncidencia hi : historialIncidencia){
+                        if(hi.getPersona_asignado() != null){
+                            if(hi.getPersona_asignado().getIdpersona() == reporteTecnico.getUsuario().getIdpersona() && incidencia.getIdIncidencia() == hi.getIncidencia().getIdIncidencia()){
+                                reporteTecnico.setTotal(reporteTecnico.getTotal() + 1);
+                                if (hi.getEstadoIncidencia() == 'P' ){
+                                    reporteTecnico.setPendientes(reporteTecnico.getPendientes() + 1);
+                                }
+                                if (hi.getEstadoIncidencia() == 'A'){
+                                    reporteTecnico.setAtendidas(reporteTecnico.getAtendidas() + 1);
+                                }
+                                if (hi.getEstadoIncidencia() == 'T'){
+                                    reporteTecnico.setTramitadas(reporteTecnico.getTramitadas() + 1);
+                                }
+                            }
+                        }
 
-        List<EstadoTecnico> listaTecnico = estadoTecnicoService.findAll();
-
-        incidencias2.forEach(getIncidencia -> {
-            if(getIncidencia.getHistorialIncidencia().get(0).getPersona_asignado() != null){
-                ReporteTecnico reporteTecnico = new ReporteTecnico(getIncidencia.getHistorialIncidencia().get(0).getPersona_asignado(), 0  , 0  , 0 ,  0);
-                reporteTecnicos.add(reporteTecnico);
-            }
-        });
-
-//        for (EstadoTecnico estadoTecnico : listaTecnico) {
-//            ReporteTecnico reporteTecnico = new ReporteTecnico(estadoTecnico.getPersona(), 0  , 0  , 0 ,  0);
-//            reporteTecnicos.add(reporteTecnico);
-//        }
-
-        for (ReporteTecnico reporteTecnico : reporteTecnicos) {
-            for (Incidencia incidencia : incidencias2) {
-                if (incidencia.getHistorialIncidencia().get(0).getPersona_asignado() != null && incidencia.getHistorialIncidencia().get(0).getPersona_asignado() == reporteTecnico.getUsuario()){
-                    reporteTecnico.setTotal(reporteTecnico.getTotal() + 1);
-                    if (incidencia.getHistorialIncidencia().get(0).getEstadoIncidencia() == 'P' ){
-                        reporteTecnico.setPendientes(reporteTecnico.getPendientes() + 1);
-                    }
-                    if (incidencia.getHistorialIncidencia().get(0).getEstadoIncidencia() == 'A'){
-                        reporteTecnico.setAtendidas(reporteTecnico.getAtendidas() + 1);
-                    }
-                    if (incidencia.getHistorialIncidencia().get(0).getEstadoIncidencia() == 'T'){
-                        reporteTecnico.setTramitadas(reporteTecnico.getTramitadas() + 1);
                     }
                 }
             }
+            return  ResponseEntity.ok(reporteTecnicos);
+
+        } catch (Exception exception){
+            System.out.println(exception.getMessage());
         }
 
-        return  ResponseEntity.ok(reporteTecnicos);
+        return ResponseEntity.ok().build();
+
     }
 
     @PostMapping("/usuario")
     public ResponseEntity<List<ReporteTecnico>> getUsuarioComun(@RequestBody ReporteTecnicoBody reporteTecnicoBody) {
-
-        List<Incidencia> incidencias = incidenciaService.findByAllDataBetween(reporteTecnicoBody.getStartDate() , reporteTecnicoBody.getEndDate());
-        List<Incidencia> incidencias2 = new ArrayList<>();
-        incidencias.forEach(incidencia -> {
+        try {
+            List<Incidencia> incidencias = incidenciaService.findByAllDataBetween(reporteTecnicoBody.getStartDate() , reporteTecnicoBody.getEndDate());
+            List<Incidencia> incidencias2 = new ArrayList<>();
             List<HistorialIncidencia> historialIncidencia = new ArrayList<>();
-            historialIncidencia.add(historialIncidenciaService.findByIncidenciaAndEstado(incidencia, 'A'));
-            historialIncidencia.get(0).setIncidencia(null);
-            incidencia.setHistorialIncidencia(historialIncidencia);
-            reporteTecnicoBody.getSede().forEach(sede -> {
-                if ( incidencia.getOficina().getOrgano().getSede().getIdSede() == sede.getIdSede()){
-                    incidencias2.add(incidencia);
-                }
+            List<ReporteTecnico> reporteTecnicos = new ArrayList<>();
+
+            incidencias.forEach(incidencia -> {
+                historialIncidencia.add(historialIncidenciaService.findByIncidenciaAndEstado(incidencia, 'A'));
+                //  historialIncidencia.get(0).setIncidencia(null);
+                incidencia.setHistorialIncidencia(historialIncidencia);
+                reporteTecnicoBody.getSede().forEach(sede -> {
+                    if ( incidencia.getOficina().getOrgano().getSede().getIdSede() == sede.getIdSede()){
+                        incidencias2.add(incidencia);
+                        historialIncidencia.forEach(hi -> {
+                            if(incidencia.getIdIncidencia() == hi.getIncidencia().getIdIncidencia() && incidencia.getPersona() != null){
+                                ReporteTecnico reporteTecnico = new ReporteTecnico(incidencia.getPersona(), 0  , 0  , 0 ,  0);
+                                reporteTecnicos.add(reporteTecnico);
+                            }
+                        });
+                    }
+                });
             });
-        });
 
-        List<ReporteTecnico> reporteTecnicos = new ArrayList<ReporteTecnico>();
-
-//        List<UsuarioComun> usuarioComun = new ArrayList<>();
-//
-//        List<EstadoUsuarioComun> listaTecnico = estadoUsuarioComunService.findAll();
-
-        incidencias2.forEach(getIncidencia -> {
-            ReporteTecnico reporteTecnico = new ReporteTecnico(getIncidencia.getPersona(), 0  , 0  , 0 ,  0);
-            reporteTecnicos.add(reporteTecnico);
-        });
-
-        for (ReporteTecnico reporteTecnico : reporteTecnicos) {
-            for (Incidencia incidencia : incidencias2) {
-                if (incidencia.getPersona() == reporteTecnico.getUsuario()){
-                    reporteTecnico.setTotal(reporteTecnico.getTotal() + 1);
-                    if (incidencia.getHistorialIncidencia().get(0).getEstadoIncidencia() == 'P' ){
-                        reporteTecnico.setPendientes(reporteTecnico.getPendientes() + 1);
-                    }
-                    if (incidencia.getHistorialIncidencia().get(0).getEstadoIncidencia() == 'A'){
-                        reporteTecnico.setAtendidas(reporteTecnico.getAtendidas() + 1);
-                    }
-                    if (incidencia.getHistorialIncidencia().get(0).getEstadoIncidencia() == 'T'){
-                        reporteTecnico.setTramitadas(reporteTecnico.getTramitadas() + 1);
+            for (ReporteTecnico reporteTecnico : reporteTecnicos) {
+                for (Incidencia incidencia : incidencias2) {
+                    for(HistorialIncidencia hi : historialIncidencia){
+                        if (incidencia.getPersona().getIdpersona() == reporteTecnico.getUsuario().getIdpersona() && incidencia.getIdIncidencia() == hi.getIncidencia().getIdIncidencia()){
+                            reporteTecnico.setTotal(reporteTecnico.getTotal() + 1);
+                            if (hi.getEstadoIncidencia() == 'P' ){
+                                reporteTecnico.setPendientes(reporteTecnico.getPendientes() + 1);
+                            }
+                            if (hi.getEstadoIncidencia() == 'A'){
+                                reporteTecnico.setAtendidas(reporteTecnico.getAtendidas() + 1);
+                            }
+                            if (hi.getEstadoIncidencia() == 'T'){
+                                reporteTecnico.setTramitadas(reporteTecnico.getTramitadas() + 1);
+                            }
+                        }
                     }
                 }
             }
+
+            return  ResponseEntity.ok(reporteTecnicos);
+
+        }catch (Exception exception){
+            System.out.println(exception.getMessage());
         }
 
-        return  ResponseEntity.ok(reporteTecnicos);
+        return ResponseEntity.ok().build();
+
     }
 
     @PostMapping("/tiempo")
     public ResponseEntity<List<ReporteFecha>> getIncidenciaFecha(@RequestBody ReporteTecnicoBody reporteTecnicoBody){
-        List<Incidencia> incidencias = incidenciaService.findByAllDataBetween(reporteTecnicoBody.getStartDate() , reporteTecnicoBody.getEndDate());
-        List<Incidencia> incidencias2 = new ArrayList<>();
-        List<ReporteFecha> reporteFechas = new ArrayList<>();
+        try{
+            List<Incidencia> incidencias = incidenciaService.findByAllDataBetween(reporteTecnicoBody.getStartDate() , reporteTecnicoBody.getEndDate());
+            List<ReporteFecha> reporteFechas = new ArrayList<>();
+            incidencias.forEach(incidencia -> {
+                List<HistorialIncidencia> historialIncidencia = historialIncidenciaService.findByIncidencia(incidencia);
+                reporteTecnicoBody.getSede().forEach(sede -> {
+                    if (incidencia.getOficina().getOrgano().getSede().getIdSede() == sede.getIdSede()){
+                        ZonedDateTime fechaTranscurrido = null, fechaAtendido = null;
+                        Duration fechaPendienteTranscurrido = null, fechaTranscurrdioAtendido = null;
+                        for (HistorialIncidencia hi : historialIncidencia) {
+                            if (hi.getEstadoIncidencia() == 'T'){
+                                fechaTranscurrido = hi.getFecha();
+                            }
+                            if (hi.getEstadoIncidencia() == 'A'){
+                                fechaAtendido = hi.getFecha();
+                            }
+                            hi.setIncidencia(null);
+                        }
+                        if (fechaTranscurrido != null ){
+                            if(incidencia.getFecha() != null){
+                                fechaPendienteTranscurrido = Duration.between(fechaTranscurrido, incidencia.getFecha());
+                            }
+                        }
 
-        incidencias.forEach(incidencia -> {
-            List<HistorialIncidencia> historialIncidencia = historialIncidenciaService.findByIncidencia(incidencia);
-            incidencia.setHistorialIncidencia(historialIncidencia);
-            reporteTecnicoBody.getSede().forEach(sede -> {
-                if (incidencia.getOficina().getOrgano().getSede().getIdSede() == sede.getIdSede()){
-                    incidencias2.add(incidencia);
-                }
+                        if (fechaAtendido != null && fechaTranscurrido != null){
+                            fechaTranscurrdioAtendido = Duration.between(fechaAtendido, fechaTranscurrido);
+                        }
+                        Persona tecnicoAsignado = historialIncidenciaService.findByIncidenciaAndEstado(incidencia, 'A').getPersona_asignado();
+                        ReporteFecha reporteFecha = new ReporteFecha(incidencia.getPersona(), tecnicoAsignado, incidencia.getFecha() , fechaPendienteTranscurrido , fechaTranscurrido, fechaTranscurrdioAtendido , fechaAtendido);
+                        reporteFechas.add(reporteFecha);
+                    }
+
+                });
+
             });
-        });
 
-        for (Incidencia incidencia : incidencias2) {
-            ZonedDateTime fechaTranscurrido = null, fechaAtendido = null;
-            Duration fechaPendienteTranscurrido = null, fechaTranscurrdioAtendido = null;
-            for (HistorialIncidencia historialIncidencia : incidencia.getHistorialIncidencia()) {
-                if (historialIncidencia.getEstadoIncidencia() == 'T'){
-                    fechaTranscurrido = historialIncidencia.getFecha();
-                }
-                if (historialIncidencia.getEstadoIncidencia() == 'A'){
-                    fechaAtendido = historialIncidencia.getFecha();
-                }
-                historialIncidencia.setIncidencia(null);
-            }
-            if (fechaTranscurrido != null ){
-                fechaPendienteTranscurrido = Duration.between(fechaTranscurrido, incidencia.getFecha());
-            }
-            if (fechaAtendido != null){
-                fechaTranscurrdioAtendido = Duration.between(fechaAtendido, fechaTranscurrido);
-            }
+            return ResponseEntity.ok(reporteFechas);
 
-            ReporteFecha reporteFecha = new ReporteFecha(incidencia.getPersona() , historialIncidenciaService.findByIncidenciaAndEstado(incidencia , 'A').getPersona_asignado() , incidencia.getFecha() , fechaPendienteTranscurrido , fechaTranscurrido , fechaTranscurrdioAtendido , fechaAtendido);
-            reporteFechas.add(reporteFecha);
+        }catch (Exception exception){
+            System.out.println(exception.getMessage());
         }
-
-        return ResponseEntity.ok(reporteFechas);
+        return ResponseEntity.ok().build();
     }
 
 }
