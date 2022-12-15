@@ -34,17 +34,14 @@ public class ServiceDeskApplication extends SpringBootServletInitializer {
 //            PerfilPersona perfil1 = new PerfilPersona(1, "COORDINADOR INFORMATICO", "1", 'S');
 //            PerfilPersona perfil2 = new PerfilPersona(2, "ASISTENTE INFORMATICO", "1", 'S');
 //            PerfilPersona perfil3 = new PerfilPersona(3, "SOPORTE TECNICO", "1", 'S');
-//            PerfilPersona perfil4 = new PerfilPersona(4, "USUARIO COMUN", "1", 'N');
-//
+//            PerfilPersona perfil4 = new PerfilPersona(4, "USUARIO COMUN", "1", 'S');
+
 //            perfilService.create(perfil1);
 //            perfilService.create(perfil2);
 //            perfilService.create(perfil3);
 //            perfilService.create(perfil4);
 
-//            personaService.update(new Persona(1, "Juan","apellido","73824465", "73824465", "cocacola", "usuario@gmail.com","942035699",null,'M','A',perfil1),false);
-//            personaService.create(new Persona(null, "Roberto","apellido","83824465","83824465","cocacola","juan@gmail.com","942035690",null,'M','A',perfil2));
-//            personaService.create(new Persona(null, "Gabriel","apellido","93824465","93824465","cocacola","carlos@gmail.com","942035691",null,'M','A',perfil3));
-//            personaService.create(new Persona(null, "Carlos","apellido","13824465","13824465","cocacola","gabriel@gmail.com","942035693",null,'M','A',perfil4));
+//            personaService.create(new Persona(1, "CESAR AUGUSTO0", "ACJOTA MERMA", "71499915", "71499915", "cocacola", "cesaracjota@gmail.com", "+51942035890", "123654", "654123", null, 'M', 'S', perfil1));
 
         };
     }

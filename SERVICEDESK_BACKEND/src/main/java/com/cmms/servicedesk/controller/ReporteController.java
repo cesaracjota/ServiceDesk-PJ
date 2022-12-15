@@ -36,7 +36,7 @@ public class ReporteController {
                 incidencia.setHistorialIncidencia(historialIncidencia);
                 //  compara las sedes seleccionadas desde frontend con sedes de cada incidencia.
                 reporteTecnicoBody.getSede().forEach(sede -> {
-                    if (incidencia.getOficina().getOrgano().getSede().getIdSede() == sede.getIdSede()){
+                    if (incidencia.getOficina().getOrgano().getSede().getIdSede().equals(sede.getIdSede())){
                         incidencias2.add(incidencia);
                         historialIncidencia.forEach(hi -> {
                             if(hi.getPersona_asignado() != null && incidencia.getIdIncidencia() == hi.getIncidencia().getIdIncidencia()){
@@ -94,7 +94,7 @@ public class ReporteController {
                 //  historialIncidencia.get(0).setIncidencia(null);
                 incidencia.setHistorialIncidencia(historialIncidencia);
                 reporteTecnicoBody.getSede().forEach(sede -> {
-                    if ( incidencia.getOficina().getOrgano().getSede().getIdSede() == sede.getIdSede()){
+                    if ( incidencia.getOficina().getOrgano().getSede().getIdSede().equals(sede.getIdSede())){
                         incidencias2.add(incidencia);
                         historialIncidencia.forEach(hi -> {
                             if(incidencia.getIdIncidencia() == hi.getIncidencia().getIdIncidencia() && incidencia.getPersona() != null){
@@ -143,7 +143,7 @@ public class ReporteController {
             incidencias.forEach(incidencia -> {
                 List<HistorialIncidencia> historialIncidencia = historialIncidenciaService.findByIncidencia(incidencia);
                 reporteTecnicoBody.getSede().forEach(sede -> {
-                    if (incidencia.getOficina().getOrgano().getSede().getIdSede() == sede.getIdSede()){
+                    if (incidencia.getOficina().getOrgano().getSede().getIdSede().equals(sede.getIdSede())){
                         ZonedDateTime fechaTranscurrido = null, fechaAtendido = null;
                         Duration fechaPendienteTranscurrido = null, fechaTranscurrdioAtendido = null;
                         for (HistorialIncidencia hi : historialIncidencia) {
