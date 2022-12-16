@@ -1,10 +1,6 @@
 # ServiceDesk-PJ
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-##Install Package 
+##Install Package - SERVICE - DESK
 
 ### `yarn install`
 
@@ -15,21 +11,27 @@ In the project directory, you can run:
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## DEMO APLICATION
 
-### `npm test`
+![SERVICEDESK](https://res.cloudinary.com/di6kiwkwf/image/upload/v1671223244/APPS/SERVICE-DESK/Captura_de_pantalla_173_zuyxjc.png)
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![SERVICEDESK](https://res.cloudinary.com/di6kiwkwf/image/upload/v1671223243/APPS/SERVICE-DESK/Captura_de_pantalla_143_sk7evt.png)
 
-### `npm run build`
+![SERVICEDESK](https://res.cloudinary.com/di6kiwkwf/image/upload/v1671223242/APPS/SERVICE-DESK/Captura_de_pantalla_144_pmx4oa.png)
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
+![SERVICEDESK](https://res.cloudinary.com/di6kiwkwf/image/upload/v1671223242/APPS/SERVICE-DESK/Captura_de_pantalla_145_odpvxw.png)
+![SERVICEDESK](https://res.cloudinary.com/di6kiwkwf/image/upload/v1671223242/APPS/SERVICE-DESK/Captura_de_pantalla_146_llfkzg.png)
+![SERVICEDESK](https://res.cloudinary.com/di6kiwkwf/image/upload/v1671223242/APPS/SERVICE-DESK/Captura_de_pantalla_147_xhywrc.png)
+![SERVICEDESK](https://res.cloudinary.com/di6kiwkwf/image/upload/v1671223241/APPS/SERVICE-DESK/Captura_de_pantalla_148_paypao.png)
+![SERVICEDESK](https://res.cloudinary.com/di6kiwkwf/image/upload/v1671223241/APPS/SERVICE-DESK/Captura_de_pantalla_149_alri8y.png)
+![SERVICEDESK](https://res.cloudinary.com/di6kiwkwf/image/upload/v1671223241/APPS/SERVICE-DESK/Captura_de_pantalla_150_wdj6ps.png)
+![SERVICEDESK](https://res.cloudinary.com/di6kiwkwf/image/upload/v1671223241/APPS/SERVICE-DESK/Captura_de_pantalla_156_tzpbzt.png)
+![SERVICEDESK](https://res.cloudinary.com/di6kiwkwf/image/upload/v1671223241/APPS/SERVICE-DESK/Captura_de_pantalla_154_r45vle.png)
+![SERVICEDESK](https://res.cloudinary.com/di6kiwkwf/image/upload/v1671223240/APPS/SERVICE-DESK/Captura_de_pantalla_155_dvgvba.png)
+![SERVICEDESK](https://res.cloudinary.com/di6kiwkwf/image/upload/v1671223243/APPS/SERVICE-DESK/Captura_de_pantalla_172_trf4ri.png)
+![SERVICEDESK](https://res.cloudinary.com/di6kiwkwf/image/upload/v1671223239/APPS/SERVICE-DESK/Captura_de_pantalla_161_qgtr2q.png)
+![SERVICEDESK](https://res.cloudinary.com/di6kiwkwf/image/upload/v1671223239/APPS/SERVICE-DESK/Captura_de_pantalla_160_biomlm.png)
+![SERVICEDESK](https://res.cloudinary.com/di6kiwkwf/image/upload/v1671223238/APPS/SERVICE-DESK/Captura_de_pantalla_162_snvdsy.png)
+![SERVICEDESK](https://res.cloudinary.com/di6kiwkwf/image/upload/v1671223238/APPS/SERVICE-DESK/Captura_de_pantalla_164_opa9gr.png)
+![SERVICEDESK](https://res.cloudinary.com/di6kiwkwf/image/upload/v1671223237/APPS/SERVICE-DESK/Captura_de_pantalla_165_bcb2rv.png)
+![SERVICEDESK](https://res.cloudinary.com/di6kiwkwf/image/upload/v1671223237/APPS/SERVICE-DESK/Captura_de_pantalla_170_xrq6kf.png)
