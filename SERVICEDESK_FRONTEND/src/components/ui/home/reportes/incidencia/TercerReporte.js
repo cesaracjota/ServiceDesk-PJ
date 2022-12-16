@@ -104,7 +104,7 @@ export default function TercerReporte() {
         elt.registroPendiente === null ? '' : Moment(elt.registroPendiente).format('DD/MM/YYYY HH:mm:ss'),
         elt.tiempoTranscurridoPendiente !== null ? DiferenciaDosFechas(elt.registroPendiente, elt.registroTramitado) : '',
         elt.registroTramitado === null ? '' : Moment(elt.registroTramitado).format("yyyy-MM-DD - HH:mm:ss"),
-        elt.tiempoTranscurridoTramitado !== null ? DiferenciaDosFechas(elt.registroTramitado, elt.registroAtendido) : '',
+        (elt.tiempoTranscurridoTramitado !== null && elt.registroAtendido !== null) ? DiferenciaDosFechas(elt.registroTramitado, elt.registroAtendido) : (elt.registroTramitado === null && elt.registroAtendido !== null) ? DiferenciaDosFechas(elt.registroPendiente, elt.registroAtendido) : '',
         elt.registroAtendido === null ? '' : Moment(elt.registroAtendido).format("yyyy-MM-DD - HH:mm:ss"),
       ]);
 
@@ -133,7 +133,7 @@ export default function TercerReporte() {
         elt.registroPendiente === null ? '' : Moment(elt.registroPendiente).format('DD/MM/YYYY HH:mm:ss'),
         elt.tiempoTranscurridoPendiente !== null ? DiferenciaDosFechas(elt.registroPendiente, elt.registroTramitado) : '', 
         elt.registroTramitado === null ? '' : Moment(elt.registroTramitado).format("yyyy-MM-DD - HH:mm:ss"),
-        elt.tiempoTranscurridoTramitado !== null ? DiferenciaDosFechas(elt.registroTramitado, elt.registroAtendido) : '',
+        (elt.tiempoTranscurridoTramitado !== null && elt.registroAtendido !== null) ? DiferenciaDosFechas(elt.registroTramitado, elt.registroAtendido) : (elt.registroTramitado === null && elt.registroAtendido !== null) ? DiferenciaDosFechas(elt.registroPendiente, elt.registroAtendido) : '',
         elt.registroAtendido === null ? '' : Moment(elt.registroAtendido).format("yyyy-MM-DD - HH:mm:ss"),
       ]),
     filename: 'ReporteTiempos.csv',

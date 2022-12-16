@@ -25,10 +25,9 @@ export default function ReporteTiempos({ reportes }) {
 
 	const columns = [
 		{
-			name: 'USUARIO COMUN',
+			name: 'USUARIO',
 			selector: row => row.usuarioComun?.nombre + ' ' + row.usuarioComun?.apellido,
 			sortable: true,
-			center: true,
 			wrap: true,
 			cellExport: row => row.usuarioComun?.nombre + ' ' + row.usuarioComun?.apellido,
 		},
@@ -40,11 +39,11 @@ export default function ReporteTiempos({ reportes }) {
 			cellExport: row => row.usuarioTecnico !== null ? row.usuarioTecnico?.nombre + ' ' + row.usuarioTecnico?.apellido : 'SIN TÉCNICO ASIGNADO',
 		},
 		{
-			name: 'FECHA REGISTRO',
-			selector: row => Moment(row.registroPendiente).format("yyyy-MM-DD - HH:mm:ss"),
+			name: 'REGISTRO',
+			selector: row => Moment(row.registroPendiente).format("yyyy-MM-DD - hh:mm:ss A"),
 			sortable: true,
 			wrap: true,
-			cellExport: row => Moment(row.registroPendiente).format("yyyy-MM-DD - HH:mm:ss"),
+			cellExport: row => Moment(row.registroPendiente).format("yyyy-MM-DD - hh:mm:ss A"),
 		},
 		{
 			name: 'TRANSCURRIDO',
@@ -67,35 +66,44 @@ export default function ReporteTiempos({ reportes }) {
 		},
 		{
 			name: 'EN TRÁMITE',
-			selector: row => row.registroTramitado !== null ? Moment(row.registroTramitado).format("yyyy-MM-DD - HH:mm:ss") : '',
+			selector: row => row.registroTramitado !== null ? Moment(row.registroTramitado).format("yyyy-MM-DD - hh:mm:ss A") : '',
 			sortable: true,
-			cellExport: row => row.registroTramitado !== null ? Moment(row.registroTramitado).format("yyyy-MM-DD - HH:mm:ss") : '',
+			wrap: true,
+			cellExport: row => row.registroTramitado !== null ? Moment(row.registroTramitado).format("yyyy-MM-DD - hh:mm:ss A") : '',
 		},
 		{
 			name: 'TRANSCURRIDO',
 			selector: row => row.tiempoTranscurridoTramitado ?? '',
 			cell: row => {
 
-				var dateOne = Moment(row.registroTramitado, "YYYY-MM-DD HH:mm:ss");
-				var dateTwo = Moment(row.registroAtendido, "YYYY-MM-DD HH:mm:ss");
+				var datePendiente = Moment(row.registroPendiente, "YYYY-MM-DD HH:mm:ss");
+				var dateTramite = Moment(row.registroTramitado, "YYYY-MM-DD HH:mm:ss");
+				var dateAtendido = Moment(row.registroAtendido, "YYYY-MM-DD HH:mm:ss");
 
-				if (row.tiempoTranscurridoTramitado !== null) {
+				if (row.registroTramitado !== null && row.registroAtendido !== null) {
 					return (
 						<div>
-							{DiferenciaDosFechas(dateOne, dateTwo)}
+							{DiferenciaDosFechas(dateTramite, dateAtendido)}
+						</div>
+					)
+				} else if(row.registroTramitado === null && row.registroAtendido !== null) {
+					return (
+						<div>
+							{DiferenciaDosFechas(datePendiente, dateAtendido)}
 						</div>
 					)
 				}
 			},
 			sortable: true,
 			right: true,
-			cellExport: row => row.tiempoTranscurridoTramitado !== null ? DiferenciaDosFechas(row.registroTramitado, row.registroAtendido) : '',
+			cellExport: row => (row.registroTramitado !== null && row.registroAtendido !== null) ? DiferenciaDosFechas(row.registroTramitado, row.registroAtendido) : (row.registroTramitado === null && row.registroAtendido !== null) ? DiferenciaDosFechas(row.registroPendiente, row.registroAtendido) : '',
 		},
 		{
 			name: 'ATENDIDO',
-			selector: row => row.registroAtendido !== null ? Moment(row.registroAtendido).format("yyyy-MM-DD - HH:mm:ss") : '',
+			selector: row => row.registroAtendido !== null ? Moment(row.registroAtendido).format("yyyy-MM-DD - hh:mm:ss A") : '',
 			sortable: true,
-			cellExport: row => row.registroAtendido !== null ? Moment(row.registroAtendido).format("yyyy-MM-DD - HH:mm:ss") : '',
+			wrap: true,
+			cellExport: row => row.registroAtendido !== null ? Moment(row.registroAtendido).format("yyyy-MM-DD - hh:mm:ss A") : '',
 		},
 	];
 

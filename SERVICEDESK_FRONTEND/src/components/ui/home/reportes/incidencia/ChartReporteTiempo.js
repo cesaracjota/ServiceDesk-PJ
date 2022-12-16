@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import Bellcurve from "highcharts-react-official";
 import ColumnChart from "highcharts-react-official";
-// import PieChart from "highcharts-react-official";
+import PieChart from "highcharts-react-official";
 // import AreaChart from "highcharts-react-official";
 // import LineChart from "highcharts-react-official";
 
@@ -17,13 +17,6 @@ const ChartReporteTiempo = ({ reportes }) => {
   var nombreTecnicos = reportes.map(item => {
     return item.usuarioTecnico?.nombre
   })
-
-  const promedioMinutos = reportes?.map((reporte) => {
-    let tiempoR = moment(reporte?.registroPendiente);
-    let tiempoA = moment(reporte?.registroAtendido);
-    let tiempoDiferencia = tiempoA.diff(tiempoR, 'minutes');
-    return tiempoDiferencia;
-  });
 
   const promedioHoras = reportes?.map((reporte) => {
     let tiempoR = moment(reporte?.registroPendiente);
@@ -45,75 +38,12 @@ const ChartReporteTiempo = ({ reportes }) => {
 
   let createDate = reportes.map((reporte) => reporte?.usuarioTecnico?.nombre).slice(0, 10);
 
-  const ChartMinutos = {
-    chart: {
-      backgroundColor: useColorModeValue('white', '#1A202C'),
-      plotBackgroundColor: null,
-      plotBorderWidth: null,
-      plotShadow: false,
-      type: 'bellcurve',
-    },
-    title: {
-      text: 'MINUTOS QUE SE DEMORA UN TECNICO EN ATENDER UNA INCIDENCIA'
-    },
-    xAxis: [{
-      title: {
-        text: 'TECNICOS'
-      },
-      type: 'category',
-      categories: nombreTecnicos.slice(0, 10),
-      alignTicks: false
-    }],
-    yAxis: [{
-      title: {
-        text: 'MINUTOS'
-      },
-      type: 'linear',
-      alignTicks: false
-    }],
-    series: {
-      name: 'MINUTOS QUE SE DEMORA',
-      data: promedioMinutos.slice(0, 10),
-      exporting: {
-        showTable: false,
-      },
-    }
-  }
+  // get total incidencias
 
-  const ChartHoras = {
-    chart: {
-      backgroundColor: useColorModeValue('white', '#1A202C'),
-      plotBackgroundColor: null,
-      plotBorderWidth: null,
-      plotShadow: false,
-      type: 'bellcurve',
-    },
-    title: {
-      text: 'HORAS QUE SE DEMORA UN TECNICO EN ATENDER UNA INCIDENCIA'
-    },
-    xAxis: [{
-      title: {
-        text: 'TECNICOS'
-      },
-      type: 'category',
-      categories: nombreTecnicos.slice(0, 10),
-      alignTicks: false
-    }],
-    yAxis: [{
-      title: {
-        text: 'HORAS'
-      },
-      type: 'linear',
-      alignTicks: false
-    }],
-    series: {
-      name: 'CUANTAS HORAS SE DEMORA',
-      data: promedioHoras.slice(0, 10),
-      exporting: {
-        showTable: false,
-      },
-    }
-  }
+  let totalIncidenciasAtendidas = reportes.filter(reporte => reporte.registroAtendido !== null).length;
+  let totalIncidenciasNoAtendidas = reportes.filter(reporte => reporte.registroAtendido === null).length;
+  let totalIncidenciasTramite = reportes.filter(reporte => reporte.registroTramitado !== null && reporte.registroAtendido === null).length;
+
 
   const ChartDias = {
     chart: {
@@ -197,33 +127,70 @@ const ChartReporteTiempo = ({ reportes }) => {
     }]
   }
 
+  const PieChartCantidadIncidencias = {
+    chart: {
+      backgroundColor: useColorModeValue('white', '#1A202C'),
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'pie',
+    },
+    title: {
+      text: '% DE INCIDENCIAS ATENDIDAS Y NO ATENDIDAS Y TRAMITADAS'
+    },
+    tooltip: {
+      pointFormat: '{series.name}: <b>{point.y} incidencias</b>'
+    },
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        dataLabels: {
+          enabled: true,
+          format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+        },
+      },
+    },
+    series: [{
+      name: 'Incidencias',
+      colorByPoint: true,
+      data: [
+        {
+          name: 'Incidencias Atendidas',
+          y: totalIncidenciasAtendidas,
+          color: '#38a169',
+        }, {
+          name: 'Incidencias No Atendidas',
+          y: totalIncidenciasNoAtendidas,
+          color: '#4a5568',
+        },
+        {
+          name: 'Incidencias en Tramite',
+          y: totalIncidenciasTramite,
+          color: '#d69e2e',
+        }
+      ],
+    }],
+  }
+
   return (
     <SimpleGrid spacing={4}>
       <Box h="100%" borderRadius="md" boxShadow="md">
-        <Bellcurve
-          title="MINUTOS QUE SE DEMORA UN TECNICO EN ATENDER UNA INCIDENCIA"
+        <PieChart
           highcharts={Highcharts}
-          options={ChartMinutos}
-        />
-      </Box>
-      <Box h="100%" borderRadius="md" boxShadow="md">
-        <Bellcurve
-          title="HORAS QUE SE DEMORA UN TECNICO EN ATENDER UNA INCIDENCIA"
-          highcharts={Highcharts}
-          options={ChartHoras}
-        />
-      </Box>
-      <Box h="100%" borderRadius="md" boxShadow="md">
-        <Bellcurve
-          title="DIAS QUE SE DEMORA UN TECNICO EN ATENDER UNA INCIDENCIA"
-          highcharts={Highcharts}
-          options={ChartDias}
+          options={PieChartCantidadIncidencias}
         />
       </Box>
       <Box h="100%" borderRadius="md" boxShadow="md">
         <ColumnChart
           highcharts={Highcharts}
           options={VariablePie}
+        />
+      </Box>
+      <Box h="100%" borderRadius="md" boxShadow="md">
+        <Bellcurve
+          highcharts={Highcharts}
+          options={ChartDias}
         />
       </Box>
     </SimpleGrid>
